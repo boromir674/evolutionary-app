@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
 
@@ -93,9 +94,11 @@ public abstract class Util {
 	}
 
 	public static double[] getFitnessArray(Population aPopulation) {
-		double[] fitArray = new double[aPopulation.getParentsAndChildren().size()];
-		for (int i=0; i<fitArray.length; i++){
-			fitArray[i] = aPopulation.member(i).getFitness();
+		double[] fitArray = new double[aPopulation.getMu() + aPopulation.getLambda()];
+		for (int i=0; i<aPopulation.getMu(); i++)
+			fitArray[i] = aPopulation.getParentsAndChildren()[0][i].getFitness();
+		for (int i=0; i<aPopulation.getLambda(); i++){
+			fitArray[aPopulation.getMu()+i] = aPopulation.getParentsAndChildren()[1][i].getFitness();
 		}
 		return fitArray;
 	}

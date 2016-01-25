@@ -3,7 +3,7 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 import java.util.Collections;
 
 import evolutionaryAlgorithmComponents.Population;
-
+@Deprecated
 public class MuCommaLambda extends AbstractSurvivorSelection {
 	
 	private final static String title = "(μ,λ)";

@@ -93,7 +93,7 @@ public abstract class Util {
 	}
 
 	public static double[] getFitnessArray(Population aPopulation) {
-		double[] fitArray = new double[aPopulation.getPool().size()];
+		double[] fitArray = new double[aPopulation.getParentsAndChildren().size()];
 		for (int i=0; i<fitArray.length; i++){
 			fitArray[i] = aPopulation.member(i).getFitness();
 		}

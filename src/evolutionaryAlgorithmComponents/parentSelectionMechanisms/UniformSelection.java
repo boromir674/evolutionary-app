@@ -21,7 +21,7 @@ public class UniformSelection extends AbstractParentSelection {
 		// stochastically selects lambda parents, sampling uniformly
 		int[] matingPool = new int[aPopulation.getLambda()];
 		for (int i=0; i<aPopulation.getLambda(); i++)
-			matingPool[i] = aRandom.nextInt(aPopulation.getPool().size());
+			matingPool[i] = aRandom.nextInt(aPopulation.getParentsAndChildren().size());
 		Individual[] parents = new Individual[aPopulation.getLambda()];
 		for (int i=0; i<parents.length; i++)
 			parents[i] = aPopulation.member(matingPool[i]);

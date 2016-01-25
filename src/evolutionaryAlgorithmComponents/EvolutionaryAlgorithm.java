@@ -46,7 +46,7 @@ public class EvolutionaryAlgorithm {
 			else
 				population.addIndividual(children[0], evaluator);
 		}
-		if (population.getPool().size() - population.getMu() != population.getLambda()){
+		if (population.getParentsAndChildren().size() - population.getMu() != population.getLambda()){
 			System.out.println("Did not produce lambda children");
 			System.exit(0);
 		}

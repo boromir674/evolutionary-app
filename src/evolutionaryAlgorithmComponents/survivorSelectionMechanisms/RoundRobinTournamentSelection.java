@@ -25,7 +25,7 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 		// store members picked by the round-Robin tournament at the top μ positions
 		for (int i=0; i<aPopulation.getMu(); i++)
 			aPopulation.set(i, aPopulation.member(survivors[i]));
-		aPopulation.getPool().subList(aPopulation.getMu(), aPopulation.getPool().size()).clear(); // discard all after top μ
+		aPopulation.getParentsAndChildren().subList(aPopulation.getMu(), aPopulation.getParentsAndChildren().size()).clear(); // discard all after top μ
 		super.select(aPopulation);
 	}
 

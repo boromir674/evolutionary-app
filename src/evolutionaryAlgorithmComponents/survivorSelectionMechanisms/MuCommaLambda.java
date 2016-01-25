@@ -23,10 +23,10 @@ public class MuCommaLambda extends AbstractSurvivorSelection {
 		}
 		// "Fitness-Based Replacement" (μ,λ); preferred over (μ+λ)
 		// applies (μ,λ) survivor selection and updates the population
-		pop.getPool().subList(0, pop.getMu()).clear(); // discard parents (top μ members) 
-		Collections.sort(pop.getPool()); // sorts population according to fitness value
-		int temp = pop.getPool().size();
-		pop.getPool().subList(pop.getMu(), temp).clear(); // keeps top μ members
+		pop.getParentsAndChildren().subList(0, pop.getMu()).clear(); // discard parents (top μ members) 
+		Collections.sort(pop.getParentsAndChildren()); // sorts population according to fitness value
+		int temp = pop.getParentsAndChildren().size();
+		pop.getParentsAndChildren().subList(pop.getMu(), temp).clear(); // keeps top μ members
 		super.select(pop);
 	}
 }

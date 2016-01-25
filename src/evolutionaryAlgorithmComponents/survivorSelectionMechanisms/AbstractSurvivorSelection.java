@@ -20,9 +20,9 @@ public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 	 */
 	@Override
 	public void select(Population aPopulation) throws Exception {
-		if (aPopulation.getPool().size() != aPopulation.getMu())
+		if (aPopulation.getParentsAndChildren().size() != aPopulation.getMu())
 			throw new Exception(String.format("The pool size of the population (%d) after the replacement (selecting survivors)"
-					+ "does not macth the user defined mu (%d)", aPopulation.getPool().size(), aPopulation.getMu()));
+					+ "does not macth the user defined mu (%d)", aPopulation.getParentsAndChildren().size(), aPopulation.getMu()));
 	}
 
 }

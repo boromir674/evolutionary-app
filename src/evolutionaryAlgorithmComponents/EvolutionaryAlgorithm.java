@@ -35,18 +35,18 @@ public class EvolutionaryAlgorithm {
 		population.initializeRandom(representation, aRandom, evaluator);		
 	}
 	public void parentSelection(Random aRandom) throws Exception{
-		parents = parentSelectionMethod.select(population, aRandom);
+		parentSelectionMethod.select(population, aRandom);
 	}
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		for (int i=0; i<population.getLambda(); i=i+2){
 			Individual[] children = variationOperator.operate(parents[i], parents[i+1], representation, aRandom);
-			population.addIndividual(children[0], evaluator);
+			population.addIndividualToPool(children[0], evaluator);
 			if (children.length == 2)
-				population.addIndividual(children[1], evaluator);
+				population.addIndividualToPool(children[1], evaluator);
 			else
-				population.addIndividual(children[0], evaluator);
+				population.addIndividualToPool(children[0], evaluator);
 		}
-		if (population.getParentsAndChildren().size() - population.getMu() != population.getLambda()){
+		if (population.getPool().length - population.getMu() != population.getLambda()){
 			System.out.println("Did not produce lambda children");
 			System.exit(0);
 		}

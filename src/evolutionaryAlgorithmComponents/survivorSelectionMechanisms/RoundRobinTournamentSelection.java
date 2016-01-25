@@ -2,6 +2,7 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 import util.Util;
 
@@ -25,7 +26,7 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 		// store members picked by the round-Robin tournament at the top μ positions
 		for (int i=0; i<aPopulation.getMu(); i++)
 			aPopulation.set(i, aPopulation.member(survivors[i]));
-		aPopulation.getParentsAndChildren().subList(aPopulation.getMu(), aPopulation.getParentsAndChildren().size()).clear(); // discard all after top μ
+		aPopulation.getPool().subList(aPopulation.getMu(), aPopulation.getPool().size()).clear(); // discard all after top μ
 		super.select(aPopulation);
 	}
 

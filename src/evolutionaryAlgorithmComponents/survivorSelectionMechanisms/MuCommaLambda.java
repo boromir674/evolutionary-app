@@ -1,7 +1,9 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
+import java.util.Arrays;
 import java.util.Collections;
 
+import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 @Deprecated
 public class MuCommaLambda extends AbstractSurvivorSelection {
@@ -17,16 +19,10 @@ public class MuCommaLambda extends AbstractSurvivorSelection {
 	 */
 	@Override
 	public void select(Population pop) throws Exception {
-		if (pop.getMu()<pop.getLambda()) {
+		if (pop.getMu()>pop.getLambda()) {
 			throw new Exception(String.format("(μ,λ) survivor selection requires μ<=λ%n"
 					+ "instead: μ=%d and λ=%d",pop.getMu(), pop.getLambda()));
 		}
-		// "Fitness-Based Replacement" (μ,λ); preferred over (μ+λ)
-		// applies (μ,λ) survivor selection and updates the population
-		pop.getParentsAndChildren().subList(0, pop.getMu()).clear(); // discard parents (top μ members) 
-		Collections.sort(pop.getParentsAndChildren()); // sorts population according to fitness value
-		int temp = pop.getParentsAndChildren().size();
-		pop.getParentsAndChildren().subList(pop.getMu(), temp).clear(); // keeps top μ members
-		super.select(pop);
+		Arrays.sort(pop.getPool());
 	}
 }

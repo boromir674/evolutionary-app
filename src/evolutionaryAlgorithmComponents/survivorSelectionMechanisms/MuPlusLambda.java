@@ -1,7 +1,10 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
+import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 
 public class MuPlusLambda extends AbstractSurvivorSelection {
@@ -13,11 +16,7 @@ public class MuPlusLambda extends AbstractSurvivorSelection {
 	}
 
 	@Override
-	public void select(Population aPopulation) throws Exception {
-		// "Fitness-Based Replacement" (μ+λ)
-		// applies (μ+λ) survivor selection and updates the population
-		Collections.sort(aPopulation.getParentsAndChildren()); // sorts population according to fitness value
-		aPopulation.getParentsAndChildren().subList(aPopulation.getMu(), aPopulation.getParentsAndChildren().size()).clear(); // discards after μ/keeps top μ members
-		super.select(aPopulation);
+	public void select(Population pop) throws Exception {
+		Arrays.sort(pop.getPool());
 	}
 }

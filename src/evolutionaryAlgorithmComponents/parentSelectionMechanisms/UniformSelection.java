@@ -15,16 +15,20 @@ public class UniformSelection extends AbstractParentSelection {
 	}
 
 	@Override
-	public Individual[] select(Population aPopulation, Random aRandom) {
+	public Individual[] select(Population pop, Random rand) {
 		// Uniform Sample Selection
 		// requires strong fitness-based survivor selection
 		// stochastically selects lambda parents, sampling uniformly
-		int[] matingPool = new int[aPopulation.getLambda()];
-		for (int i=0; i<aPopulation.getLambda(); i++)
-			matingPool[i] = aRandom.nextInt(aPopulation.getParentsAndChildren().size());
-		Individual[] parents = new Individual[aPopulation.getLambda()];
-		for (int i=0; i<parents.length; i++)
-			parents[i] = aPopulation.member(matingPool[i]);
+		int rand1, rand2;
+		Individual[] parents = new Individual[pop.getLambda()];
+		for (int i=0; i<pop.getLambda(); i=i+2) {
+			rand1 = rand.nextInt(pop.getMu());
+			rand2 = rand.nextInt(pop.getMu()-1);
+			if (rand2 > rand1)
+				rand2++;
+			parents[i] = pop.getPool()[rand1];
+			parents[i+1] = pop.getPool()[rand2];
+		}
 		return parents;
 	}
 	

@@ -50,7 +50,7 @@ public class Population {
 	void addIndividualToPool(Individual someone, EvaluationMethod evaluator){
 		someone.computeFitness(evaluator);
 		pool[poolIndex] = someone;
-		poolIndex ++;
+		poolIndex = (poolIndex + 1) % 
 	}
 	public void setParents(Individual[] parents){
 		this.parents = parents;
@@ -59,14 +59,6 @@ public class Population {
 		double[] fitnessArray = util.Util.getFitnessArray(this);
 		int index = util.Util.findMaxIndex(fitnessArray);
 		return pool[index];
-	}
-
-	public Individual member(int i){
-		return pool[i];
-	}
-
-	public void set(int i, Individual anIndividual){
-		pool[i] = anIndividual;
 	}
 
 	/**

@@ -1,0 +1,21 @@
+package evolutionaryAlgorithmComponents.variationOperators.recombination.realValue;
+
+import evolutionaryAlgorithmComponents.variationOperators.recombination.AbstractRecombination;
+
+public abstract class AbstractRealValueRecombination extends AbstractRecombination {
+	
+	protected final static double a = 0.5;
+	
+	public AbstractRealValueRecombination(String title) {
+		super(title);
+	}
+
+	/* (non-Javadoc)
+	 * @see interfaces.Recombination#applicableToDiscrete()
+	 */
+	@Override
+	public boolean applicableToDiscrete() {
+		return false;
+	}	
+
+}

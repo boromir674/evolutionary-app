@@ -17,7 +17,7 @@ public class BestNFromRandomM extends AbstractParentSelection {
 	}
 	// Unfinished
 	@Override
-	public Individual[] select(Population aPopulation, Random aRandom) {
+	public int[] select(Population aPopulation, Random aRandom) {
 		// TODO Auto-generated method stub
 		return null;
 	}

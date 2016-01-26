@@ -16,13 +16,10 @@ public class TournamentSelection extends AbstractParentSelection {
 	}
 
 	@Override
-	public Individual[] select(Population aPopulation, Random aRandom) {
-		double[] fitArray = Util.getFitnessArray(aPopulation);
-		int[] matingPool = Util.tournamentSelection(aPopulation.getLambda(), fitArray, aRandom);
-		Individual[] parents = new Individual[aPopulation.getLambda()];
-		for (int i=0; i<parents.length; i++)
-			parents[i] = aPopulation.member(matingPool[i]);
-		return parents;
+	public int[] select(Population pop, Random aRandom) {
+		double[] fitArray = Util.getFitnessArray(pop.getCurrentPopulation());
+		int[] parentPointers = Util.tournamentSelection(pop.getLambda(), fitArray, aRandom);
+		return parentPointers;
 	}
 
 }

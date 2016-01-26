@@ -4,6 +4,7 @@ import interfaces.Representation;
 import interfaces.EvaluationMethod;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
@@ -18,12 +19,11 @@ public class Population {
 	private Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
 	
-	private int readIndex = 0;
-	private int poolIndex;
-	private int offIndex;
-	private Individual[] parents;
-	private Individual[] survivors;
+	private int offspringStoreIndex = 0;
+	private Individual[] currentPopulation; // the population of size mu.
 
+	private int[] parentsIndices;
+	
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
@@ -32,35 +32,41 @@ public class Population {
 	}
 
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
-		poolIndex = 0;
-		offIndex = this.mu;
 		pool = new Individual[mu+lambda];
 		generationCount = 1;
 		Individual member;
 		for (int i=0; i<this.mu; i++){
 			member = new Individual();
 			member.initializeRandomly(representation, aRandom);
-			addIndividualToPool(member, evaluator);
+			member.computeMyFitness(evaluator);
+			pool[i] = member;
 		}
 	}
 	public int getGenerationCounter(){
 		return generationCount;
 	}
 
-	void addIndividualToPool(Individual someone, EvaluationMethod evaluator){
-		someone.computeFitness(evaluator);
-		pool[poolIndex] = someone;
-		poolIndex = (poolIndex + 1) % 
+	void addOffspring(Individual someone, EvaluationMethod evaluator){
+		someone.computeMyFitness(evaluator);
+		pool[offspringStoreIndex+mu] = someone;
+		offspringStoreIndex = (offspringStoreIndex + 1) % lambda; 
 	}
-	public void setParents(Individual[] parents){
-		this.parents = parents;
+	
+	void setParents(int[] parentsIndices){
+		this.parentsIndices = parentsIndices;
 	}
+	
+	/** This method finds and returns the Individual, among the Population (of size mu), that
+	 * has the highest/maximum fitness value. 
+	 * @return the fittest Individual
+	 */
 	public Individual getFittestIndividual(){
-		double[] fitnessArray = util.Util.getFitnessArray(this);
-		int index = util.Util.findMaxIndex(fitnessArray);
-		return pool[index];
+		return Collections.max(Arrays.asList(currentPopulation));
 	}
-
+	
+	void setCurrentPopulation(Individual[] anArrayOfIndividuals) {
+		this.currentPopulation = anArrayOfIndividuals;
+	}
 	/**
 	 * @return the mu
 	 */
@@ -75,16 +81,12 @@ public class Population {
 		return lambda;
 	}
 
-	public Individual[] getPool() {
-		/*Individual[][] parentsAndChildren = new Individual[2][];
-		parentsAndChildren[0] = this.mainPopulation;
-		parentsAndChildren[1] = children;*/
-		//return parentsAndChildren;
-		return pool;
+	public Individual[] getCurrentPopulation() {
+		return currentPopulation;
 	}
 
 	public void printDiversity() throws Exception {
-		double[] fitArray = Util.getFitnessArray(this);
+		double[] fitArray = Util.getFitnessArray(currentPopulation, mu);
 		double[] meanAndStd = Util.recursiveMeanAndStd(fitArray);
 		System.out.format("%.2f ", meanAndStd[1]);
 	}

@@ -93,10 +93,10 @@ public abstract class Util {
 		return topCompetitors;
 	}
 
-	public static double[] getFitnessArray(Population aPopulation) {
-		double[] fitArray = new double[aPopulation.getMu() + aPopulation.getLambda()];
-		for (int i=0; i<aPopulation.getMu(); i++)
-			fitArray[i] = aPopulation.getPool()[i].getFitness();
+	public static double[] getFitnessArray(Individual[] anArrayOfIndividuals, int limit) {
+		double[] fitArray = new double[limit];
+		for (int i=0; i<limit; i++)
+			fitArray[i] = anArrayOfIndividuals[i].getFitness();
 		return fitArray;
 	}
 

@@ -17,7 +17,7 @@ public class EvolutionaryAlgorithm {
 	private ParentSelection parentSelectionMethod;
 	private SurvivorSelection survivorSelectionMethod;
 
-	private Individual[] parents;
+	private int[] parents;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) {
@@ -35,11 +35,11 @@ public class EvolutionaryAlgorithm {
 		population.initializeRandom(representation, aRandom, evaluator);		
 	}
 	public void parentSelection(Random aRandom) throws Exception{
-		parentSelectionMethod.select(population, aRandom);
+		parents = parentSelectionMethod.select(population, aRandom);
 	}
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		for (int i=0; i<population.getLambda(); i=i+2){
-			Individual[] children = variationOperator.operate(parents[i], parents[i+1], representation, aRandom);
+			Individual[] children = variationOperator.operate(population.getPool()[parents[i]], population.getPool()[parents[i+1]], representation, aRandom);
 			population.addOffspring(children[0], evaluator);
 			if (children.length == 2)
 				population.addOffspring(children[1], evaluator);

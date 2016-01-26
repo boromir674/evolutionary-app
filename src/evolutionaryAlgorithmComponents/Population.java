@@ -20,7 +20,6 @@ public class Population {
 	int generationCount = 1;
 	
 	private int offspringStoreIndex = 0;
-	private Individual[] currentPopulation; // the population of size mu.
 	
 	public Population(int mu, int lambda){
 		this.mu = mu;
@@ -83,7 +82,7 @@ public class Population {
 	}
 
 	public void printDiversity() throws Exception {
-		double[] fitArray = Util.getFitnessArray(currentPopulation, mu);
+		double[] fitArray = Util.getFitnessArray(pool, mu);
 		double[] meanAndStd = Util.recursiveMeanAndStd(fitArray);
 		System.out.format("%.2f ", meanAndStd[1]);
 	}

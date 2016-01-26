@@ -20,7 +20,7 @@ public class FitnessProportional extends AbstractParentSelection {
 		// "Fitness Proportional Selection"
 		// stochastically selects lambda parents, sampling according to probabilities based
 		// on the fitness values of each member of the population
-		double[] fitArray = Util.getFitnessArray(pop.getCurrentPopulation(), pop.getMu());
+		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getMu());
 		double[] probabilities = Util.findFitnessBasedProbabilities(fitArray);
 		double cumulativeProbs[] = Util.getCumulativeDistribution(probabilities);
 

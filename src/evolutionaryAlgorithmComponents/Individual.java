@@ -26,7 +26,7 @@ public class Individual implements Comparable<Individual>{
 		return Double.compare(fit2, fit1); // descending order
 	}
 
-	public void computeFitness(EvaluationMethod evaluator){
+	public void computeMyFitness(EvaluationMethod evaluator){
 		this.fitness = evaluator.computeFitness(this);
 	}
 

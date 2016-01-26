@@ -3,6 +3,7 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
+import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 import util.Util;
 
@@ -18,16 +19,16 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 	}
 	
 	@Override
-	public void select(Population aPopulation) throws Exception{
-		double[] fitArray = Util.getFitnessArray(aPopulation);
+	public void select(Population pop) throws Exception{
+		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getLambda());
 		// Round-Robin tournament
-		int[] survivors = Util.roundRobinTournament(aPopulation.getMu(), q, fitArray, random);
+		int[] survivors = Util.roundRobinTournament(pop.getMu(), q, fitArray, random);
 
 		// store members picked by the round-Robin tournament at the top μ positions
-		for (int i=0; i<aPopulation.getMu(); i++)
-			aPopulation.set(i, aPopulation.member(survivors[i]));
-		aPopulation.getPool().subList(aPopulation.getMu(), aPopulation.getPool().size()).clear(); // discard all after top μ
-		super.select(aPopulation);
+		for (int i=0; i<pop.getMu(); i++){
+			Individual temp = pop.getPool()[survivors[i]];
+			pop.getPool()[i] = temp;
+		}
 	}
 
 }

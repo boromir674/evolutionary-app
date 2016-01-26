@@ -40,15 +40,11 @@ public class EvolutionaryAlgorithm {
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		for (int i=0; i<population.getLambda(); i=i+2){
 			Individual[] children = variationOperator.operate(parents[i], parents[i+1], representation, aRandom);
-			population.addIndividualToPool(children[0], evaluator);
+			population.addOffspring(children[0], evaluator);
 			if (children.length == 2)
-				population.addIndividualToPool(children[1], evaluator);
+				population.addOffspring(children[1], evaluator);
 			else
-				population.addIndividualToPool(children[0], evaluator);
-		}
-		if (population.getPool().length - population.getMu() != population.getLambda()){
-			System.out.println("Did not produce lambda children");
-			System.exit(0);
+				population.addOffspring(children[0], evaluator);
 		}
 	}
 

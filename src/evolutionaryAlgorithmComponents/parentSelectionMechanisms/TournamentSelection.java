@@ -17,7 +17,7 @@ public class TournamentSelection extends AbstractParentSelection {
 
 	@Override
 	public int[] select(Population pop, Random aRandom) {
-		double[] fitArray = Util.getFitnessArray(pop.getCurrentPopulation(), pop.getMu());
+		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getMu());
 		int[] parentPointers = Util.tournamentSelection(pop.getLambda(), fitArray, aRandom);
 		return parentPointers;
 	}

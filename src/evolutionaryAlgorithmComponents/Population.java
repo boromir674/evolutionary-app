@@ -21,8 +21,6 @@ public class Population {
 	
 	private int offspringStoreIndex = 0;
 	private Individual[] currentPopulation; // the population of size mu.
-
-	private int[] parentsIndices;
 	
 	public Population(int mu, int lambda){
 		this.mu = mu;
@@ -52,21 +50,17 @@ public class Population {
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda; 
 	}
 	
-	void setParents(int[] parentsIndices){
-		this.parentsIndices = parentsIndices;
-	}
-	
 	/** This method finds and returns the Individual, among the Population (of size mu), that
 	 * has the highest/maximum fitness value. 
 	 * @return the fittest Individual
 	 */
 	public Individual getFittestIndividual(){
-		return Collections.max(Arrays.asList(currentPopulation));
+		Individual[] pop = new Individual[mu];
+		for (int i=0; i<mu; i++)
+			pop[i] = pool[i];
+		return Collections.max(Arrays.asList(pop));
 	}
 	
-	void setCurrentPopulation(Individual[] anArrayOfIndividuals) {
-		this.currentPopulation = anArrayOfIndividuals;
-	}
 	/**
 	 * @return the mu
 	 */
@@ -81,8 +75,11 @@ public class Population {
 		return lambda;
 	}
 
-	public Individual[] getCurrentPopulation() {
-		return currentPopulation;
+	/**
+	 * @return the pool
+	 */
+	public Individual[] getPool() {
+		return pool;
 	}
 
 	public void printDiversity() throws Exception {

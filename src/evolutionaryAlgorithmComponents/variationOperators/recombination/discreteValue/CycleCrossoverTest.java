@@ -8,6 +8,7 @@ import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 
 public class CycleCrossoverTest {
 
+	@SuppressWarnings("static-method")
 	@Test
 	public void testPerform() {
 		AbstractRepresentation arep = new PermutationRepresentation(9, 1, 9);

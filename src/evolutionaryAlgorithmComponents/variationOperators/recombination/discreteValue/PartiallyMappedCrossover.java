@@ -27,18 +27,18 @@ public class PartiallyMappedCrossover extends AbstractDiscreteRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) throws Exception {
 
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(mom.getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(mom.getChromosome()))
 			throw new Exception("mom has duplicates");
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(dad.getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(dad.getChromosome()))
 			throw new Exception("dad has duplicates");
 
 		Individual[] children = this.go(mom, dad);
 
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[0].getChromosome())){
+		if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome())){
 			children = this.go(mom, dad);
 			throw new Exception("offspring 1 contains dublicates!");
 		}
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[1].getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
 			throw new Exception("offspring 2 contains dublicates!");
 
 		return children;

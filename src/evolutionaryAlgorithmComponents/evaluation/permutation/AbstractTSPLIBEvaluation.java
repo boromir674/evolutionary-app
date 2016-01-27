@@ -15,7 +15,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	protected double[] vector;
 	protected boolean fullMatrixFlag = false;
 	protected String triangular;
-	private int[] solution;
+	private Integer[] solution;
 
 	public AbstractTSPLIBEvaluation(TSPReader aTSPReader, DistanceCalculator aDistanceCalculator, String title) {
 		super(title);
@@ -27,7 +27,15 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 			triangular = aTSPReader.getEdgeWeightFormat();
 		matrix = aTSPReader.get2DDataArray();
 		vector = aTSPReader.getVector();
-		solution = aTSPReader.getSolutionVector();
+		solution = aTSPReader.getSolutionTour();
+	}
+
+	/* (non-Javadoc)
+	 * @see interfaces.EvaluationMethod#getSolutionVector()
+	 */
+	@Override
+	public Object[] getSolutionVector() {
+		return solution;
 	}
 
 	@Override
@@ -51,7 +59,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 		int index, zeros=0;
 		if (triangular.substring(triangular.length()-3, triangular.length()).equals("ROW")){
 			if (triangular.substring(0, 5).equals("LOWER"))
-				index = this.lowerRow(i, j);
+				index = lowerRow(i, j);
 			else
 				index = this.upperRow(i, j);
 			if (triangular.charAt(6) == 'D')
@@ -61,14 +69,14 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 			if (triangular.substring(0, 5).equals("LOWER"))
 				index = this.lowerCol(i, j);
 			else
-				index = this.upperCol(i, j);
+				index = upperCol(i, j);
 			if (triangular.charAt(6) == 'D')
 				zeros = i + 1; 
 		}
 		return index + zeros;
 	}
 
-	protected int lowerRow(int i, int j){
+	protected static int lowerRow(int i, int j){
 		int temp;
 		if (!(i>j)) {
 			temp = i;
@@ -80,7 +88,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 			offset += k;
 		return offset + j;
 	}
-	protected int upperCol(int i, int j){
+	protected static int upperCol(int i, int j){
 		return lowerRow(j, i);
 	}
 

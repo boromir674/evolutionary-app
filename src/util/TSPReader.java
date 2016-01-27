@@ -58,7 +58,7 @@ public class TSPReader {
 	private ArrayList<int[]> _fixedEdges;
 	private ArrayList<int[]> _list;
 	private int[] _matrixIndices;
-	private int[] solutionTour;
+	private Integer[] solutionTour;
 
 	public TSPReader() {
 		for (int i=0; i<allTypes.length; i++)
@@ -78,7 +78,7 @@ public class TSPReader {
 	}
 
 	public void parseFile(String file) throws Exception{
-		String folder = this.decideOnFolder(file);
+		String folder = decideOnFolder(file);
 		if (folder.equals(""))
 			throw new Exception("file not supported");
 		this.initialize();
@@ -105,7 +105,7 @@ public class TSPReader {
 		String path1 = this.path.substring(0, this.path.indexOf('.')) + ".opt.tour";
 		reader = new FileReader(path1);
 		bf = new BufferedReader(reader);
-		solutionTour = new int[dimension];
+		solutionTour = new Integer[dimension];
 		String line = bf.readLine();
 		while (!(line == null || line.equals("-1") || line.equals("EOF"))) {
 			if (line.equals("TOUR_SECTION"))
@@ -440,7 +440,7 @@ public class TSPReader {
 	/**
 	 * @return the solutionTour
 	 */
-	public int[] getSolutionTour() {
+	public Integer[] getSolutionTour() {
 		return solutionTour;
 	}
 }

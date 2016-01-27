@@ -28,7 +28,7 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 		return chromosome;
 	}
 
-	public boolean chromosomeOK(Object[] in) {
+	public static boolean chromosomeOK(Object[] in) {
 		boolean[] flags = new boolean[in.length];
 		for (int i=0; i<in.length; i++) {
 			if (flags[(int)(in[i])-1])

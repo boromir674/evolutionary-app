@@ -30,7 +30,7 @@ public abstract class Util {
 		int currentMember = 1;
 		int i = 1;
 		// stochastic universal sampling algorithm
-		while (currentMember != numberOfSamples){
+		while (currentMember <= numberOfSamples){
 			while (rand <= cumulProbs[i-1]){
 				indicesSampled[currentMember-1] = i-1;
 				rand += 1.0/numberOfSamples;

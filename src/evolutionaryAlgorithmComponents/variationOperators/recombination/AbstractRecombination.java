@@ -17,6 +17,7 @@ public abstract class AbstractRecombination implements Recombination {
 		return title;
 	}
 
+	@SuppressWarnings("static-method")
 	protected Individual[] initializeChildrenForRecombination(Representation aRepresentation) {
 		Individual[] children = new Individual[]{new Individual(), new Individual()};
 		children[0].initializeEmpty(aRepresentation);

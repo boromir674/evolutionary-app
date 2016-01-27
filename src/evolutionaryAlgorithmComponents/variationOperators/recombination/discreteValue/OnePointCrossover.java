@@ -31,9 +31,9 @@ public class OnePointCrossover extends AbstractDiscreteRecombination {
 			children[0].getChromosome()[i] = dad.getChromosome()[i];
 			children[1].getChromosome()[i] = mom.getChromosome()[i];
 		}
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[0].getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome()))
 			throw new Exception("offspring 1 contains dublicates!");
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[1].getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
 			throw new Exception("offspring 2 contains dublicates!");
 		return children;
 	}

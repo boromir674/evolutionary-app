@@ -43,7 +43,7 @@ public class ScrambleMutation extends AbstractPermutationMutation {
 
 			for (int i=0; i<length; i++)
 				in.getChromosome()[start+i] = substring.get(i);
-			((PermutationRepresentation)in.getRepresentation()).chromosomeOK(in.getChromosome());
+			PermutationRepresentation.chromosomeOK(in.getChromosome());
 		}
 	}
 }

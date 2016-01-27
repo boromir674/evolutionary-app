@@ -31,5 +31,5 @@ public interface EvaluationMethod extends EvolutionaryAlgorithmComponent {
 	 * original problem. This vector will naturally correspond also to the best fitness value.  
 	 * @return the solution vector if it known, null otherwise.
 	 */
-	public double[] getSolutionVector();
+	public Object[] getSolutionVector();
 }

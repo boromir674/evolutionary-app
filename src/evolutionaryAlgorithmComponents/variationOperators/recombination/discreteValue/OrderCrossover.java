@@ -66,9 +66,9 @@ public class OrderCrossover extends AbstractDiscreteRecombination {
 			i = (i + 1) % dimensions;
 
 		}
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[0].getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome()))
 			throw new Exception("offspring 1 contains dublicates!");
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[1].getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
 			throw new Exception("offspring 2 contains dublicates!");
 		return children;
 	}

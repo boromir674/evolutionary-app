@@ -139,7 +139,7 @@ public class FletcherPowellEvaluation extends AbstractMathFunction implements Ha
 	}
 
 	@Override
-	public boolean isMin() {
+	public boolean hasMin() {
 		return true;
 	}
 }

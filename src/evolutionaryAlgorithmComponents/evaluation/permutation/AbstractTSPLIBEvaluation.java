@@ -15,6 +15,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	protected double[] vector;
 	protected boolean fullMatrixFlag = false;
 	protected String triangular;
+	private int[] solution;
 
 	public AbstractTSPLIBEvaluation(TSPReader aTSPReader, DistanceCalculator aDistanceCalculator, String title) {
 		super(title);
@@ -26,6 +27,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 			triangular = aTSPReader.getEdgeWeightFormat();
 		matrix = aTSPReader.get2DDataArray();
 		vector = aTSPReader.getVector();
+		solution = aTSPReader.getSolutionVector();
 	}
 
 	@Override

@@ -12,5 +12,5 @@ public interface MathFunction {
 	 * @return true if the function has a minimum,
 	 * false if the function has a maximum
 	 */
-	public boolean isMin();
+	public boolean hasMin();
 }

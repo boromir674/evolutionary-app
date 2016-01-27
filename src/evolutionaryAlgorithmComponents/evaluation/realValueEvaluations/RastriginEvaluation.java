@@ -56,7 +56,7 @@ public class RastriginEvaluation extends AbstractMathFunction implements HasProp
 	}
 
 	@Override
-	public boolean isMin() {
+	public boolean hasMin() {
 		return false;
 	}
 }

@@ -16,7 +16,7 @@ public abstract class AbstractMathFunction extends AbstractEvaluationMethod impl
 		for (int i=0; i<values.length; i++)
 			values[i] = (double) anIndividual.getChromosome()[i];
 		double fitness;
-		if (this.isMin())
+		if (this.hasMin())
 			fitness = -this.f(values);
 		else
 			fitness = this.f(values);

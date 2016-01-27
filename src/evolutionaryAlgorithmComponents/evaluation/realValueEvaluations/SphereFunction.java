@@ -67,7 +67,7 @@ public class SphereFunction extends AbstractMathFunction implements HasPropertie
 	}
 
 	@Override
-	public boolean isMin() {
+	public boolean hasMin() {
 		return true;
 	}
 

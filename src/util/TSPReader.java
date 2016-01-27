@@ -436,4 +436,11 @@ public class TSPReader {
 	public double[] getVector() {
 		return vector;
 	}
+	
+	/**
+	 * @return the solutionTour
+	 */
+	public int[] getSolutionTour() {
+		return solutionTour;
+	}
 }

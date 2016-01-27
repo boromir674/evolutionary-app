@@ -16,7 +16,7 @@ public class Population {
 
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
-	public Individual[] pool; // parents and children (offsprings)
+	private Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
 	
 	private int offspringStoreIndex = 0;
@@ -81,10 +81,10 @@ public class Population {
 		return pool;
 	}
 
-	public void printDiversity() throws Exception {
+	public void printStats() throws Exception {
 		double[] fitArray = Util.getFitnessArray(pool, mu);
 		double[] meanAndStd = Util.recursiveMeanAndStd(fitArray);
-		System.out.format("%.2f ", meanAndStd[1]);
+		System.out.format("%.2f %.2f ", meanAndStd[0], meanAndStd[1]);
 	}
-
+	
 }

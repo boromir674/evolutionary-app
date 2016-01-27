@@ -34,7 +34,7 @@ public class Experiment {
 			if (i%100 == 0) {
 				this.showPercentage(i);
 				temp = evolutionaryAlgorithm.getPopulation().getFittestIndividual();
-				evolutionaryAlgorithm.getPopulation().printDiversity();
+				evolutionaryAlgorithm.getPopulation().printStats();
 				System.out.format("%.1f%n", temp.getFitness());
 			}
 			i++;

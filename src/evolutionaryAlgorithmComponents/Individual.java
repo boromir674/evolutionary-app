@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class Individual implements Comparable<Individual>{
 
-	public double fitness; // the fitness value of the Individual's chromosome
+	private double fitness; // the fitness value of the Individual's chromosome
 	private Object[] chromosome; // the chromosome represented as an Object array
 	private int age = 0;
 	private Representation representation;

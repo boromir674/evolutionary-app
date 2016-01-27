@@ -77,8 +77,11 @@ public class TSPReader {
 	}
 
 	public void parseFile(String file) throws Exception{
+		String folder = this.decideOnFolder(file);
+		if (folder.equals(""))
+			throw new Exception("file not supported");
 		this.initialize();
-		this.path = System.getProperty("user.dir") + "/TSP_samples"+decideOnFolder(file);
+		this.path = System.getProperty("user.dir") + "/TSP_samples"+folder;
 		reader = new FileReader(path);
 		bf = new BufferedReader(reader);
 		this.parseInfoUntilSection();
@@ -309,8 +312,10 @@ public class TSPReader {
 			return "/ATSP/"+name;
 		else if (name.substring(name.length()-4, name.length()).equals(".sop"))
 			return "/SOP/"+name;
-		else
+		else if (name.substring(name.length()-4, name.length()).equals(".cvrp"))
 			return "/CVRP/"+name;
+		else
+			return "";
 	}
 	/**
 	 * @return the path

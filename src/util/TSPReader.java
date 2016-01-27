@@ -58,6 +58,7 @@ public class TSPReader {
 	private ArrayList<int[]> _fixedEdges;
 	private ArrayList<int[]> _list;
 	private int[] _matrixIndices;
+	private int[] solutionTour;
 
 	public TSPReader() {
 		for (int i=0; i<allTypes.length; i++)
@@ -77,8 +78,11 @@ public class TSPReader {
 	}
 
 	public void parseFile(String file) throws Exception{
+		String folder = this.decideOnFolder(file);
+		if (folder.equals(""))
+			throw new Exception("file not supported");
 		this.initialize();
-		this.path = System.getProperty("user.dir") + "/TSP_samples"+decideOnFolder(file);
+		this.path = System.getProperty("user.dir") + "/TSP_samples"+folder;
 		reader = new FileReader(path);
 		bf = new BufferedReader(reader);
 		this.parseInfoUntilSection();
@@ -89,6 +93,36 @@ public class TSPReader {
 			section = "";
 			this.parseInfoUntilSection();}
 		this.parseAllData();
+		bf.close();
+		try {
+			parseOptimumTour();
+		} catch (IOException e){
+
+		}
+	}
+
+	private void parseOptimumTour() throws IOException{
+		String path1 = this.path.substring(0, this.path.indexOf('.')) + ".opt.tour";
+		reader = new FileReader(path1);
+		bf = new BufferedReader(reader);
+		solutionTour = new int[dimension];
+		String line = bf.readLine();
+		while (!(line == null || line.equals("-1") || line.equals("EOF"))) {
+			if (line.equals("TOUR_SECTION"))
+				this.parseTourSection();
+			line = bf.readLine();
+		}
+		bf.close();
+	}
+	// assuming all tours are a single column
+	private void parseTourSection() throws IOException {
+		String line = bf.readLine();
+		int i = 0;
+		while (!(line.equals("-1") || line == null || line.equals("EOF") || line.trim().equals(""))) {
+			solutionTour[i] = Integer.parseInt(line);
+			i ++;
+			line = bf.readLine();
+		}
 	}
 
 	private void parseFixedEdgeSection() throws Exception {
@@ -284,6 +318,7 @@ public class TSPReader {
 		_matrixIndices = new int[2];
 		vector = null;
 		vCounter = 0;
+		solutionTour = null;
 		fixedEdges = null;
 		_fixedEdges = null;
 	}
@@ -299,7 +334,7 @@ public class TSPReader {
 			return "SOP";
 		else return "CVRP";
 	}
-	
+
 	private static String decideOnFolder(String name){
 		if (name.substring(name.length()-4, name.length()).equals(".tsp"))
 			return "/TSP/"+name;
@@ -309,8 +344,10 @@ public class TSPReader {
 			return "/ATSP/"+name;
 		else if (name.substring(name.length()-4, name.length()).equals(".sop"))
 			return "/SOP/"+name;
-		else
+		else if (name.substring(name.length()-4, name.length()).equals(".cvrp"))
 			return "/CVRP/"+name;
+		else
+			return "";
 	}
 	/**
 	 * @return the path
@@ -398,5 +435,12 @@ public class TSPReader {
 	 */
 	public double[] getVector() {
 		return vector;
+	}
+	
+	/**
+	 * @return the solutionTour
+	 */
+	public int[] getSolutionTour() {
+		return solutionTour;
 	}
 }

@@ -106,7 +106,7 @@ public abstract class Util {
 		double minFitness = findMin(fitnessArray);
 		if (minFitness < 0)
 			flag = true;
-		
+
 		for (int i=0; i<fitnessArray.length; i++)
 			fitnessArray[i] = fitnessArray[i] - minFitness + 1;
 
@@ -163,10 +163,12 @@ public abstract class Util {
 
 	public static int findMaxIndex(double[] ar){
 		int maxIndex = 0;
-		double max = Double.MIN_VALUE;
+		double max = Double.NEGATIVE_INFINITY;
 		for (int i=0; i<ar.length; i++)
-			if (ar[i] > max)
+			if (ar[i] > max){
 				maxIndex = i;
+				max = ar[i];
+			}
 		return maxIndex;
 	}
 

@@ -16,7 +16,7 @@ public class Population {
 
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
-	private Individual[] pool; // parents and children (offsprings)
+	public Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
 	
 	private int offspringStoreIndex = 0;
@@ -57,7 +57,7 @@ public class Population {
 		Individual[] pop = new Individual[mu];
 		for (int i=0; i<mu; i++)
 			pop[i] = pool[i];
-		return Collections.max(Arrays.asList(pop));
+		return Collections.min(Arrays.asList(pool));
 	}
 	
 	/**

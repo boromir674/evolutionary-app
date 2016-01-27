@@ -24,16 +24,19 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 		// top performing individual at every generation
 		// Updates the population
 
-		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getLambda());
+		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getPool().length);
 
 		int bestIndex = Util.findMaxIndex(fitArray); // index of member with best fitness value 
-
+		Individual i1 = pop.getPool()[bestIndex];
+		Individual i2 = pop.getFittestIndividual();
+		if (i1.getFitness() != i2.getFitness())
+			throw new Exception("something's wrong with elitism");
 		double[] probabilities = Util.findFitnessBasedProbabilities(fitArray);
 		double cumulativeProbs[] = Util.getCumulativeDistribution(probabilities);
 
 		// array with indices pointing to members for keeping
-		//int[] survivors = Utils.rouletteWheel(cumulativeProbs, mu, poolRandom);
-		int[] survivors = Util.stochasticUniversalSampling(cumulativeProbs, pop.getMu(), random);
+		int[] survivors = Util.rouletteWheel(cumulativeProbs, pop.getMu(), random);
+		//int[] survivors = Util.stochasticUniversalSampling(cumulativeProbs, pop.getMu(), random);
 
 		// check if best individual is kept
 		boolean kept = false;

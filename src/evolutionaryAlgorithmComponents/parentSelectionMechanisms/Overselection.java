@@ -51,15 +51,15 @@ public class Overselection extends AbstractParentSelection {
 		double[] lowerCumulProbs = Util.getCumulativeDistribution(lowerProbs);
 
 		upperPick = Util.rouletteWheel(upperCumulProbs, (int)(eliteSelectionRate*pop.getLambda()), aRandom);
-		lowerPick = Util.rouletteWheel(lowerCumulProbs, pop.getLambda() - (int)(eliteSelectionRate*pop.getLambda()), aRandom);
+		lowerPick = Util.rouletteWheel(lowerCumulProbs, (int)(lesserSelectionRate*pop.getLambda()), aRandom);
 		
 		int i;
 		int[] parents = new int[pop.getLambda()];
 		for (i=0; i<upperPick.length; i++){
 			parents[i] = upperPick[i];
 		}
-		for (int j=i; i<lowerPick.length+i; j++){
-			parents[j] = lowerPick[i-i] + i;
+		for (int j=i; j<lowerPick.length+i; j++){
+			parents[j] = lowerPick[j-i] + fitterGroupIndex;
 		}
 		return parents;
 	}

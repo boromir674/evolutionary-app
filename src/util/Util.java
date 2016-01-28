@@ -98,6 +98,12 @@ public abstract class Util {
 			fitArray[i] = anArrayOfIndividuals[i].getFitness();
 		return fitArray;
 	}
+	public static double[] getFitnessArray(Individual[] anArrayOfIndividuals, int start, int limit) {
+		double[] fitArray = new double[limit-start];
+		for (int i=start; i<limit; i++)
+			fitArray[i-start] = anArrayOfIndividuals[i].getFitness();
+		return fitArray;
+	}
 
 	public static double[] findFitnessBasedProbabilities(double[] fitnessArray) throws Exception{
 		boolean flag = false;

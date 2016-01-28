@@ -11,6 +11,7 @@ import evolutionaryAlgorithmComponents.Population;
 public interface ParentSelection extends EvolutionaryAlgorithmComponent{
 
 	/**
+	 * TODO write javadoc
 	 * @param anArrayOfIndividuals
 	 * @param aRandom
 	 * @return

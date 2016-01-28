@@ -22,7 +22,7 @@ public class Population implements Cloneable{
 		// TODO Auto-generated method stub
 		return super.clone();
 	}
-
+	
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)

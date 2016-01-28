@@ -183,4 +183,17 @@ public abstract class Util {
 		}
 		return new double[]{mean, std};
 	}
+
+	// Implementing Fisher–Yates shuffle
+	// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+	public static void shuffleArray(int[] anArray, Random aRandom) {
+		for (int i = anArray.length - 1; i > 0; i--)
+		{
+			int index = aRandom.nextInt(i + 1);
+			// Simple swap
+			int a = anArray[index];
+			anArray[index] = anArray[i];
+			anArray[i] = a;
+		}
+	}
 }

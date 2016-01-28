@@ -1,5 +1,6 @@
 package evolutionaryAlgorithmComponents;
 
+import java.util.Collections;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.variationOperators.VarianceOperator;
@@ -36,6 +37,7 @@ public class EvolutionaryAlgorithm {
 	}
 	public void parentSelection(Random aRandom) throws Exception{
 		parents = parentSelectionMethod.select(population, aRandom);
+		util.Util.shuffleArray(parents, aRandom);
 	}
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		for (int i=0; i<population.getLambda(); i=i+2){

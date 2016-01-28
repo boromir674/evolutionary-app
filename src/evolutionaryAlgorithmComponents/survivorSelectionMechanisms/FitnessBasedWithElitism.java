@@ -26,11 +26,19 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 
 		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getPool().length);
 
-		int bestIndex = Util.findMaxIndex(fitArray); // index of member with best fitness value 
-		Individual i1 = pop.getPool()[bestIndex];
-		Individual i2 = pop.getFittestIndividual();
-		if (i1.getFitness() != i2.getFitness())
-			throw new Exception("something's wrong with elitism");
+		int bestIndex = Util.findMaxIndex(fitArray); // index of member with best fitness value
+		boolean flag = false;
+		for (int i=0; i<pop.getLambda(); i++){
+			if (pop.getPool()[i].getFitness() > pop.getPool()[bestIndex].getFitness()){
+				flag = true;
+				break;
+			}
+		}
+		if (flag)
+			throw new Exception("max found is not really max");
+		//Individual i1 = pop.getPool()[bestIndex];
+		//Individual i2 = pop.getFittestIndividual();
+		
 		double[] probabilities = Util.findFitnessBasedProbabilities(fitArray);
 		double cumulativeProbs[] = Util.getCumulativeDistribution(probabilities);
 
@@ -39,14 +47,14 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 		//int[] survivors = Util.stochasticUniversalSampling(cumulativeProbs, pop.getMu(), random);
 
 		// check if best individual is kept
-		boolean kept = false;
+		flag = false;
 		int j = 0;
-		while (!kept & j<survivors.length){
+		while (!flag & j<survivors.length){
 			if (survivors[j] == bestIndex)
-				kept = true;
+				flag = true;
 			j ++;
 		}
-		if (!kept){ // if best not kept, replace a random member with it
+		if (!flag){ // if best not kept, replace a random member with it
 			int s = random.nextInt(pop.getMu());
 			survivors[s] = bestIndex;
 		}			

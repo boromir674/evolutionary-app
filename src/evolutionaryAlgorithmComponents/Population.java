@@ -12,7 +12,16 @@ import java.util.Random;
 import util.Util;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
 
-public class Population {
+public class Population implements Cloneable{
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
 
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
@@ -57,7 +66,7 @@ public class Population {
 		Individual[] pop = new Individual[mu];
 		for (int i=0; i<mu; i++)
 			pop[i] = pool[i];
-		return Collections.min(Arrays.asList(pool));
+		return Collections.max(Arrays.asList(pop));
 	}
 	
 	/**

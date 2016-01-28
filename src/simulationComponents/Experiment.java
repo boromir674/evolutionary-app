@@ -7,6 +7,7 @@ import simulationComponents.terminationConditions.GenerationsLimitTerminationCon
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
+import evolutionaryAlgorithmComponents.Population;
 
 public class Experiment {
 
@@ -26,11 +27,16 @@ public class Experiment {
 		Individual temp;
 		this.startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
-
+		Population tempP;
 		while (!terminationCondition.satisfied(this)){
+			tempP = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
+			
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
+			if (evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness() < tempP.getFittestIndividual().getFitness()){
+				throw new Exception("next gen is worse then previous");
+			}
 			if (i%100 == 0) {
 				this.showPercentage(i);
 				temp = evolutionaryAlgorithm.getPopulation().getFittestIndividual();

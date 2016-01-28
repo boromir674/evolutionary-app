@@ -6,7 +6,6 @@ import java.util.Random;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
-
 public abstract class Util {	
 
 	public static int[] rouletteWheel(double[] cumulativeProbabilities, int numberOfSamples, Random aRandom){

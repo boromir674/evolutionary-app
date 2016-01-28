@@ -20,10 +20,10 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 	
 	@Override
 	public void select(Population pop) throws Exception{
-		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getLambda());
+		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getPool().length);
 		// Round-Robin tournament
 		int[] survivors = Util.roundRobinTournament(pop.getMu(), q, fitArray, random);
-
+		
 		// store members picked by the round-Robin tournament at the top μ positions
 		for (int i=0; i<pop.getMu(); i++){
 			Individual temp = pop.getPool()[survivors[i]];

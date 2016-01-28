@@ -172,16 +172,16 @@ public abstract class Util {
 		return maxIndex;
 	}
 
-	public static double[] recursiveMeanAndStd(double[] array){
-		double mean = array[0];
-		double std = 0;
+	public static double[] sampleMeanAndVariance(double[] array){
+		double meanj = array[0]; // mean_1
+		double varj = 0; // var_1
 		double newMean;
-		for (int j=0; j<array.length-1; j++){
-			newMean = mean + (array[j+1]-mean)/(j+2);
-			std = (1-1.0/(j+2)*std + (j+2+1)*Math.pow((newMean-mean), 2));
-			mean = newMean;
+		for (int j=2; j<array.length+1; j++){
+			newMean = meanj + (array[j-1]-meanj)/(j);
+			varj = (1-1.0/(j-1))*varj + (j)*Math.pow(newMean-meanj,2);
+			meanj = newMean;
 		}
-		return new double[]{mean, std};
+		return new double[]{meanj, varj};
 	}
 
 	// Implementing Fisher–Yates shuffle

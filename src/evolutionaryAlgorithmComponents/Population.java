@@ -27,9 +27,9 @@ public class Population implements Cloneable{
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
-	
+
 	private int offspringStoreIndex = 0;
-	
+
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
@@ -57,18 +57,28 @@ public class Population implements Cloneable{
 		pool[offspringStoreIndex+mu] = someone;
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda; 
 	}
-	
+
 	/** This method finds and returns the Individual, among the Population (of size mu), that
 	 * has the highest/maximum fitness value. 
 	 * @return the fittest Individual
 	 */
-	public Individual getFittestIndividual(){
+	public Individual getFittestIndividual() throws Exception{
 		Individual[] pop = new Individual[mu];
 		for (int i=0; i<mu; i++)
 			pop[i] = pool[i];
-		return Collections.max(Arrays.asList(pop));
+		Individual ai = Collections.min(Arrays.asList(pop));
+		boolean flag = false;
+		for (int i=0; i<mu; i++){
+			if (pool[i].getFitness() > ai.getFitness()){
+				flag = true;
+				break;
+			}
+		}
+		if (flag)
+			throw new Exception("max found, in first mu, is not really max");
+		return ai;
 	}
-	
+
 	/**
 	 * @return the mu
 	 */
@@ -92,8 +102,8 @@ public class Population implements Cloneable{
 
 	public void printStats() throws Exception {
 		double[] fitArray = Util.getFitnessArray(pool, mu);
-		double[] meanAndStd = Util.recursiveMeanAndStd(fitArray);
+		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
 		System.out.format("%.2f %.2f ", meanAndStd[0], meanAndStd[1]);
 	}
-	
+
 }

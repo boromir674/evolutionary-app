@@ -14,8 +14,8 @@ public class HopedFitness extends AbstractTerminationCondition {
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().getFitness() >= hopedFitness)
-			return true;
+		/*if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().getFitness() >= hopedFitness)
+			return true;*/
 		return false;
 	}
 }

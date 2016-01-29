@@ -18,7 +18,7 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		if (evaluationsCounter == evaluationsSpan)
+	/*	if (evaluationsCounter == evaluationsSpan)
 			return true;
 		double newBest = anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().getFitness();
 		if (newBest - currentBest < threshold)
@@ -26,7 +26,7 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 		else {
 			evaluationsCounter = 0;
 			newBest = currentBest;
-		}			
+		}*/			
 		return false;
 	}
 

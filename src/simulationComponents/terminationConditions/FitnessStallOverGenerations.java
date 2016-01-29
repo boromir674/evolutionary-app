@@ -18,7 +18,7 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		if (generationsCounter == generationsSpan)
+		/*if (generationsCounter == generationsSpan)
 			return true;
 		double newBest = anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().getFitness();
 		if (newBest - currentBest < threshold)
@@ -26,7 +26,7 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 		else {
 			generationsCounter = 0;
 			newBest = currentBest;
-		}			
+		}	*/		
 		return false;
 	}
 

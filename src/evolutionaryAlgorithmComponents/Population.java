@@ -14,9 +14,7 @@ import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
 
 public class Population implements Cloneable{
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
+	// temp method
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
@@ -27,9 +25,11 @@ public class Population implements Cloneable{
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
-
+	
+	private int getFittestCallIndex = 0;
 	private int offspringStoreIndex = 0;
-
+	private Individual currentFittest;
+	
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
@@ -40,6 +40,7 @@ public class Population implements Cloneable{
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
 		pool = new Individual[mu+lambda];
 		generationCount = 1;
+		getFittestCallIndex = 0;
 		Individual member;
 		for (int i=0; i<this.mu; i++){
 			member = new Individual();
@@ -63,20 +64,24 @@ public class Population implements Cloneable{
 	 * @return the fittest Individual
 	 */
 	public Individual getFittestIndividual() throws Exception{
+		if (getFittestCallIndex == generationCount)
+			return currentFittest;
+		getFittestCallIndex = generationCount;
 		Individual[] pop = new Individual[mu];
 		for (int i=0; i<mu; i++)
 			pop[i] = pool[i];
-		Individual ai = Collections.min(Arrays.asList(pop));
+		// Comparable implemented in such way, that Arrays.sort(pool) results in descending order.
+		Individual fittest = Collections.min(Arrays.asList(pop));
 		boolean flag = false;
 		for (int i=0; i<mu; i++){
-			if (pool[i].getFitness() > ai.getFitness()){
+			if (pool[i].getFitness() > fittest.getFitness()){
 				flag = true;
 				break;
 			}
 		}
 		if (flag)
 			throw new Exception("max found, in first mu, is not really max");
-		return ai;
+		return fittest;
 	}
 
 	/**

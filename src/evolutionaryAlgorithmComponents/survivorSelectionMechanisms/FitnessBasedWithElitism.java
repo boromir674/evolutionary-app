@@ -21,7 +21,7 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 
 	@Override
 	public void select(Population pop) throws Exception {
-		Individual fittest = Collections.min(Arrays.asList(pop.getPool()));
+		Individual fittest = pop.getFittestIndividualFromTheWholePool();
 		double[] fitarray = Util.getFitnessArray(pop.getPool(), pop.getPool().length);
 		double[] probabilities = Util.findFitnessBasedProbabilities(fitarray);
 		double[] cumulProbs = Util.getCumulativeDistribution(probabilities);

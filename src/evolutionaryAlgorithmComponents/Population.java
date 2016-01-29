@@ -20,34 +20,37 @@ public class Population implements Cloneable{
 		// TODO Auto-generated method stub
 		return super.clone();
 	}
-	
+
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
-	
-	private int getFittestCallIndex = 0;
-	private int offspringStoreIndex = 0;
-	private Individual currentFittest;
-	
+
+	private int offspringStoreIndex;
+	private int parentStoreIndex;
+	Individual fitterTillMu;
+	Individual fitterTillEnd;
+
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
-		pool = new Individual[mu+lambda];
-		//this.representation = aRepresentation;
 	}
 
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
 		pool = new Individual[mu+lambda];
 		generationCount = 1;
-		getFittestCallIndex = 0;
-		Individual member;
-		for (int i=0; i<this.mu; i++){
+		offspringStoreIndex = 0;
+		parentStoreIndex = 0;
+		Individual member = new Individual();
+		member.initializeRandomly(representation, aRandom);
+		fitterTillMu = member;
+		addParent(member, evaluator);
+		for (int i=1; i<this.mu; i++) {
 			member = new Individual();
 			member.initializeRandomly(representation, aRandom);
-			member.computeMyFitness(evaluator);
-			pool[i] = member;
+			addParent(member, evaluator);
 		}
+		fitterTillEnd = fitterTillMu;
 	}
 	public int getGenerationCounter(){
 		return generationCount;
@@ -56,7 +59,16 @@ public class Population implements Cloneable{
 	void addOffspring(Individual someone, EvaluationMethod evaluator){
 		someone.computeMyFitness(evaluator);
 		pool[offspringStoreIndex+mu] = someone;
-		offspringStoreIndex = (offspringStoreIndex + 1) % lambda; 
+		offspringStoreIndex = (offspringStoreIndex + 1) % lambda;
+		if (someone.getFitness() > fitterTillEnd.getFitness())
+			fitterTillEnd = someone;
+	}
+	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
+		in.computeMyFitness(eval);
+		pool[parentStoreIndex] = in;
+		parentStoreIndex = (parentStoreIndex + 1) % mu;
+		if (in.getFitness() > fitterTillMu.getFitness())
+			fitterTillMu = in;
 	}
 
 	/** This method finds and returns the Individual, among the Population (of size mu), that
@@ -64,24 +76,27 @@ public class Population implements Cloneable{
 	 * @return the fittest Individual
 	 */
 	public Individual getFittestIndividual() throws Exception{
-		if (getFittestCallIndex == generationCount)
-			return currentFittest;
-		getFittestCallIndex = generationCount;
+		if (this.fitterTillMu != null)
+			return fitterTillMu;
 		Individual[] pop = new Individual[mu];
 		for (int i=0; i<mu; i++)
 			pop[i] = pool[i];
 		// Comparable implemented in such way, that Arrays.sort(pool) results in descending order.
-		Individual fittest = Collections.min(Arrays.asList(pop));
+		fitterTillMu = Collections.min(Arrays.asList(pop));
 		boolean flag = false;
 		for (int i=0; i<mu; i++){
-			if (pool[i].getFitness() > fittest.getFitness()){
+			if (pool[i].getFitness() > fitterTillMu.getFitness()){
 				flag = true;
 				break;
 			}
 		}
 		if (flag)
 			throw new Exception("max found, in first mu, is not really max");
-		return fittest;
+		return fitterTillMu;
+	}
+	public Individual getFittestIndividualFromTheWholePool(){
+		return fitterTillEnd;
+
 	}
 
 	/**

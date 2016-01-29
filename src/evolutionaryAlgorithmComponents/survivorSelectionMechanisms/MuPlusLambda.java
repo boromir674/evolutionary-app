@@ -18,5 +18,6 @@ public class MuPlusLambda extends AbstractSurvivorSelection {
 	@Override
 	public void select(Population pop) throws Exception {
 		Arrays.sort(pop.getPool());
+		super.maxIndex = 0;
 	}
 }

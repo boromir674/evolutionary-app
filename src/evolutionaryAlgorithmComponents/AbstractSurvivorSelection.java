@@ -5,6 +5,7 @@ import interfaces.SurvivorSelection;
 public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 
 	private final String title;
+	protected int maxIndex;
 
 	public AbstractSurvivorSelection(String title) {
 		this.title = title;
@@ -12,6 +13,6 @@ public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 
 	public String getTitle(){
 		return title;
-	}
+	} 
 
 }

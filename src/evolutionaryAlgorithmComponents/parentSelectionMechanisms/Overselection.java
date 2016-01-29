@@ -62,6 +62,7 @@ public class Overselection extends AbstractParentSelection {
 		return parents;
 	}
 
+	@SuppressWarnings("unused")
 	private static void ensure(Individual[] pool) throws Exception {
 		double max = pool[0].getFitness();
 		for (int i=1; i<pool.length; i++)

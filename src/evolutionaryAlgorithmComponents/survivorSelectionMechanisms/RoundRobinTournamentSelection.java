@@ -25,8 +25,12 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 		int[] survivors = Util.roundRobinTournament(pop.getMu(), q, fitArray, random);
 		
 		// store members picked by the round-Robin tournament at the top μ positions
-		for (int i=0; i<pop.getMu(); i++){
-			Individual temp = pop.getPool()[survivors[i]];
+		Individual temp = pop.getPool()[survivors[0]];
+		super.maxIndex = 0;
+		for (int i=1; i<pop.getMu(); i++){
+			temp = pop.getPool()[survivors[i]];
+			if (temp.getFitness() > pop.getPool()[maxIndex].getFitness())
+				maxIndex = i;
 			pop.getPool()[i] = temp;
 		}
 	}

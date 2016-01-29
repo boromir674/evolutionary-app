@@ -19,7 +19,8 @@ public class EvolutionaryAlgorithm {
 	private SurvivorSelection survivorSelectionMethod;
 
 	private int[] parents;
-
+	boolean maxInFirstPosition;
+	
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) {
 		representation = aRepresentation;
@@ -51,8 +52,13 @@ public class EvolutionaryAlgorithm {
 	}
 
 	public void survivorSelection() throws Exception {
-		survivorSelectionMethod.select(population);
 		this.population.generationCount ++;
+		survivorSelectionMethod.select(population);
+		try {
+			population.fitterTillMu = population.getPool()[((AbstractSurvivorSelection) this.survivorSelectionMethod).maxIndex];
+		} catch (NullPointerException ne) {
+			population.fitterTillMu = null;
+		}
 	}
 	/**
 	 * @return the representation

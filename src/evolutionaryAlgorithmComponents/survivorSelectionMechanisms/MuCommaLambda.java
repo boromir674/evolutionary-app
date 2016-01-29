@@ -22,7 +22,7 @@ public class MuCommaLambda extends AbstractSurvivorSelection {
 		if (pop.getMu()>pop.getLambda()) {
 			throw new Exception(String.format("(μ,λ) survivor selection requires μ<=λ%n"
 					+ "instead: μ=%d and λ=%d",pop.getMu(), pop.getLambda()));
-		}
+		}//TODO implement
 		Arrays.sort(pop.getPool());
 	}
 }

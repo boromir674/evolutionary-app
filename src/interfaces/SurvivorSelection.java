@@ -5,10 +5,12 @@ import evolutionaryAlgorithmComponents.Population;
 public interface SurvivorSelection extends EvolutionaryAlgorithmComponent{
 	
 	/**
-	 * Applies to a @link{Population} of size lambda+mu. Selects survivors by
-	 * reducing the size of the @link{Population} to mu.
-	 * @param aPopulation is an instance of @link{Population}.
-	 * @param mu is an integer dictating the desired @link{Population} size.
+	 * This method picks members of the {@link Population} (parents and offsprings) that
+	 * will survive the selection process. It should return a (mu) μ-sized array of linear
+	 * indices that point to the elements of the Population pool.
+	 * @param aPopulation the population to undergo selection
+	 * @return the linear indices
+	 * @throws Exception if the number of parents selected is not equal to μ (mu).
 	 */
-	public void select(Population aPopulation) throws Exception;
+	public int[] select(Population aPopulation) throws Exception;
 }

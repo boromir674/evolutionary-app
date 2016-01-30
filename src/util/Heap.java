@@ -1,19 +1,36 @@
 package util;
 
+/**
+ * @author kostas
+ * Implementation of a minHeap
+ */
 public class Heap {
 
 	public Heap() {
 	}
-	public void heapsort(double[] a, int count){
-		heapify(a, count);
+	public void heapsort(double[] a, int numberOfElementsToSort){
+		int count = a.length;
+		heapify(a);
 		int end = count - 1;
-		while (end > 0){
-			swap(a[end], a[0]);
+		int low = end - numberOfElementsToSort;
+		while (end > low){
+			swap(a, end, 0);
 			end --;
 			siftDown(a, 0, end);
 		}
 	}
-	public void heapify(double[] a, int count){
+	public void heapsort(double[] a){
+		int count = a.length;
+		heapify(a);
+		int end = count - 1;
+		while (end > 0){
+			swap(a, end, 0);
+			end --;
+			siftDown(a, 0, end);
+		}
+	}
+	public void heapify(double[] a){
+		int count = a.length;
 		int start = iParent(count-1);
 		
 		while (start >= 0){
@@ -24,9 +41,8 @@ public class Heap {
 	@SuppressWarnings("static-method")
 	public void siftDown(double[] a, int start, int end){
 		int root = start;
-		int child;
 		while (iLeftChild(root) <= end){
-			child = iLeftChild(root);
+			int child = iLeftChild(root);
 			int swap = root;
 			if (a[swap] < a[child])
 				swap = child;
@@ -35,24 +51,24 @@ public class Heap {
 			if (swap == root)
 				break;
 			else {
-				swap(a[root], a[swap]);
+				swap(a, root, swap);
 				root = swap;
 			}
 		}
 	}
-	private static int iParent(int i){
+	public int iParent(int i){
 		return (int) Math.floor((i-1)/2);
 	}
-	private static int iLeftChild(int i){
+	public int iLeftChild(int i){
 		return 2*i + 1;
 	}
 	@SuppressWarnings("unused")
 	private static int iRightChild(int i){
 		return 2*i + 2;
 	}
-	private static void swap(double a, double b){
-		double temp = a;
-		a = b;
-		b = temp;
+	public void swap(double[] a, int i, int j){
+		double temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
 	}
 }

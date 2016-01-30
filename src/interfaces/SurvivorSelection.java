@@ -10,5 +10,5 @@ public interface SurvivorSelection extends EvolutionaryAlgorithmComponent{
 	 * @param aPopulation is an instance of @link{Population}.
 	 * @param mu is an integer dictating the desired @link{Population} size.
 	 */
-	public void select(Population aPopulation) throws Exception;
+	public int[] select(Population aPopulation) throws Exception;
 }

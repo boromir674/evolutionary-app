@@ -3,6 +3,7 @@ package evolutionaryAlgorithmComponents;
 import java.util.Collections;
 import java.util.Random;
 
+import Exceptions.SortsInPlaceThePopulationException;
 import evolutionaryAlgorithmComponents.variationOperators.VarianceOperator;
 import interfaces.EvaluationMethod;
 import interfaces.ParentSelection;
@@ -20,7 +21,8 @@ public class EvolutionaryAlgorithm {
 
 	private int[] parents;
 	boolean maxInFirstPosition;
-	
+	private int[] survivors;
+
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) {
 		representation = aRepresentation;
@@ -53,11 +55,19 @@ public class EvolutionaryAlgorithm {
 
 	public void survivorSelection() throws Exception {
 		this.population.generationCount ++;
-		survivorSelectionMethod.select(population);
 		try {
-			population.fitterTillMu = population.getPool()[((AbstractSurvivorSelection) this.survivorSelectionMethod).maxIndex];
-		} catch (NullPointerException ne) {
-			population.fitterTillMu = null;
+			survivors = survivorSelectionMethod.select(population);
+			Individual[] newGeneration = new Individual[survivors.length + population.getLambda()];
+			population.fitterTillMu = population.getPool()[survivors[0]];
+			newGeneration[0] = population.getPool()[survivors[0]];
+			for (int i=1; i<survivors.length; i++){
+				if (population.getPool()[survivors[i]].getFitness() > population.fitterTillMu.getFitness())
+					population.fitterTillMu = population.getPool()[i];
+				newGeneration[i] = population.getPool()[i];
+			}
+			population.updatePoolWithNewGeneration(newGeneration);
+		} catch (SortsInPlaceThePopulationException e) {
+			population.fitterTillMu = population.getPool()[0];
 		}
 	}
 	/**

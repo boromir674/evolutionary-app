@@ -3,6 +3,8 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 import java.util.Arrays;
 import java.util.Collections;
 
+import Exceptions.LambdaLessThanMuException;
+import Exceptions.SortsInPlaceThePopulationException;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 
@@ -18,11 +20,11 @@ public class MuCommaLambda extends AbstractSurvivorSelection {
 	 * @see evolutionaryAlgorithmComponents.survivorSelectionMechanisms.AbstractSurvivorSelection#select(evolutionaryAlgorithmComponents.population.Population, int)
 	 */
 	@Override
-	public void select(Population pop) throws Exception {
-		if (pop.getMu()>pop.getLambda()) {
-			throw new Exception(String.format("(μ,λ) survivor selection requires μ<=λ%n"
-					+ "instead: μ=%d and λ=%d",pop.getMu(), pop.getLambda()));
-		}//TODO implement
+	public int[] select(Population pop) throws LambdaLessThanMuException {
+		if (pop.getMu()>pop.getLambda()) 
+			throw new LambdaLessThanMuException();
+		
 		Arrays.sort(pop.getPool());
+		return null;
 	}
 }

@@ -63,6 +63,9 @@ public class Population implements Cloneable{
 		if (someone.getFitness() > fitterTillEnd.getFitness())
 			fitterTillEnd = someone;
 	}
+	void updatePoolWithNewGeneration(Individual[] newPool){
+		this.pool = newPool;
+	}
 	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
 		in.computeMyFitness(eval);
 		pool[parentStoreIndex] = in;
@@ -76,23 +79,7 @@ public class Population implements Cloneable{
 	 * @return the fittest Individual
 	 */
 	public Individual getFittestIndividual() throws Exception{
-		if (this.fitterTillMu != null)
-			return fitterTillMu;
-		Individual[] pop = new Individual[mu];
-		for (int i=0; i<mu; i++)
-			pop[i] = pool[i];
-		// Comparable implemented in such way, that Arrays.sort(pool) results in descending order.
-		fitterTillMu = Collections.min(Arrays.asList(pop));
-		boolean flag = false;
-		for (int i=0; i<mu; i++){
-			if (pool[i].getFitness() > fitterTillMu.getFitness()){
-				flag = true;
-				break;
-			}
-		}
-		if (flag)
-			throw new Exception("max found, in first mu, is not really max");
-		return fitterTillMu;
+		return this.fitterTillMu;
 	}
 	public Individual getFittestIndividualFromTheWholePool(){
 		return fitterTillEnd;

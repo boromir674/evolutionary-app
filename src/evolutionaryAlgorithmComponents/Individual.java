@@ -23,7 +23,8 @@ public class Individual implements Comparable<Individual>{
 	public int compareTo(Individual ind1) {
 		double fit1 = this.getFitness();
 		double fit2 = ind1.getFitness();
-		return Double.compare(fit2, fit1); // descending order
+		return Double.compare(fit1, fit2);
+		//return Double.compare(fit2, fit1); // descending order
 	}
 
 	public void computeMyFitness(EvaluationMethod evaluator){

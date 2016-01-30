@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import Exceptions.SortsInPlaceThePopulationException;
-import util.Heap;
+import util.MinHeap;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 
 public class MuPlusLambda extends AbstractSurvivorSelection {
 	
 	private final static String title = "(μ+λ)";
-	private Heap heap = new Heap();
+	private MinHeap heap = new MinHeap();
 	public MuPlusLambda() {
 		super(title);
 	}

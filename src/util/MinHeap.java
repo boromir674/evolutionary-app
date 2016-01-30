@@ -6,11 +6,11 @@ import evolutionaryAlgorithmComponents.Individual;
  * @author kostas
  * Implementation of a minHeap
  */
-public class Heap {
+public class MinHeap {
 
-	public Heap() {
+	public MinHeap() {
 	}
-	public void heapsort(Object[] a, int numberOfElementsToSort){
+	public static void heapsort(Object[] a, int numberOfElementsToSort){
 		int count = a.length;
 		heapify(a);
 		int end = count - 1;
@@ -21,7 +21,7 @@ public class Heap {
 			siftDown(a, 0, end);
 		}
 	}
-	public void heapsort(double[] a){
+	public static void heapsort(Object[] a){
 		int count = a.length;
 		heapify(a);
 		int end = count - 1;
@@ -31,7 +31,7 @@ public class Heap {
 			siftDown(a, 0, end);
 		}
 	}
-	public void heapify(double[] a){
+	private static void heapify(Object[] a){
 		int count = a.length;
 		int start = iParent(count-1);
 		
@@ -40,15 +40,16 @@ public class Heap {
 			start --;
 		}
 	}
-	@SuppressWarnings("static-method")
-	public void siftDown(double[] a, int start, int end){
+	private static void siftDown(Object[] a, int start, int end){
 		int root = start;
 		while (iLeftChild(root) <= end){
 			int child = iLeftChild(root);
 			int swap = root;
-			if (a[swap] < a[child])
+			//if (a[swap] < a[child])
+			if (((Individual)a[swap]).compareTo((Individual)a[child]) < 0)
 				swap = child;
-			if (child+1 <= end && a[swap] < a[child+1])
+			//if (child+1 <= end && a[swap] < a[child+1])
+			if (child+1 <= end && ((Individual)a[swap]).compareTo((Individual)a[child+1]) < 0)
 				swap = child + 1;
 			if (swap == root)
 				break;
@@ -58,18 +59,18 @@ public class Heap {
 			}
 		}
 	}
-	public int iParent(int i){
+	private static int iParent(int i){
 		return (int) Math.floor((i-1)/2);
 	}
-	public int iLeftChild(int i){
+	private static int iLeftChild(int i){
 		return 2*i + 1;
 	}
 	@SuppressWarnings("unused")
 	private static int iRightChild(int i){
 		return 2*i + 2;
 	}
-	public void swap(double[] a, int i, int j){
-		double temp = a[i];
+	private static void swap(Object[] a, int i, int j){
+		Object temp = a[i];
 		a[i] = a[j];
 		a[j] = temp;
 	}

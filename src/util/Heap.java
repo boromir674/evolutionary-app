@@ -1,5 +1,7 @@
 package util;
 
+import evolutionaryAlgorithmComponents.Individual;
+
 /**
  * @author kostas
  * Implementation of a minHeap
@@ -8,7 +10,7 @@ public class Heap {
 
 	public Heap() {
 	}
-	public void heapsort(double[] a, int numberOfElementsToSort){
+	public void heapsort(Object[] a, int numberOfElementsToSort){
 		int count = a.length;
 		heapify(a);
 		int end = count - 1;

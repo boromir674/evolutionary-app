@@ -4,20 +4,22 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import Exceptions.SortsInPlaceThePopulationException;
+import util.Heap;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 
 public class MuPlusLambda extends AbstractSurvivorSelection {
 	
 	private final static String title = "(μ+λ)";
-	
+	private Heap heap = new Heap();
 	public MuPlusLambda() {
 		super(title);
 	}
 
 	@Override
-	public void select(Population pop) throws Exception {
-		Arrays.sort(pop.getPool());
-		super.maxIndex = 0;
+	public int[] select(Population pop) throws SortsInPlaceThePopulationException {
+		heap.heapsort(pop.getPool(), pop.getMu());
+		throw new SortsInPlaceThePopulationException();
 	}
 }

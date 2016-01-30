@@ -12,14 +12,14 @@ import evolutionaryAlgorithmComponents.Population;
 public class MuPlusLambda extends AbstractSurvivorSelection {
 	
 	private final static String title = "(μ+λ)";
-	private MinHeap heap = new MinHeap();
+	
 	public MuPlusLambda() {
 		super(title);
 	}
 
 	@Override
 	public int[] select(Population pop) throws SortsInPlaceThePopulationException {
-		heap.heapsort(pop.getPool(), pop.getMu());
+		MinHeap.heapsort(pop.getPool());
 		throw new SortsInPlaceThePopulationException();
 	}
 }

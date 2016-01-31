@@ -17,7 +17,7 @@ public class FitnessProportional extends AbstractParentSelection {
 
 	@Override
 	public int[] select(Population pop, Random rand) throws Exception {
-		double[] fitArray = new double[pop.getPool().length];
+		double[] fitArray = new double[pop.getMu()];
 		for (int i=0; i<fitArray.length; i++)
 			fitArray[i] = pop.getPool()[i].getFitness();
 		double minFitness = Util.findMin(fitArray);

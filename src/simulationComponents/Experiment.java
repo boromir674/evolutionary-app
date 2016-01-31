@@ -36,10 +36,13 @@ public class Experiment {
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
 
-			if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism())
-				if (findMax(evolutionaryAlgorithm.getPopulation()).getFitness() < findMax(previousPopulation).getFitness()){
+			if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism()){
+				double newBest = findMax(evolutionaryAlgorithm.getPopulation()).getFitness();
+				double oldBest = findMax(previousPopulation).getFitness();
+				if (newBest < oldBest){
 					throw new Exception("next gen is worse then previous");
 				}
+			}
 			if (i%100 == 0) {
 				this.showPercentage(i);
 				temp = findMax(evolutionaryAlgorithm.getPopulation());

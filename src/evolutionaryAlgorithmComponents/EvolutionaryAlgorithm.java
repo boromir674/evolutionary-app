@@ -62,9 +62,10 @@ public class EvolutionaryAlgorithm {
 			newGeneration[0] = population.getPool()[survivors[0]];
 			for (int i=1; i<survivors.length; i++){
 				if (population.getPool()[survivors[i]].getFitness() > population.fitterTillMu.getFitness())
-					population.fitterTillMu = population.getPool()[i];
-				newGeneration[i] = population.getPool()[i];
+					population.fitterTillMu = population.getPool()[survivors[i]];
+				newGeneration[i] = population.getPool()[survivors[i]];
 			}
+			population.updatePoolWithNewGeneration(newGeneration);
 			if (survivorSelectionMethod.forceElitism()){
 				if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness()){
 					population.forceFitter();

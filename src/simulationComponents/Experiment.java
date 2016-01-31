@@ -27,14 +27,15 @@ public class Experiment {
 		Individual temp;
 		this.startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
-		Population tempP;
+		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
-			tempP = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
+			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
 			
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
-			if (evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness() < tempP.getFittestIndividual().getFitness()){
+			
+			if (findMax(evolutionaryAlgorithm.getPopulation()).getFitness() < findMax(previousPopulation).getFitness()){
 				throw new Exception("next gen is worse then previous");
 			}
 			if (i%100 == 0) {
@@ -47,7 +48,15 @@ public class Experiment {
 		}
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
-
+	// debug
+	private Individual findMax(Population pop){
+		Individual max = pop.getPool()[0];
+		for (int i=1; i<pop.getMu(); i++){
+			if (pop.getPool()[i].getFitness() > max.getFitness())
+				max = pop.getPool()[i];
+		}
+		return max;
+	}
 	// needs fixing.....
 	public double[] runBatches(int replicates) throws Exception {
 		if (replicates < 100)

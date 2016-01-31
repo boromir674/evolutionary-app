@@ -11,21 +11,19 @@ public class MinHeap {
 	public MinHeap() {
 	}
 	public static void heapsort(Object[] a, int numberOfElementsToSort){
-		int count = a.length;
 		heapify(a);
-		int end = count - 1;
-		int low = end - numberOfElementsToSort;
-		while (end > low){
+		int end = a.length - 1;
+		for (int i=0; i<numberOfElementsToSort; i++) {
 			swap(a, end, 0);
 			end --;
 			siftDown(a, 0, end);
 		}
 	}
 	public static void heapsort(Object[] a){
-		int count = a.length;
 		heapify(a);
-		int end = count - 1;
-		while (end > 0){
+		int end = a.length - 1;
+		//while (end > 0){
+		for (int i=0; i<a.length-1; i++) {
 			swap(a, end, 0);
 			end --;
 			siftDown(a, 0, end);

@@ -30,13 +30,15 @@ public class Population implements Cloneable{
 	private int parentStoreIndex;
 	Individual fitterTillMu;
 	Individual fitterTillEnd;
-
+	private Random cheatRandom;
+	
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
 	}
 
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
+		cheatRandom = aRandom;
 		pool = new Individual[mu+lambda];
 		generationCount = 1;
 		offspringStoreIndex = 0;
@@ -55,7 +57,9 @@ public class Population implements Cloneable{
 	public int getGenerationCounter(){
 		return generationCount;
 	}
-
+	void forceFitter(){
+		pool[cheatRandom.nextInt(mu)] = fitterTillEnd;
+	}
 	void addOffspring(Individual someone, EvaluationMethod evaluator){
 		someone.computeMyFitness(evaluator);
 		pool[offspringStoreIndex+mu] = someone;
@@ -108,7 +112,9 @@ public class Population implements Cloneable{
 	}
 
 	public void printStats() throws Exception {
-		Double[] fitArray = Util.getFitnessArray(pool, mu);
+		double[] fitArray = new double[mu];
+		for (int i=0; i<mu; i++)
+			fitArray[i] = pool[i].getFitness();
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
 		System.out.format("%.2f %.2f ", meanAndStd[0], meanAndStd[1]);
 	}

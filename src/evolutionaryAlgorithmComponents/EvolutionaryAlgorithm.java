@@ -65,6 +65,11 @@ public class EvolutionaryAlgorithm {
 					population.fitterTillMu = population.getPool()[i];
 				newGeneration[i] = population.getPool()[i];
 			}
+			if (survivorSelectionMethod.forceElitism()){
+				if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness()){
+					population.forceFitter();
+				}
+			}
 			population.updatePoolWithNewGeneration(newGeneration);
 		} catch (SortsInPlaceThePopulationException e) {
 			population.fitterTillMu = population.getPool()[0];

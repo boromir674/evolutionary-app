@@ -20,7 +20,9 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 
 	@Override
 	public int[] select(Population pop) {
-		Double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getPool().length);
+		Double[] fitArray = new Double[pop.getPool().length];
+		for (int i=0; i<fitArray.length; i++)
+			fitArray[i] = pop.getPool()[i].getFitness();
 		// Round-Robin tournament
 		int[] survivors = Util.roundRobinTournament(pop.getMu(), q, fitArray, random);
 
@@ -28,7 +30,7 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 	}
 
 	@Override
-	public boolean isElitistic() {
+	public boolean forceElitism() {
 		return false;
 	}
 

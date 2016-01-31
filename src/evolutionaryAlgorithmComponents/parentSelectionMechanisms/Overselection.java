@@ -3,6 +3,8 @@ package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.Individual;
@@ -40,7 +42,8 @@ public class Overselection extends AbstractParentSelection {
 		int[] upperPick;
 		int[] lowerPick;
 		Arrays.sort(pop.getPool(), 0, pop.getMu());
-		ensure(pop.getPool());
+		ArrayUtils.reverse(pop.getPool(), 0, pop.getMu());
+		ensure(pop);
 
 		double[] upperCumulProbs = Util.getCumulativeDistribution(pop.getPool(), 0, fitterGroupIndex);
 		double[] lowerCumulProbs = Util.getCumulativeDistribution(pop.getPool(), fitterGroupIndex, pop.getMu());
@@ -59,10 +62,10 @@ public class Overselection extends AbstractParentSelection {
 		return parents;
 	}
 
-	private static void ensure(Individual[] pool) throws Exception {
-		double max = pool[0].getFitness();
-		for (int i=1; i<pool.length; i++)
-			if (pool[i].getFitness() > max)
+	private static void ensure(Population pop) throws Exception {
+		double max = pop.getPool()[0].getFitness();
+		for (int i=1; i<pop.getMu(); i++)
+			if (pop.getPool()[i].getFitness() > max)
 				throw new Exception("Arrays.sort did not work as expected in Overselection");
 
 	}

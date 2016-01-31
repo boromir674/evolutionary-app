@@ -15,5 +15,12 @@ public interface SurvivorSelection extends EvolutionaryAlgorithmComponent{
 	 */
 	public int[] select(Population aPopulation) throws Exception;
 	
-	public boolean isElitistic();
+	/** 
+	 * This method should return true if the answer to the question, whether the {@link EvolutionaryAlgorithm}
+	 * should check and make sure that the fittest member of the population is preserved over the generations,
+	 * is positive. If the implementation of the select method guarantees the "elitism" property (the preservation
+	 * the fittest Individual), then return value of this method has no influence in the pipeline.  
+	 * @return true if the answer is yes, false if the answer is no.
+	 */
+	public boolean forceElitism();
 }

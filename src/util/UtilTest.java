@@ -1,7 +1,9 @@
 package util;
 
 import java.util.Random;
+
 import static org.junit.Assert.assertArrayEquals;
+
 import org.junit.Test;
 
 public class UtilTest {
@@ -22,9 +24,8 @@ public class UtilTest {
 				res1[0] += array[ii];
 			}
 			res1[0] = res1[0] / array.length;
-			for (int j=0; j<array.length; j++){
+			for (int j=0; j<array.length; j++)
 				res1[1] += Math.pow(array[j] - res1[0], 2);
-			}
 			res1[1] = res1[1]/ (array.length-1);
 
 			res2 = Util.sampleMeanAndVariance(array);			

@@ -44,8 +44,8 @@ public class OrderCrossover extends AbstractDiscreteRecombination {
 		int i = (points[1] + 1) % dimensions;
 		int toBeFilled = dimensions - points[1] + points[0] - 1;
 		boolean done = false;
-		byte counter1 = 0;
-		byte counter2 = 0;
+		int counter1 = 0;
+		int counter2 = 0;
 		while (!done){
 			if (counter1 < toBeFilled){
 				if (!ArrayUtils.contains(children[0].getChromosome(), dad.getChromosome()[i])){

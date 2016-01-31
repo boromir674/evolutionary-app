@@ -1,4 +1,5 @@
 package util;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -62,7 +63,7 @@ public abstract class Util {
 		return indicesSampled;
 	}
 
-	public static int[] roundRobinTournament(int numberOfBest, int q, double[] values, Random aRandom){
+	public static int[] roundRobinTournament(int numberOfBest, int q, Object[] values, Random aRandom){
 		int[] topCompetitors = new int[numberOfBest];
 		Integer[][] wins = new Integer[values.length][2];
 		for (int j=0; j<wins.length; j++){
@@ -74,7 +75,7 @@ public abstract class Util {
 		for (int i=0; i<values.length; i++){
 			for (int j=0; j<q; j++){// with replacement
 				randomIndex = aRandom.nextInt(values.length);
-				if (values[i] > values[randomIndex]){
+				if (((Double)values[randomIndex]).compareTo((Double)values[i]) < 0){
 					wins[i][0] ++;
 				}
 			}
@@ -92,77 +93,44 @@ public abstract class Util {
 		return topCompetitors;
 	}
 
-	public static double[] getFitnessArray(Individual[] anArrayOfIndividuals, int limit) {
-		double[] fitArray = new double[limit];
-		for (int i=0; i<limit; i++)
-			fitArray[i] = anArrayOfIndividuals[i].getFitness();
-		return fitArray;
-	}
-	public static double[] getFitnessArray(Individual[] anArrayOfIndividuals, int start, int limit) {
+	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit){
+		
 		double[] fitArray = new double[limit-start];
-		for (int i=start; i<limit; i++)
-			fitArray[i-start] = anArrayOfIndividuals[i].getFitness();
-		return fitArray;
-	}
-
-	public static double[] findFitnessBasedProbabilities(double[] fitnessArray) throws Exception{
-		boolean flag = false;
-		// scale all values if negative values
-		double minFitness = findMin(fitnessArray);
-		if (minFitness < 0)
-			flag = true;
-
-		for (int i=0; i<fitnessArray.length; i++)
-			fitnessArray[i] = fitnessArray[i] - minFitness + 1;
-
-		double [] probs = new double[fitnessArray.length];
-		double fitnessSum = findSum(fitnessArray);
-		flag = false;
-		for (int i=0; i<fitnessArray.length; i++){
-			probs[i] = fitnessArray[i]/fitnessSum;
-			if (Double.isNaN(probs[i]))
-				flag = true;
+		fitArray[0] = anArrayOfIndividuals[start].getFitness();
+		double minFitness = fitArray[0];
+		double fitnessSum = 0;
+		for (int i=1; i<fitArray.length; i++){
+			fitArray[i] = anArrayOfIndividuals[start+i].getFitness();
+			if (fitArray[i] < minFitness)
+				minFitness = fitArray[i];
+			fitnessSum += fitArray[i];
+		}
+		fitnessSum = fitArray.length * (1 - minFitness);
+		
+		double[] cumulProbs = new double[fitArray.length];
+		fitArray[0] = fitArray[0] - minFitness + 1;
+		cumulProbs[0] = fitArray[0]/fitnessSum;
+		for (int i=1; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
+			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
 		}
 
-		if (flag)
-			throw new Exception("The fitness-based probabilities array contains NaN");
-		return probs;
+		return cumulProbs;
 	}
 
-	private static double findSum(double[] ar){
-		double sum = 0;
-		for (int i=0; i<ar.length; i++) sum += ar[i];
-		return sum;
-	}
-
-	public static double findMin(double[] ar){
+	public static double findMin(double[] fitarray){
 		//int minIndex = 0;
-		double min = Double.MAX_VALUE;
-		for (int i=0; i<ar.length; i++)
-			if (ar[i] < min)
-				min = ar[i];
+		double min = Double.POSITIVE_INFINITY;
+		for (int i=0; i<fitarray.length; i++)
+			if (fitarray[i] < min)
+				min = fitarray[i];
 		return min;
 	}
-	public static double[] getCumulativeDistribution(double[] probabilities) throws Exception{
-		boolean flag = false;
-		double[] cumulativeProbs = new double[probabilities.length];
-		cumulativeProbs[0] = probabilities[0];
-		for (int i=1; i<probabilities.length; i++) {
-			cumulativeProbs[i] = cumulativeProbs[i-1] + probabilities[i];
-			if (Double.isNaN(cumulativeProbs[i]))
-				flag = true;
-		}
-
-		if (flag)
-			throw new Exception("cumulative probabilities array produced NaN");
-		return cumulativeProbs;
-	}
-
-	public static double[] findRankingProbs(double[] allFit){
+	public static double[] findRankingProbs(Double[] fitArray){
 		double s = 1.5; // parameter: 1 < s <= 2
-		double[] probs = new double[allFit.length];
+		double[] probs = new double[fitArray.length];
 		for (int i=0; i<probs.length; i++) // linear formula
-			probs[i] = (2.0 - s)/allFit.length + 2*i*(s-1)/(allFit.length*(allFit.length-1));
+			probs[i] = (2.0 - s)/fitArray.length + 2*i*(s-1)/(fitArray.length*(fitArray.length-1));
 		return probs;
 	}
 
@@ -177,12 +145,12 @@ public abstract class Util {
 		return maxIndex;
 	}
 
-	public static double[] sampleMeanAndVariance(double[] array){
-		double meanj = array[0]; // mean_1
+	public static double[] sampleMeanAndVariance(double[] fitArray){
+		double meanj = fitArray[0]; // mean_1
 		double varj = 0; // var_1
 		double newMean;
-		for (int j=2; j<array.length+1; j++){
-			newMean = meanj + (array[j-1]-meanj)/(j);
+		for (int j=2; j<fitArray.length+1; j++){
+			newMean = meanj + (fitArray[j-1]-meanj)/(j);
 			varj = (1-1.0/(j-1))*varj + (j)*Math.pow(newMean-meanj,2);
 			meanj = newMean;
 		}
@@ -201,4 +169,5 @@ public abstract class Util {
 			anArray[i] = a;
 		}
 	}
+
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import simulationComponents.terminationConditions.EvaluationLimit;
 import simulationComponents.terminationConditions.GenerationsLimitTerminationCondition;
+import interfaces.SurvivorSelection;
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
@@ -27,19 +28,25 @@ public class Experiment {
 		Individual temp;
 		this.startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
-		Population tempP;
+		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
-			tempP = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
-			
+			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
+
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
-			if (evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness() < tempP.getFittestIndividual().getFitness()){
-				throw new Exception("next gen is worse then previous");
+			
+			// debug
+			double newBest = findMax(evolutionaryAlgorithm.getPopulation()).getFitness();
+			double oldBest = findMax(previousPopulation).getFitness();
+			if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism()){
+				if (newBest < oldBest){
+					throw new Exception("next gen is worse then previous");
+				}
 			}
 			if (i%100 == 0) {
 				this.showPercentage(i);
-				temp = evolutionaryAlgorithm.getPopulation().getFittestIndividual();
+				temp = findMax(evolutionaryAlgorithm.getPopulation());
 				evolutionaryAlgorithm.getPopulation().printStats();
 				System.out.format("%.1f%n", temp.getFitness());
 			}
@@ -47,7 +54,15 @@ public class Experiment {
 		}
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
-
+	// debug
+	private static Individual findMax(Population pop){
+		Individual max = pop.getPool()[0];
+		for (int i=1; i<pop.getMu(); i++){
+			if (pop.getPool()[i].getFitness() > max.getFitness())
+				max = pop.getPool()[i];
+		}
+		return max;
+	}
 	// needs fixing.....
 	public double[] runBatches(int replicates) throws Exception {
 		if (replicates < 100)

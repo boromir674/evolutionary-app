@@ -9,7 +9,7 @@ import evolutionaryAlgorithmComponents.Population;
 public class BestNFromRandomM extends AbstractParentSelection {
 	
 	private final static String title = "Best n from Random m";
-	//private int M;
+	
 	
 	public BestNFromRandomM(int M) {
 		super(title);

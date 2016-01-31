@@ -17,12 +17,24 @@ public class RankingSelection extends AbstractParentSelection {
 
 	@Override
 	public int[] select(Population pop, Random rand) throws Exception {
-		// stochastically selects lambda parents, sampling according to probabilities based
-		// on the linear rank of each member of the population
-		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getMu());
-		double[] rankProbabilities = Util.findRankingProbs(fitArray); // probabilities based on ranking
-		double[] cumulProbs = Util.getCumulativeDistribution(rankProbabilities);
-		// array with indices to the pool ArrayList
+		double[] fitArray = new double[pop.getMu()];
+		fitArray[0] = pop.getPool()[0].getFitness();
+		double minFitness = fitArray[0];
+		for (int i=1; i<fitArray.length; i++){
+			fitArray[i] = pop.getPool()[i].getFitness();
+			if (fitArray[i] < minFitness)
+				minFitness = fitArray[i];
+		}
+		double s = 1.5; // parameter: 1 < s <= 2
+		double[] probs = new double[fitArray.length];
+		probs[0] = (2.0 - s)/fitArray.length + 2*0*(s-1)/(fitArray.length*(fitArray.length-1));
+		double[] cumulProbs = new double[fitArray.length];
+		cumulProbs[0] = probs[0];
+		for (int i=1; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
+			probs[i] = (2.0 - s)/fitArray.length + 2*i*(s-1)/(fitArray.length*(fitArray.length-1));
+			cumulProbs[i] = cumulProbs[i-1] + probs[i];
+		}
 		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs, pop.getLambda(), rand);
 		return parentPointers;
 	}	

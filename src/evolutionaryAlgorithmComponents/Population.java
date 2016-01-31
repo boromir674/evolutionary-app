@@ -30,13 +30,15 @@ public class Population implements Cloneable{
 	private int parentStoreIndex;
 	Individual fitterTillMu;
 	Individual fitterTillEnd;
-
+	private Random cheatRandom;
+	
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
 	}
 
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
+		cheatRandom = aRandom;
 		pool = new Individual[mu+lambda];
 		generationCount = 1;
 		offspringStoreIndex = 0;
@@ -55,13 +57,18 @@ public class Population implements Cloneable{
 	public int getGenerationCounter(){
 		return generationCount;
 	}
-
+	void forceFitter(){
+		pool[cheatRandom.nextInt(mu)] = fitterTillEnd;
+	}
 	void addOffspring(Individual someone, EvaluationMethod evaluator){
 		someone.computeMyFitness(evaluator);
 		pool[offspringStoreIndex+mu] = someone;
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda;
 		if (someone.getFitness() > fitterTillEnd.getFitness())
 			fitterTillEnd = someone;
+	}
+	void updatePoolWithNewGeneration(Individual[] newPool){
+		this.pool = newPool;
 	}
 	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
 		in.computeMyFitness(eval);
@@ -75,24 +82,8 @@ public class Population implements Cloneable{
 	 * has the highest/maximum fitness value. 
 	 * @return the fittest Individual
 	 */
-	public Individual getFittestIndividual() throws Exception{
-		if (this.fitterTillMu != null)
-			return fitterTillMu;
-		Individual[] pop = new Individual[mu];
-		for (int i=0; i<mu; i++)
-			pop[i] = pool[i];
-		// Comparable implemented in such way, that Arrays.sort(pool) results in descending order.
-		fitterTillMu = Collections.min(Arrays.asList(pop));
-		boolean flag = false;
-		for (int i=0; i<mu; i++){
-			if (pool[i].getFitness() > fitterTillMu.getFitness()){
-				flag = true;
-				break;
-			}
-		}
-		if (flag)
-			throw new Exception("max found, in first mu, is not really max");
-		return fitterTillMu;
+	public Individual getFittestIndividual(){
+		return this.fitterTillMu;
 	}
 	public Individual getFittestIndividualFromTheWholePool(){
 		return fitterTillEnd;
@@ -121,7 +112,9 @@ public class Population implements Cloneable{
 	}
 
 	public void printStats() throws Exception {
-		double[] fitArray = Util.getFitnessArray(pool, mu);
+		double[] fitArray = new double[mu];
+		for (int i=0; i<mu; i++)
+			fitArray[i] = pool[i].getFitness();
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
 		System.out.format("%.2f %.2f ", meanAndStd[0], meanAndStd[1]);
 	}

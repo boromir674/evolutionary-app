@@ -40,13 +40,10 @@ public class Overselection extends AbstractParentSelection {
 		int[] upperPick;
 		int[] lowerPick;
 		Arrays.sort(pop.getPool(), 0, pop.getMu());
-		//ensure(pop.getPool());
-		double[] upperFitArray = Util.getFitnessArray(pop.getPool(), fitterGroupIndex);
-		double[] lowerFitArray = Util.getFitnessArray(pop.getPool(), fitterGroupIndex, pop.getMu());
-		double[] upperProbs = Util.findFitnessBasedProbabilities(upperFitArray);
-		double[] lowerProbs = Util.findFitnessBasedProbabilities(lowerFitArray);
-		double[] upperCumulProbs = Util.getCumulativeDistribution(upperProbs);
-		double[] lowerCumulProbs = Util.getCumulativeDistribution(lowerProbs);
+		ensure(pop.getPool());
+
+		double[] upperCumulProbs = Util.getCumulativeDistribution(pop.getPool(), 0, fitterGroupIndex);
+		double[] lowerCumulProbs = Util.getCumulativeDistribution(pop.getPool(), fitterGroupIndex, pop.getMu());
 
 		upperPick = Util.stochasticUniversalSampling(upperCumulProbs, (int)(eliteSelectionRate*pop.getLambda()), aRandom);
 		lowerPick = Util.stochasticUniversalSampling(lowerCumulProbs, (int)(lesserSelectionRate*pop.getLambda()), aRandom);
@@ -62,7 +59,6 @@ public class Overselection extends AbstractParentSelection {
 		return parents;
 	}
 
-	@SuppressWarnings("unused")
 	private static void ensure(Individual[] pool) throws Exception {
 		double max = pool[0].getFitness();
 		for (int i=1; i<pool.length; i++)

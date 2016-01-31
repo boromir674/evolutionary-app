@@ -4,6 +4,7 @@ import java.util.Random;
 
 import simulationComponents.terminationConditions.EvaluationLimit;
 import simulationComponents.terminationConditions.GenerationsLimitTerminationCondition;
+import interfaces.SurvivorSelection;
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
@@ -30,14 +31,15 @@ public class Experiment {
 		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
 			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
-			
+
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
-			
-			if (findMax(evolutionaryAlgorithm.getPopulation()).getFitness() < findMax(previousPopulation).getFitness()){
-				throw new Exception("next gen is worse then previous");
-			}
+
+			if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism())
+				if (findMax(evolutionaryAlgorithm.getPopulation()).getFitness() < findMax(previousPopulation).getFitness()){
+					throw new Exception("next gen is worse then previous");
+				}
 			if (i%100 == 0) {
 				this.showPercentage(i);
 				temp = findMax(evolutionaryAlgorithm.getPopulation());
@@ -49,7 +51,7 @@ public class Experiment {
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
 	// debug
-	private Individual findMax(Population pop){
+	private static Individual findMax(Population pop){
 		Individual max = pop.getPool()[0];
 		for (int i=1; i<pop.getMu(); i++){
 			if (pop.getPool()[i].getFitness() > max.getFitness())

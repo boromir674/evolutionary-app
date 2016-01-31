@@ -17,15 +17,22 @@ public class FitnessProportional extends AbstractParentSelection {
 
 	@Override
 	public int[] select(Population pop, Random rand) throws Exception {
-		// "Fitness Proportional Selection"
-		// stochastically selects lambda parents, sampling according to probabilities based
-		// on the fitness values of each member of the population
-		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getMu());
-		double[] probabilities = Util.findFitnessBasedProbabilities(fitArray);
-		double cumulativeProbs[] = Util.getCumulativeDistribution(probabilities);
-
+		double[] fitArray = new double[pop.getPool().length];
+		for (int i=0; i<fitArray.length; i++)
+			fitArray[i] = pop.getPool()[i].getFitness();
+		double minFitness = Util.findMin(fitArray);
+		double fitnessSum = 0;
+		for (int i=0; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
+			fitnessSum += fitArray[i];
+		}
+		double[] cumulProbs = new double[fitArray.length];
+		cumulProbs[0] = fitArray[0]/fitnessSum;
+		for (int i=1; i<fitArray.length; i++){	
+			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
+		}
 		// array with indices to the pool ArrayList
-		int[] parentPointers = Util.stochasticUniversalSampling(cumulativeProbs, pop.getLambda(), rand);
+		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs, pop.getLambda(), rand);
 		return parentPointers;
 	}
 

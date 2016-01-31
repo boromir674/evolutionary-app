@@ -32,7 +32,7 @@ public class MuPlusLambda extends AbstractSurvivorSelection {
 	}
 
 	@Override
-	public boolean isElitistic() {
-		return true;
+	public boolean forceElitism() {
+		return false;
 	}
 }

@@ -26,4 +26,5 @@ public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 			return pop.getPool()[temp];
 	}
 	
+	
 }

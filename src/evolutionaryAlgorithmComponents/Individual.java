@@ -25,6 +25,7 @@ public class Individual implements Comparable<Individual>{
 		double fit2 = ind1.getFitness();
 		Double d1 = fit1;
 		Double d2 = fit2;
+		@SuppressWarnings("unused")
 		int r = d1.compareTo(d2);
 		int r2 = Double.compare(fit1, fit2);
 		return r2;

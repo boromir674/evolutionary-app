@@ -41,7 +41,7 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 	}
 
 	@Override
-	public boolean isElitistic() {
+	public boolean forceElitism() {
 		return true;
 	}
 }

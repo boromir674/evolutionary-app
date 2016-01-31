@@ -36,7 +36,7 @@ public class MuCommaLambda extends AbstractSurvivorSelection {
 	}
 
 	@Override
-	public boolean isElitistic() {
+	public boolean forceElitism() {
 		return false;
 	}
 }

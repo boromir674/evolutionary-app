@@ -1,4 +1,5 @@
 package util;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -105,50 +106,34 @@ public abstract class Util {
 		return fitArray;
 	}
 
-	public static double[] findFitnessBasedProbabilities(double[] fitnessArray){
-		boolean flag = false;
-		// scale all values if negative values
-		double minFitness = findMin(fitnessArray);
-		if (minFitness < 0)
-			flag = true;
-
-		for (int i=0; i<fitnessArray.length; i++)
-			fitnessArray[i] = fitnessArray[i] - minFitness + 1;
-
-		double [] probs = new double[fitnessArray.length];
-		double fitnessSum = findSum(fitnessArray);
-		flag = false;
-		for (int i=0; i<fitnessArray.length; i++){
-			probs[i] = fitnessArray[i]/fitnessSum;
-			if (Double.isNaN(probs[i]))
-				flag = true;
+	public static double[] findFitnessBasedProbabilities(Double[] fitarray){
+		// scale all values
+		double minFitness = findMin(fitarray);
+		double fitnessSum = 0;
+		for (int i=0; i<fitarray.length; i++) {
+			fitarray[i] = fitarray[i] - minFitness + 1;
+			fitnessSum += fitarray[i];
+		}
+		double [] probs = new double[fitarray.length];
+		for (int i=0; i<fitarray.length; i++){
+			probs[i] = fitarray[i]/fitnessSum;
 		}
 		return probs;
 	}
 
-	private static double findSum(double[] ar){
-		double sum = 0;
-		for (int i=0; i<ar.length; i++) sum += ar[i];
-		return sum;
-	}
-
-	public static double findMin(double[] ar){
+	public static double findMin(double[] fitarray){
 		//int minIndex = 0;
-		double min = Double.MAX_VALUE;
-		for (int i=0; i<ar.length; i++)
-			if (ar[i] < min)
-				min = ar[i];
+		double min = Double.POSITIVE_INFINITY;
+		for (int i=0; i<fitarray.length; i++)
+			if (fitarray[i] < min)
+				min = fitarray[i];
 		return min;
 	}
 	public static double[] getCumulativeDistribution(double[] probabilities){
-		boolean flag = false;
 		double[] cumulativeProbs = new double[probabilities.length];
 		cumulativeProbs[0] = probabilities[0];
-		for (int i=1; i<probabilities.length; i++) {
+		for (int i=1; i<probabilities.length; i++) 
 			cumulativeProbs[i] = cumulativeProbs[i-1] + probabilities[i];
-			if (Double.isNaN(cumulativeProbs[i]))
-				flag = true;
-		}
 		return cumulativeProbs;
 	}
 
@@ -194,5 +179,13 @@ public abstract class Util {
 			anArray[index] = anArray[i];
 			anArray[i] = a;
 		}
+	}
+
+	public static double findMin(Double[] fitArray) {
+		double min = Double.POSITIVE_INFINITY;
+		for (int i=0; i<fitArray.length; i++)
+			if (fitArray[i] < min)
+				min = fitArray[i];
+		return min;
 	}
 }

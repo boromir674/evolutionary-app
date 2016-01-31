@@ -17,7 +17,7 @@ public class Individual implements Comparable<Individual>{
 
 	public Individual() {
 
-	}	
+	}
 
 	@Override
 	public int compareTo(Individual ind1) {

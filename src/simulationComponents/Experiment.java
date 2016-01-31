@@ -40,7 +40,7 @@ public class Experiment {
 			}
 			if (i%100 == 0) {
 				this.showPercentage(i);
-				temp = evolutionaryAlgorithm.getPopulation().getFittestIndividual();
+				temp = findMax(evolutionaryAlgorithm.getPopulation());
 				evolutionaryAlgorithm.getPopulation().printStats();
 				System.out.format("%.1f%n", temp.getFitness());
 			}

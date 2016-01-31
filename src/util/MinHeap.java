@@ -10,7 +10,7 @@ public class MinHeap {
 
 	public MinHeap() {
 	}
-	public static void heapsort(Object[] a, int numberOfElementsToSort){
+	public void heapsort(Object[] a, int numberOfElementsToSort){
 		heapify(a);
 		int end = a.length - 1;
 		for (int i=0; i<numberOfElementsToSort; i++) {
@@ -19,7 +19,7 @@ public class MinHeap {
 			siftDown(a, 0, end);
 		}
 	}
-	public static void heapsort(Object[] a){
+	public void heapsort(Object[] a){
 		heapify(a);
 		int end = a.length - 1;
 		//while (end > 0){
@@ -29,7 +29,7 @@ public class MinHeap {
 			siftDown(a, 0, end);
 		}
 	}
-	private static void heapify(Object[] a){
+	public void heapify(Object[] a){
 		int count = a.length;
 		int start = iParent(count-1);
 		
@@ -38,7 +38,7 @@ public class MinHeap {
 			start --;
 		}
 	}
-	private static void siftDown(Object[] a, int start, int end){
+	public void siftDown(Object[] a, int start, int end){
 		int root = start;
 		while (iLeftChild(root) <= end){
 			int child = iLeftChild(root);
@@ -67,7 +67,7 @@ public class MinHeap {
 	private static int iRightChild(int i){
 		return 2*i + 2;
 	}
-	private static void swap(Object[] a, int i, int j){
+	public void swap(Object[] a, int i, int j){
 		Object temp = a[i];
 		a[i] = a[j];
 		a[j] = temp;

@@ -12,7 +12,7 @@ public class UtilTest {
 	@Test
 	public void testPerform() {
 		Random aRandom = new Random();
-		Double[] array = new Double[1000];
+		double[] array = new double[1000];
 		double[] res1;
 		double[] res2;
 		for (int i=0; i<1000; i++){

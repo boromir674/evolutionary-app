@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import Exceptions.SortsInPlaceThePopulationException;
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Individual;
@@ -20,21 +21,17 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 	}
 
 	@Override
-	public int[] select(Population pop) throws Exception {
-		Individual fittest = pop.getFittestIndividualFromTheWholePool();
+	public int[] select(Population pop) {
 		double[] fitarray = Util.getFitnessArray(pop.getPool(), pop.getPool().length);
 		double[] probabilities = Util.findFitnessBasedProbabilities(fitarray);
 		double[] cumulProbs = Util.getCumulativeDistribution(probabilities);
 		int[] survivors = Util.stochasticUniversalSampling(cumulProbs, pop.getMu(), random);
-		for (int i=0; i<pop.getMu(); i++){
-			Individual temp = pop.getPool()[survivors[i]];
-			pop.getPool()[i] = temp;
-		}
-		if (pop.getFittestIndividual().getFitness() < fittest.getFitness()){
-			pop.getPool()[random.nextInt(pop.getMu())] = fittest;
-		}
-		return null;
+		return survivors;
 	}
 
+	@Override
+	public boolean isElitistic() {
+		return true;
+	}
 }
 

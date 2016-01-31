@@ -30,4 +30,9 @@ public class MuPlusLambda extends AbstractSurvivorSelection {
 			ArrayUtils.reverse(pop.getPool());
 		throw new SortsInPlaceThePopulationException();
 	}
+
+	@Override
+	public boolean isElitistic() {
+		return true;
+	}
 }

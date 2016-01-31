@@ -14,4 +14,6 @@ public interface SurvivorSelection extends EvolutionaryAlgorithmComponent{
 	 * @throws Exception 
 	 */
 	public int[] select(Population aPopulation) throws Exception;
+	
+	public boolean isElitistic();
 }

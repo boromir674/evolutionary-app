@@ -78,7 +78,7 @@ public class Population implements Cloneable{
 	 * has the highest/maximum fitness value. 
 	 * @return the fittest Individual
 	 */
-	public Individual getFittestIndividual() throws Exception{
+	public Individual getFittestIndividual(){
 		return this.fitterTillMu;
 	}
 	public Individual getFittestIndividualFromTheWholePool(){
@@ -108,7 +108,7 @@ public class Population implements Cloneable{
 	}
 
 	public void printStats() throws Exception {
-		double[] fitArray = Util.getFitnessArray(pool, mu);
+		Double[] fitArray = Util.getFitnessArray(pool, mu);
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
 		System.out.format("%.2f %.2f ", meanAndStd[0], meanAndStd[1]);
 	}

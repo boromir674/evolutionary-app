@@ -19,7 +19,7 @@ public class RankingSelection extends AbstractParentSelection {
 	public int[] select(Population pop, Random rand) throws Exception {
 		// stochastically selects lambda parents, sampling according to probabilities based
 		// on the linear rank of each member of the population
-		double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getMu());
+		Double[] fitArray = Util.getFitnessArray(pop.getPool(), pop.getMu());
 		double[] rankProbabilities = Util.findRankingProbs(fitArray); // probabilities based on ranking
 		double[] cumulProbs = Util.getCumulativeDistribution(rankProbabilities);
 		// array with indices to the pool ArrayList

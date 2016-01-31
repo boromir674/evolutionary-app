@@ -26,12 +26,12 @@ public class MuCommaLambda extends AbstractSurvivorSelection {
 	public int[] select(Population pop) throws LambdaLessThanMuException, SortsInPlaceThePopulationException {
 		if (pop.getLambda() < pop.getMu())
 			throw new LambdaLessThanMuException();
-		Individual[] children = new Individual[pop.getLambda()];
-		for (int i=0; i<children.length; i++)
-			children[i] = pop.getPool()[pop.getMu()+i];
-		heap.heapsort(children);
-		for (int i=0; i<children.length; i++)
-			pop.getPool()[i] = children[children.length-1-i];
+		Individual[] newGeneration = new Individual[pop.getLambda()];
+		for (int i=0; i<pop.getLambda(); i++)
+			newGeneration[i] = pop.getPool()[pop.getMu()+i];
+		heap.heapsort(newGeneration, pop.getMu());
+		for (int i=0; i<pop.getMu(); i++)
+			pop.getPool()[i] = newGeneration[newGeneration.length-1-i];
 		throw new SortsInPlaceThePopulationException();
 	}
 

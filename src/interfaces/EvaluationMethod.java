@@ -1,6 +1,7 @@
 package interfaces;
 
 import evolutionaryAlgorithmComponents.Individual;
+import exceptions.NoKnownSolutionException;
 
 public interface EvaluationMethod extends EvolutionaryAlgorithmComponent {
 	/**
@@ -31,5 +32,5 @@ public interface EvaluationMethod extends EvolutionaryAlgorithmComponent {
 	 * original problem. This vector will naturally correspond also to the best fitness value.  
 	 * @return the solution vector if it known, null otherwise.
 	 */
-	public Object[] getSolutionVector();
+	public Object[] getSolutionVector() throws NoKnownSolutionException;
 }

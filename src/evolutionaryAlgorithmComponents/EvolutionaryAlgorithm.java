@@ -3,8 +3,8 @@ package evolutionaryAlgorithmComponents;
 import java.util.Collections;
 import java.util.Random;
 
-import Exceptions.SortsInPlaceThePopulationException;
 import evolutionaryAlgorithmComponents.variationOperators.VarianceOperator;
+import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
 import interfaces.ParentSelection;
 import interfaces.Representation;
@@ -150,7 +150,8 @@ public class EvolutionaryAlgorithm {
 	}
 
 	public void printInfo(){
-		System.out.println("Evolutionary Algorithm deployed with components:\n");
+		System.out.println("\nEvolutionary Algorithm deployed with components:");
+		System.out.println("Evaluation Method: " + evaluator.getTitle());
 		System.out.format("Population size: μ=%d%n", population.getMu());
 		System.out.format("Offsprings: λ=%d%n", population.getLambda());
 		System.out.println("Representation: " + representation.getTitle());

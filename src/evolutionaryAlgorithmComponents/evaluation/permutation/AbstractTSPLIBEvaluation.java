@@ -6,9 +6,11 @@ import interfaces.TSP;
 import interfaces.TSPLIBProblem;
 import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
 import evolutionaryAlgorithmComponents.Individual;
+import exceptions.NoKnownSolutionException;
 
 abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	implements TSPLIBProblem {
-
+	
+	private String name;
 	protected int dimension;
 	protected DistanceCalculator c;
 	protected double[][] matrix;
@@ -20,6 +22,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	public AbstractTSPLIBEvaluation(TSPReader aTSPReader, DistanceCalculator aDistanceCalculator, String title) {
 		super(title);
 		this.c = aDistanceCalculator;
+		name = aTSPReader.getName();
 		dimension = aTSPReader.getDimension();
 		if (aTSPReader.getEdgeWeightFormat().equals("FULL_MATRIX"))
 			this.fullMatrixFlag = true;
@@ -34,7 +37,9 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	 * @see interfaces.EvaluationMethod#getSolutionVector()
 	 */
 	@Override
-	public Object[] getSolutionVector() {
+	public Object[] getSolutionVector() throws NoKnownSolutionException{
+		if (solution == null)
+			throw new NoKnownSolutionException();
 		return solution;
 	}
 
@@ -43,6 +48,14 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 		return dimension;
 	}
 
+	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.AbstractEvaluationMethod#getTitle()
+	 */
+	@Override
+	public String getTitle() {
+		return super.getTitle() + name;
+	}
+	
 	protected int fullMatrixDistance(int n1, int n2) {
 		return (int) matrix[n1-1][n2-1];
 	}

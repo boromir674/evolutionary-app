@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import Exceptions.SortsInPlaceThePopulationException;
 import util.MinHeap;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
+import exceptions.SortsInPlaceThePopulationException;
 
 public class MuPlusLambda extends AbstractSurvivorSelection {
 

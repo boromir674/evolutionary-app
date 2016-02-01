@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import Exceptions.SortsInPlaceThePopulationException;
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import exceptions.SortsInPlaceThePopulationException;
 
 public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 

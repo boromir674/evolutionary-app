@@ -44,7 +44,7 @@ public class Experiment {
 					throw new Exception("next gen is worse then previous");
 				}
 			}
-			if (i%100 == 0) {
+			if (i%25 == 0) {
 				this.showPercentage(i);
 				temp = findMax(evolutionaryAlgorithm.getPopulation());
 				evolutionaryAlgorithm.getPopulation().printStats();

@@ -1,32 +1,32 @@
-package Exceptions;
+package exceptions;
 
-public class LambdaLessThanMuException extends Exception {
+public class NoKnownSolutionException extends Exception {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3948335211921297570L;
+	private static final long serialVersionUID = 7725401355624207485L;
 
-	public LambdaLessThanMuException() {
+	public NoKnownSolutionException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LambdaLessThanMuException(String message) {
+	public NoKnownSolutionException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public LambdaLessThanMuException(Throwable cause) {
+	public NoKnownSolutionException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public LambdaLessThanMuException(String message, Throwable cause) {
+	public NoKnownSolutionException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public LambdaLessThanMuException(String message, Throwable cause,
+	public NoKnownSolutionException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub

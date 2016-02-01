@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import util.MinHeap;
-import Exceptions.LambdaLessThanMuException;
-import Exceptions.SortsInPlaceThePopulationException;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import exceptions.LambdaLessThanMuException;
+import exceptions.SortsInPlaceThePopulationException;
 
 public class MuCommaLambda extends AbstractSurvivorSelection {
 	

@@ -1,11 +1,18 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.CeilingEuclidean;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.Euclidean;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.GeographicalDistance;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.ManhattanDistance;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.Maximum;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.PseudoEuclidean;
+import exceptions.FileFormatNotSupportedException;
+import exceptions.NoKnownSolutionException;
 import interfaces.EvaluationMethod;
 import interfaces.TSP;
 import interfaces.DistanceCalculator;
@@ -20,13 +27,10 @@ public class TSPProblemFactory {
 
 	}
 
-	public EvaluationMethod produceTSPProblem(String path){
-		try {
-			reader.parseFile(path);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public EvaluationMethod produceTSPProblem(String path) throws Exception{
+
+		reader.parseFile(path);
+
 		EvaluationMethod problem = null;
 		DistanceCalculator calculator = null;
 
@@ -56,5 +60,29 @@ public class TSPProblemFactory {
 			//TODO problem = new CVRPEvaluation(reader, calculator);
 		}
 		return problem;
+	}
+
+	public boolean testFactoryOnFolder(String folderPath) throws Exception{
+		boolean pass = true;
+		File f = new File(folderPath);
+		ArrayList<String> names = new ArrayList<String>(Arrays.asList(f.list()));
+		for (int i=0; i<names.size(); i++){
+			System.out.println(":"+names.get(i));
+			try {
+				EvaluationMethod ev = this.produceTSPProblem(names.get(i));
+				try {
+					Object[] sol = ev.getSolutionVector();
+					for (int j=0; j<sol.length; j++)
+						System.out.print(sol[j] + " ");
+					System.out.println();
+				} catch (NoKnownSolutionException e) {
+
+				}
+			} catch (FileFormatNotSupportedException e) {
+				
+			}
+
+		}
+		return pass;
 	}
 }

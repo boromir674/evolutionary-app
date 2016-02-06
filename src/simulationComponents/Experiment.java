@@ -35,7 +35,7 @@ public class Experiment {
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
-			
+
 			// debug
 			double newBest = findMax(evolutionaryAlgorithm.getPopulation()).getFitness();
 			double oldBest = findMax(previousPopulation).getFitness();
@@ -54,15 +54,7 @@ public class Experiment {
 		}
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
-	// debug
-	private static Individual findMax(Population pop){
-		Individual max = pop.getPool()[0];
-		for (int i=1; i<pop.getMu(); i++){
-			if (pop.getPool()[i].getFitness() > max.getFitness())
-				max = pop.getPool()[i];
-		}
-		return max;
-	}
+
 	// needs fixing.....
 	public double[] runBatches(int replicates) throws Exception {
 		if (replicates < 100)
@@ -142,6 +134,16 @@ public class Experiment {
 		int max = (((GenerationsLimitTerminationCondition)terminationCondition)).getLimit();
 		double res = i*100/max;
 		System.out.format("%.2f  ", res);
+	}
+
+	// debug
+	private static Individual findMax(Population pop){
+		Individual max = pop.getPool()[0];
+		for (int i=1; i<pop.getMu(); i++){
+			if (pop.getPool()[i].getFitness() > max.getFitness())
+				max = pop.getPool()[i];
+		}
+		return max;
 	}
 
 }

@@ -9,6 +9,8 @@ import java.util.HashSet;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import exceptions.FileFormatNotSupportedException;
+
 /**
  * An utility class that is used to parse .tsp files.
  */
@@ -36,7 +38,8 @@ public class TSPReader {
 	private final static HashSet<String> nodeCoordTypes = new HashSet<String>(3);
 	private final static HashSet<String> displayDataTypes = new HashSet<String>(3);
 	private final static HashSet<String> sections = new HashSet<String>(8);
-
+	
+	// private members with getters
 	private String path;
 	private String name;
 	private String type;
@@ -52,9 +55,11 @@ public class TSPReader {
 	private double[] vector;
 	private int vCounter;
 	private int[][] fixedEdges;
-
+	
+	// local variables
 	private FileReader reader;
 	private BufferedReader bf;
+	// TODO convert ArrayList to array of pointers to various-length arrays.
 	private ArrayList<int[]> _fixedEdges;
 	private ArrayList<int[]> _list;
 	private int[] _matrixIndices;
@@ -80,7 +85,7 @@ public class TSPReader {
 	public void parseFile(String file) throws Exception{
 		String folder = decideOnFolder(file);
 		if (folder.equals(""))
-			throw new Exception("file not supported");
+			throw new FileFormatNotSupportedException();
 		this.initialize();
 		this.path = System.getProperty("user.dir") + "/TSP_samples"+folder;
 		reader = new FileReader(path);
@@ -97,32 +102,31 @@ public class TSPReader {
 		try {
 			parseOptimumTour();
 		} catch (IOException e){
-
+			System.out.println(this.name + " has no opt");
 		}
 	}
 
-	private void parseOptimumTour() throws IOException{
+	private void parseOptimumTour() throws Exception{
 		String path1 = this.path.substring(0, this.path.indexOf('.')) + ".opt.tour";
 		reader = new FileReader(path1);
 		bf = new BufferedReader(reader);
 		solutionTour = new Integer[dimension];
 		String line = bf.readLine();
-		while (!(line == null || line.equals("-1") || line.equals("EOF"))) {
-			if (line.equals("TOUR_SECTION"))
-				this.parseTourSection();
+		while (!line.equals("TOUR_SECTION")) {
 			line = bf.readLine();
+		}
+		line = bf.readLine().trim();
+		String[] pLine;
+		int i = 0;
+		while (!(line.equals("-1") || line == null || line.equals("EOF") || line.trim().equals(""))) {;
+			pLine = prepareForParsing(line);
+			int j;
+			for (j=0; j<pLine.length; j++)
+				solutionTour[i+j] = Integer.parseInt(pLine[j].trim());
+			i += j;
+			line = bf.readLine().trim();
 		}
 		bf.close();
-	}
-	// assuming all tours are a single column
-	private void parseTourSection() throws IOException {
-		String line = bf.readLine();
-		int i = 0;
-		while (!(line.equals("-1") || line == null || line.equals("EOF") || line.trim().equals(""))) {
-			solutionTour[i] = Integer.parseInt(line);
-			i ++;
-			line = bf.readLine();
-		}
 	}
 
 	private void parseFixedEdgeSection() throws Exception {
@@ -321,6 +325,7 @@ public class TSPReader {
 		solutionTour = null;
 		fixedEdges = null;
 		_fixedEdges = null;
+		solutionTour = null;
 	}
 	private static String decideOnType(String line) {
 		String temp = line.substring(line.indexOf(":")+1, line.length());

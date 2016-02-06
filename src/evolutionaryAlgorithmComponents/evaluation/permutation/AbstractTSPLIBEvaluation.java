@@ -39,7 +39,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	@Override
 	public Object[] getSolutionVector() throws NoKnownSolutionException{
 		if (solution == null)
-			throw new NoKnownSolutionException();
+			throw new NoKnownSolutionException("solution is not known.");
 		return solution;
 	}
 
@@ -53,7 +53,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	 */
 	@Override
 	public String getTitle() {
-		return super.getTitle() + name;
+		return super.getTitle() + " " + name;
 	}
 	
 	protected int fullMatrixDistance(int n1, int n2) {

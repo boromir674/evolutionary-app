@@ -108,8 +108,8 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 		}
 		int offset = 0;
 		for (int k=0; k<j; k++)
-			offset += (dimension-1-k);
-		return offset + i-j-1;
+			offset += (dimension - k);
+		return offset + i-j;
 	}
 	protected int upperRow(int i, int j){
 		return lowerCol(j, i);

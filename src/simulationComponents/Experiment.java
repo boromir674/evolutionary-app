@@ -35,20 +35,24 @@ public class Experiment {
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
-
+			
+			Individual best = this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 			// debug
-			double newBest = findMax(evolutionaryAlgorithm.getPopulation()).getFitness();
+/*			Individual newBest = findMax(evolutionaryAlgorithm.getPopulation());
+			
+			if (best.getFitness() != newBest.getFitness())
+				throw new Exception("error in getFittestIndvidual");
 			double oldBest = findMax(previousPopulation).getFitness();
 			if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism()){
-				if (newBest < oldBest){
+				if (newBest.getFitness() < oldBest){
 					throw new Exception("next gen is worse then previous");
 				}
-			}
-			if (i%25 == 0) {
+			}*/
+			if (i%5000 == 0) {
 				this.showPercentage(i);
-				temp = findMax(evolutionaryAlgorithm.getPopulation());
-				evolutionaryAlgorithm.getPopulation().printStats();
-				System.out.format("%.1f%n", temp.getFitness());
+				//best = findMax(evolutionaryAlgorithm.getPopulation());
+				evolutionaryAlgorithm.getPopulation().visualize();
+				System.out.format("%.1f%n", best.getFitness());
 			}
 			i++;
 		}

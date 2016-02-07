@@ -111,7 +111,7 @@ public class Population implements Cloneable{
 		return pool;
 	}
 
-	public void printStats() throws Exception {
+	public void visualize() throws Exception {
 		double[] fitArray = new double[mu];
 		for (int i=0; i<mu; i++)
 			fitArray[i] = pool[i].getFitness();

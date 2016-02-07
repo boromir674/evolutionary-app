@@ -36,14 +36,20 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 	@Override
 	public int distance(int node1, int node2) throws Exception {
 		super.checkNodes(node1, node2);
-		if (super.c == null) {
+		if (super.myDistanceCalculator == null) {
 			if (super.fullMatrixFlag)
 				return super.fullMatrixDistance(node1, node2);
 			else
 				return (int) super.vector[this.linearIndex(node1-1, node2-1)];
 		}
 		else 
-			return super.c.calculateDistance(matrix[node1-1], matrix[node2-1]);
+			return super.myDistanceCalculator.calculateDistance(matrix[node1-1], matrix[node2-1]);
+	}
+
+	@Override
+	public double getSolutionFitness() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

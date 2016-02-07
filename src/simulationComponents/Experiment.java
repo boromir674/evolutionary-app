@@ -131,9 +131,9 @@ public class Experiment {
 	}
 
 	private void showPercentage(int i){
-		int max = (((GenerationsLimitTerminationCondition)terminationCondition)).getLimit();
-		double res = i*100/max;
-		System.out.format("%.2f  ", res);
+		//int max = (((GenerationsLimitTerminationCondition)terminationCondition)).getLimit();
+		//double res = i*100/max;
+		//System.out.format("%.2f  ", res);
 	}
 
 	// debug

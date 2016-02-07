@@ -31,7 +31,7 @@ public class Individual implements Comparable<Individual>{
 		return r2;
 	}
 
-	public void computeMyFitness(EvaluationMethod evaluator){
+	public void computeMyFitness(EvaluationMethod evaluator) throws Exception{
 		this.fitness = evaluator.computeFitness(this);
 	}
 
@@ -57,7 +57,8 @@ public class Individual implements Comparable<Individual>{
 		for (int i=0; i< chromosome.length; i++) 
 			if (chromosome instanceof Double[])
 				System.out.format("%.2f ", chromosome[i]);
-			else if (chromosome instanceof Integer[]){
+			else //if (chromosome instanceof Integer[])
+				{
 				int offset = ArrayUtils.indexOf(chromosome, 1);
 				System.out.format("%d ", chromosome[(i+offset) % chromosome.length]);
 			}

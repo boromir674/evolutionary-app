@@ -49,4 +49,10 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 		return false;
 	}
 
+	@Override
+	public double getSolutionFitness() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -12,7 +12,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	
 	private String name;
 	protected int dimension;
-	protected DistanceCalculator c;
+	protected DistanceCalculator myDistanceCalculator;
 	protected double[][] matrix;
 	protected double[] vector;
 	protected boolean fullMatrixFlag = false;
@@ -21,7 +21,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 
 	public AbstractTSPLIBEvaluation(TSPReader aTSPReader, DistanceCalculator aDistanceCalculator, String title) {
 		super(title);
-		this.c = aDistanceCalculator;
+		this.myDistanceCalculator = aDistanceCalculator;
 		name = aTSPReader.getName();
 		dimension = aTSPReader.getDimension();
 		if (aTSPReader.getEdgeWeightFormat().equals("FULL_MATRIX"))
@@ -75,8 +75,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 				index = lowerRow(i, j);
 			else
 				index = this.upperRow(i, j);
-			if (triangular.charAt(6) == 'D')
-				zeros = i + 1; 
+			
 		}
 		else {
 			if (triangular.substring(0, 5).equals("LOWER"))
@@ -89,28 +88,23 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 		return index + zeros;
 	}
 
-	protected static int lowerRow(int i, int j){
-		int temp;
-		if (!(i>j)) {
-			temp = i;
-			i = j;
-			j = temp;
-		}
+	protected int lowerRow(int i, int j){
+		if (i<j)
+			return lowerRow(j, i);
 		int offset = 0;
 		for (int k=1; k<i; k++)
 			offset += k;
+		if (triangular.charAt(6) == 'D')
+			return offset + i + j; 
 		return offset + j;
 	}
-	protected static int upperCol(int i, int j){
+	protected int upperCol(int i, int j){
 		return lowerRow(j, i);
 	}
 
 	protected int lowerCol(int i, int j){
-		int temp;
-		if (!(i>j)) {
-			temp = i;
-			i = j;
-			j = temp;
+		if (i<j) {
+			return lowerCol(j, i);
 		}
 		int offset = 0;
 		for (int k=0; k<j; k++)

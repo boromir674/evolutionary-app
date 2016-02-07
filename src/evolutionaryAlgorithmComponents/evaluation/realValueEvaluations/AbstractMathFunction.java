@@ -7,6 +7,21 @@ import interfaces.MathFunction;
 public abstract class AbstractMathFunction extends AbstractEvaluationMethod implements MathFunction {
 
 	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.AbstractEvaluationMethod#getSolutionFitness()
+	 */
+	@Override
+	public double getSolutionFitness() {
+		Double[] temp = (Double[]) this.getSolutionVector();
+		double[] values = new double[temp.length];
+		for (int i=0; i<values.length; i++)
+			values[i] = temp[i];
+		if (this.hasMin())
+			return -this.f(values);
+		else
+			return this.f(values);
+	}
+
+	/* (non-Javadoc)
 	 * @see interfaces.EvaluationMethod#getSolutionVector()
 	 */
 	@Override

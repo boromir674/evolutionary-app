@@ -60,7 +60,7 @@ public class Population implements Cloneable{
 	void forceFitter(){
 		pool[cheatRandom.nextInt(mu)] = fitterTillEnd;
 	}
-	void addOffspring(Individual someone, EvaluationMethod evaluator){
+	void addOffspring(Individual someone, EvaluationMethod evaluator) throws Exception{
 		someone.computeMyFitness(evaluator);
 		pool[offspringStoreIndex+mu] = someone;
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda;

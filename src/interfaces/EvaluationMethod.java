@@ -25,8 +25,9 @@ public interface EvaluationMethod extends EvolutionaryAlgorithmComponent {
 	 * Should be implemented such that bigger fitness values indicate fitter individuals.
 	 * @param anIndividual the Individual to be evaluated.
 	 * @return the fitness value.
+	 * @throws Exception 
 	 */
-	public double computeFitness(Individual anIndividual);
+	public double computeFitness(Individual anIndividual) throws Exception;
 	/**
 	 * This method should return an array which represents the vector containing the solution to the 
 	 * original problem. This vector will naturally correspond also to the best fitness value.  

@@ -8,7 +8,7 @@ import interfaces.EvaluationMethod;
 public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	
 	private final String title;
-	double bestScoreEncountered = Double.MIN_VALUE;
+	protected double bestScoreEncountered = Double.NEGATIVE_INFINITY;
 	protected int evaluationsUsed;
 	
 	public AbstractEvaluationMethod(String title) {

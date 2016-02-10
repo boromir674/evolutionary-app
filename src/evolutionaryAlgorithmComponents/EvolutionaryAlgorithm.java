@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.variationOperators.VarianceOperator;
+import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
 import interfaces.ParentSelection;
@@ -22,6 +23,7 @@ public class EvolutionaryAlgorithm {
 	private int[] parents;
 	boolean maxInFirstPosition;
 	private int[] survivors;
+	private double lowerValue;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) {
@@ -36,7 +38,8 @@ public class EvolutionaryAlgorithm {
 
 	public void randomInitialization(Random aRandom) throws Exception{
 		evaluator.reInitialize();
-		population.initializeRandom(representation, aRandom, evaluator);		
+		population.initializeRandom(representation, aRandom, evaluator);
+		this.lowerValue = this.population.getFittestIndividual().getFitness();
 	}
 	public void parentSelection(Random aRandom) throws Exception{
 		parents = parentSelectionMethod.select(population, aRandom);
@@ -160,5 +163,10 @@ public class EvolutionaryAlgorithm {
 		System.out.println("Mutation: " + variationOperator.getMutation().getTitle());
 		System.out.println("Mutation probability: " + variationOperator.getMutation().getProbability());
 		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
+	}
+
+	public void printPerformance() throws Exception {
+		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
+		System.out.format("%.2f ", percentage);		
 	}
 }

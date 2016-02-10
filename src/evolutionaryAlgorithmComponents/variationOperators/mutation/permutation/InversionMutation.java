@@ -25,13 +25,13 @@ public class InversionMutation extends AbstractPermutationMutation {
 			}else
 				start = rand2;
 
-			int number = Math.abs(rand1 - rand2) + 1;
-			int[] temp = new int[number];
+			int length = Math.abs(rand1 - rand2) + 1;
+			int[] slice = new int[length];
 
-			for (int i=0; i<number; i++)
-				temp[i] = (Integer)(in.getChromosome()[start+i]);
-			for (int i=0; i<number; i++)
-				in.getChromosome()[start+i] = temp[number-1-i];
+			for (int i=0; i<length; i++)
+				slice[i] = (Integer)(in.getChromosome()[start+i]);
+			for (int i=0; i<length; i++)
+				in.getChromosome()[start+i] = slice[length-1-i];
 		}
 	}
 }

@@ -30,19 +30,13 @@ public class ScrambleMutation extends AbstractPermutationMutation {
 				start = rand2;
 
 			int length = Math.abs(rand2-rand1) + 1;
-			Integer[] temp = new Integer[length];
+			int[] slice = new int[length];
 			for (int i=0; i<length; i++)
-				temp[i] = (Integer) in.getChromosome()[start+i];
+				slice[i] = (Integer) in.getChromosome()[start+i];
 
-			int[] indices = new int[d];
-			for (int i=0; i<d; i++)
-				indices[i] = i;
-
-			ArrayList<Integer> substring = new ArrayList<Integer>(Arrays.asList(temp));
-			Collections.shuffle(substring, aRandom);
-
+			util.Util.shuffleArray(slice, aRandom);
 			for (int i=0; i<length; i++)
-				in.getChromosome()[start+i] = substring.get(i);
+				in.getChromosome()[start+i] = slice[i];
 			PermutationRepresentation.chromosomeOK(in.getChromosome());
 		}
 	}

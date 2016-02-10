@@ -159,14 +159,15 @@ public abstract class Util {
 
 	// Implementing Fisher–Yates shuffle
 	// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
-	public static void shuffleArray(int[] anArray, Random aRandom) {
-		for (int i = anArray.length - 1; i > 0; i--)
+	public static void shuffleArray(int[] slice, Random aRandom) {
+		int temp;
+		for (int i = slice.length - 1; i > 0; i--)
 		{
 			int index = aRandom.nextInt(i + 1);
 			// Simple swap
-			int a = anArray[index];
-			anArray[index] = anArray[i];
-			anArray[i] = a;
+			temp = slice[index];
+			slice[index] = slice[i];
+			slice[i] = temp;
 		}
 	}
 

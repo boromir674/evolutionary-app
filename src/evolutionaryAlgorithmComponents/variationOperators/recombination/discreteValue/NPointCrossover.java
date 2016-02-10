@@ -12,7 +12,7 @@ public class NPointCrossover extends AbstractDiscreteRecombination {
 	private final static String title = "-Point Crossover";
 	private int numberOfPoints;
 	private Random random;
-	
+	//TODO debug!!!
 	public NPointCrossover(int n, Random aRandom) {
 		super(Integer.toString(n)+title);
 		numberOfPoints = n;

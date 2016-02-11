@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.variationOperators;
+package evolutionaryAlgorithmComponents;
 
 import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.Mutation;
@@ -7,25 +7,36 @@ import interfaces.Representation;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.Individual;
+import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
+import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractPermutationMutation;
+import evolutionaryAlgorithmComponents.variationOperators.recombination.AbstractRecombination;
+import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractDiscreteRecombination;
+import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractPermutationRecombination;
 
 public class VarianceOperator implements EvolutionaryAlgorithmComponent{
 
 	private Recombination recombination;
 	private Mutation mutation;	
-
+	boolean applicableToPermutation = false;
+	
 	public VarianceOperator(Recombination recombinationType, Mutation mutationType){
 		this.recombination = recombinationType;
 		this.mutation = mutationType;
+		if (recombination instanceof AbstractPermutationRecombination && mutation instanceof AbstractPermutationMutation)
+			applicableToPermutation = true;
 	}
 	public VarianceOperator(Recombination recombinationType){
 		this.recombination = recombinationType;
+		if (recombination instanceof AbstractPermutationRecombination)
+			applicableToPermutation = true;
 	}
 	public VarianceOperator(Mutation mutationType){
 		this.mutation = mutationType;
+		if (mutation instanceof AbstractPermutationMutation)
+			applicableToPermutation = true;
 	}
 
-	public Individual[] operate(Individual mom, Individual dad, Representation representation, Random rand) throws Exception{
+	public Individual[] operate(Individual mom, Individual dad, Random rand) throws Exception{
 		Individual[] children = null;
 		if (recombination != null)
 			children = recombination.perform(mom, dad);
@@ -65,4 +76,5 @@ public class VarianceOperator implements EvolutionaryAlgorithmComponent{
 	public Mutation getMutation() {
 		return mutation;
 	}
+	
 }

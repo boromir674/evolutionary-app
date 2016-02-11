@@ -38,7 +38,7 @@ public class TSPReader {
 	private final static HashSet<String> nodeCoordTypes = new HashSet<String>(3);
 	private final static HashSet<String> displayDataTypes = new HashSet<String>(3);
 	private final static HashSet<String> sections = new HashSet<String>(8);
-	
+
 	// private members with getters
 	private String path;
 	private String name;
@@ -55,7 +55,7 @@ public class TSPReader {
 	private double[] vector;
 	private int vCounter;
 	private int[][] fixedEdges;
-	
+
 	// local variables
 	private FileReader reader;
 	private BufferedReader bf;
@@ -205,7 +205,7 @@ public class TSPReader {
 	}
 
 	private void initializeDataArray() throws Exception{
-		if (!edgeWeightType.equals("EXPLICIT")){
+		if (!edgeWeightType.equals("EXPLICIT") && !edgeWeightType.equals("")){
 			if (edgeWeightType.equals("EUC_3D") || edgeWeightType.equals("MAN_3D") ||edgeWeightType.equals("MAX_3D"))
 				matrix = new double[dimension][3];
 			else
@@ -232,7 +232,9 @@ public class TSPReader {
 	private void parseDataLine(String line) throws Exception{
 		if (line.length() == 0)
 			throw new Exception("empty string came as input: blank line");
-		if (!edgeWeightType.equals("EXPLICIT"))
+		if (edgeDataFormat.equals("EDGE_LIST") && section.equals("EDGE_DATA_SECTION"))
+			this.readIntoArrayList(line);
+		else if (!edgeWeightType.equals("EXPLICIT"))
 			this.readCoordsDataLine(line);
 		else {
 			if (edgeWeightFormat.equals("FULL_MATRIX"))
@@ -270,7 +272,7 @@ public class TSPReader {
 		String[] pLine = prepareForParsing(line);
 		this._list.add(new int[pLine.length]);
 		for (int i=0; i<pLine.length; i++)
-			this._list.get(_list.size()-1)[i] = Integer.parseInt(pLine[i]);
+			this._list.get(_list.size()-1)[i] = Integer.parseInt(pLine[i].trim());
 	}
 	private void readAnyTriangular(String line) throws Exception{
 		String[] pLine = prepareForParsing(line);
@@ -425,6 +427,7 @@ public class TSPReader {
 		if (_list != null){
 			matrix = new double[_list.size()][];
 			for (int i=0; i<_list.size(); i++){
+				matrix[i] = new double[2];
 				for (int j=0; j<_list.get(i).length; j++){
 					matrix[i][j] =  _list.get(i)[j];
 				}
@@ -445,7 +448,7 @@ public class TSPReader {
 	public double[] getVector() {
 		return vector;
 	}
-	
+
 	/**
 	 * @return the solutionTour
 	 */

@@ -23,11 +23,8 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	 */
 	@Override
 	public double computeFitness(Individual in) throws Exception {
-		int d = in.getRepresentation().getDimensions();
-		double fitness = 0;
-		for (int i=0; i<d; i++)
-			fitness -= this.distance((int)in.getChromosome()[i], (int)in.getChromosome()[(i+1)%d]);
 		super.evaluationsUsed ++;
+		double fitness = this.calculateFitness((Integer[]) in.getChromosome());
 		return fitness;
 	}
 
@@ -47,10 +44,13 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	@Override
 	public double getSolutionFitness() throws Exception {
 		Integer[] chromosome = (Integer[]) super.getSolutionVector();
-		int d = chromosome.length;
+		return calculateFitness(chromosome);
+	}
+	
+	private double calculateFitness(Integer[] chromosome) throws Exception{
 		double fitness = 0;
-		for (int i=0; i<d; i++)
-			fitness -= this.distance((int)chromosome[i], (int)chromosome[(i+1)%d]);
+		for (int i=0; i<chromosome.length; i++)
+			fitness -= this.distance(chromosome[i], chromosome[(i+1)%chromosome.length]);
 		return fitness;
 	}
 

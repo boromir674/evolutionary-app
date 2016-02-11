@@ -121,4 +121,12 @@ public class Population implements Cloneable{
 		System.out.format("%d %.0f %.0f %.0f%n", generationCount, this.getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
 	}
 
+	public double getDiversity() {
+		double[] fitArray = new double[mu];
+		for (int i=0; i<mu; i++)
+			fitArray[i] = pool[i].getFitness();
+		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
+		return meanAndStd[1];
+	}
+
 }

@@ -1,11 +1,9 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
 import util.TSPReader;
+import evolutionaryAlgorithmComponents.Individual;
 import interfaces.DistanceCalculator;
 import interfaces.TSP;
-import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
-import evolutionaryAlgorithmComponents.Individual;
-import exceptions.NoKnownSolutionException;
 
 /**
  * Symmetric traveling salesman problem (TSP)
@@ -18,14 +16,14 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 		super(aTSPReader, aDistanceCalculator, title);
 	}
 
-	/* (non-Javadoc)
-	 * @see interfaces.EvaluationMethod#computeFitness(evolutionaryAlgorithmComponents.population.Individual)
-	 */
 	@Override
 	public double computeFitness(Individual in) throws Exception {
+		int d = in.getRepresentation().getDimensions();
+		double fitness = 0;
+		for (int i=0; i<d; i++)
+			fitness += this.distance((int)in.getChromosome()[i], (int)in.getChromosome()[(i+1)%d]);
 		super.evaluationsUsed ++;
-		double fitness = this.calculateFitness((Integer[]) in.getChromosome());
-		return fitness;
+		return -fitness;
 	}
 
 	@Override
@@ -43,15 +41,11 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 
 	@Override
 	public double getSolutionFitness() throws Exception {
-		Integer[] chromosome = (Integer[]) super.getSolutionVector();
-		return calculateFitness(chromosome);
-	}
-	
-	private double calculateFitness(Integer[] chromosome) throws Exception{
+		Integer[] vector = (Integer[])super.getSolutionVector();
 		double fitness = 0;
-		for (int i=0; i<chromosome.length; i++)
-			fitness -= this.distance(chromosome[i], chromosome[(i+1)%chromosome.length]);
-		return fitness;
+		for (int i=0; i<vector.length; i++)
+			fitness += this.distance(vector[i], vector[(i+1)%vector.length]);
+		return -fitness;
 	}
 
 }

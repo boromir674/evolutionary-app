@@ -37,9 +37,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 	 * @see interfaces.EvaluationMethod#getSolutionVector()
 	 */
 	@Override
-	public Object[] getSolutionVector() throws NoKnownSolutionException{
-		if (solution == null)
-			throw new NoKnownSolutionException("solution is not known.");
+	public Object[] getSolutionVector() throws NullPointerException{
 		return solution;
 	}
 

@@ -75,7 +75,7 @@ public class TSPProblemFactory {
 					for (int j=0; j<sol.length; j++)
 						System.out.print(sol[j] + " ");
 					System.out.println();
-				} catch (NoKnownSolutionException e) {
+				} catch (NullPointerException e) {
 
 				}
 			} catch (FileFormatNotSupportedException e) {

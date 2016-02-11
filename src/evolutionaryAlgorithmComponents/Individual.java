@@ -17,7 +17,7 @@ public class Individual implements Comparable<Individual>{
 	private int age = 0;
 	private Representation representation;
 	Population pop;
-	
+
 	public Individual() {
 
 	}
@@ -62,16 +62,15 @@ public class Individual implements Comparable<Individual>{
 			if (chromosome instanceof Double[])
 				System.out.format("%.2f ", chromosome[i]);
 			else //if (chromosome instanceof Integer[])
-				{
+			{
 				try {
 					Integer[] vector = (Integer[])(this.pop.evo.getEvaluator()).getSolutionVector();
 					offset = ArrayUtils.indexOf(chromosome, vector[0]);
-				} catch (NoKnownSolutionException e) {
+				} catch (NullPointerException e) {
 					offset = ArrayUtils.indexOf(chromosome, 1);
 				}
 				System.out.format("%d ", chromosome[(i+offset) % chromosome.length]);
 			}
-
 		System.out.println();
 	}
 

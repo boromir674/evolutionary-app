@@ -17,10 +17,9 @@ public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	
 	/**
 	 * @return the fitness value of the chromosome that contains the optimum solution
-	 * @throws NoKnownSolutionException
 	 * @throws Exception 
 	 */
-	public abstract double getSolutionFitness() throws NoKnownSolutionException, Exception;
+	public abstract double getSolutionFitness() throws Exception;
 	
 	/* (non-Javadoc)
 	 * @see interfaces.EvolutionaryAlgorithmComponent#getTitle()

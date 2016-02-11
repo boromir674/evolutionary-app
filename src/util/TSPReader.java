@@ -345,7 +345,7 @@ public class TSPReader {
 			return "/TSP/"+name;
 		else if (name.substring(name.length()-4, name.length()).equals(".hcp"))
 			return "/HCP/"+name;
-		else if (name.substring(name.length()-4, name.length()).equals(".atsp"))
+		else if (name.substring(name.length()-5, name.length()).equals(".atsp"))
 			return "/ATSP/"+name;
 		else if (name.substring(name.length()-4, name.length()).equals(".sop"))
 			return "/SOP/"+name;

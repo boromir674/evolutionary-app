@@ -25,7 +25,7 @@ public class Population implements Cloneable{
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
 	int generationCount = 1;
-
+	EvolutionaryAlgorithm evo;
 	private int offspringStoreIndex;
 	private int parentStoreIndex;
 	Individual fitterTillMu;
@@ -66,6 +66,7 @@ public class Population implements Cloneable{
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda;
 		if (someone.getFitness() > fitterTillEnd.getFitness())
 			fitterTillEnd = someone;
+		someone.pop = this;
 	}
 	void updatePoolWithNewGeneration(Individual[] newPool){
 		this.pool = newPool;
@@ -76,6 +77,7 @@ public class Population implements Cloneable{
 		parentStoreIndex = (parentStoreIndex + 1) % mu;
 		if (in.getFitness() > fitterTillMu.getFitness())
 			fitterTillMu = in;
+		in.pop = this;
 	}
 
 	/** This method finds and returns the Individual, among the Population (of size mu), that

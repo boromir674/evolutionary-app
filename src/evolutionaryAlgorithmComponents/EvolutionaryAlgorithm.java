@@ -30,6 +30,7 @@ public class EvolutionaryAlgorithm {
 		representation = aRepresentation;
 		evaluator = anEvaluationMethod;
 		population = aPopulation;
+		population.evo = this;
 		variationOperator = aVarianceOperator;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;

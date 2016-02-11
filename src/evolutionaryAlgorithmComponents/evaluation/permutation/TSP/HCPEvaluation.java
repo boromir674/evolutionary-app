@@ -51,8 +51,18 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 
 	@Override
 	public double getSolutionFitness() {
-		// TODO Auto-generated method stub
-		return 0;
+		Integer[] vector = (Integer[])super.getSolutionVector();
+		double fitness = 0;
+		for (int i=0; i<vector.length; i++){
+			try {
+				if (!connected(vector[i], vector[(i+1)%vector.length]))
+					fitness += 1; // penalty for non-connectivity
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		return -fitness;
 	}
 
 }

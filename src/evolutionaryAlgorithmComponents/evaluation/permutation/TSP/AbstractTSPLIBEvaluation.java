@@ -64,9 +64,9 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	impleme
 					+ "1<=%d<=N and 1<=%d<=N\n where N=%d :total number of nodes.", node1, node2, dimension));
 	}
 
-	protected int linearIndex(int i, int j) throws Exception{
-		if (triangular.equals(""))
-			throw new Exception("EDGE_WEIGHT_FORMAT field is empty!");
+	protected int linearIndex(int i, int j){
+		//if (triangular.equals(""))
+			//throw new Exception("EDGE_WEIGHT_FORMAT field is empty!");
 		int index, zeros=0;
 		if (triangular.substring(triangular.length()-3, triangular.length()).equals("ROW")){
 			if (triangular.substring(0, 5).equals("LOWER"))

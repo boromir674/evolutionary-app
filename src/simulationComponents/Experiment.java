@@ -55,7 +55,7 @@ public class Experiment {
 				try {
 					this.evolutionaryAlgorithm.printPerformance();
 				}
-				catch (NoKnownSolutionException e) {
+				catch (Exception e) {
 
 				}
 				this.evolutionaryAlgorithm.getPopulation().visualize();

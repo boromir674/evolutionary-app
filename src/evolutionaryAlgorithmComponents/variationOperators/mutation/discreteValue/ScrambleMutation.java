@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.variationOperators.mutation.permutation;
+package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;

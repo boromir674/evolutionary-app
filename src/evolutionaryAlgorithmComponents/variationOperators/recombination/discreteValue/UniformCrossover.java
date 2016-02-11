@@ -43,8 +43,4 @@ public class UniformCrossover extends AbstractDiscreteRecombination {
 		return alpha;
 	}
 
-	@Override
-	public boolean applicableToPermutation() {
-		return false;
-	}
 }

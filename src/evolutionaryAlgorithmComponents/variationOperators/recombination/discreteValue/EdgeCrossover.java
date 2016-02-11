@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractDiscreteRecombination;
 
-public class EdgeCrossover extends AbstractDiscreteRecombination {
+public class EdgeCrossover extends AbstractPermutationRecombination {
 
 	private final static String title = "Edge Crossover";
 	private Random random;
@@ -156,11 +156,6 @@ public class EdgeCrossover extends AbstractDiscreteRecombination {
 		int ind = random.nextInt(pool.size());
 		shortest = pool.get(ind);
 		return shortest;
-	}
-
-	@Override
-	public boolean applicableToPermutation() {
-		return true;
 	}
 
 }

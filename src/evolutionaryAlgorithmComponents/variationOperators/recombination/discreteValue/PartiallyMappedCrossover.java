@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 
-public class PartiallyMappedCrossover extends AbstractDiscreteRecombination {
+public class PartiallyMappedCrossover extends AbstractPermutationRecombination {
 	// Suitable for adjacency-type problems like TSP
 	// page 70
 	// D. Whitley. Permutations. In Back et al [27], chapter 33.3, pages 274-284.
@@ -96,11 +96,6 @@ public class PartiallyMappedCrossover extends AbstractDiscreteRecombination {
 		}
 
 		return children;		
-	}
-
-	@Override
-	public boolean applicableToPermutation() {
-		return true;
 	}
 
 }

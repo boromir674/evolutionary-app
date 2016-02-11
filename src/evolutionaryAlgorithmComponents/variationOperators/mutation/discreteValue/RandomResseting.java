@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.variationOperators.mutation.integerValue;
+package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
 import interfaces.Representation;
 
@@ -9,7 +9,7 @@ import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentat
 import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 
-public class RandomResseting extends AbstractMutation {
+public class RandomResseting extends AbstractDiscreteMutation {
 	
 	private static String title = "Random Resseting";
 	private Representation rep;
@@ -17,11 +17,6 @@ public class RandomResseting extends AbstractMutation {
 	public RandomResseting(Representation aRep, double probabilityOfMutation) {
 		super(title, probabilityOfMutation);
 		rep = aRep;
-	}
-
-	@Override
-	public boolean applicableToDiscrete() {
-		return true;
 	}
 
 	@Override
@@ -36,6 +31,11 @@ public class RandomResseting extends AbstractMutation {
 			if (rand < super.getProbability())				
 				in.getChromosome()[i] = aRandom.nextInt(lowHigh[1]-lowHigh[0]+1) + lowHigh[0];
 		}
+	}
+
+	@Override
+	public boolean applicableToPermutation() {
+		return false;
 	}
 
 }

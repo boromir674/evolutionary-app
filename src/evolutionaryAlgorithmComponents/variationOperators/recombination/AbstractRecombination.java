@@ -24,5 +24,6 @@ public abstract class AbstractRecombination implements Recombination {
 		children[1].initializeEmpty(aRepresentation);
 		return children;
 	}
-
+	
+	public abstract boolean applicableToPermutation();
 }

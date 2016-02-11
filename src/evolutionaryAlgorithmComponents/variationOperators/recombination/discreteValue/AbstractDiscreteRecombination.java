@@ -6,6 +6,14 @@ import evolutionaryAlgorithmComponents.variationOperators.recombination.Abstract
 
 public abstract class AbstractDiscreteRecombination extends AbstractRecombination {
 	
+	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.variationOperators.recombination.AbstractRecombination#applicableToPermutation()
+	 */
+	@Override
+	public boolean applicableToPermutation() {
+		return false;
+	}
+
 	public AbstractDiscreteRecombination(String title) {
 		super(title);
 	}
@@ -14,7 +22,5 @@ public abstract class AbstractDiscreteRecombination extends AbstractRecombinatio
 	public boolean applicableToDiscrete() {
 		return true;
 	}
-	
-	public abstract boolean applicableToPermutation();
 
 }

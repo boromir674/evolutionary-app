@@ -9,7 +9,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import evolutionaryAlgorithmComponents.Individual;
 
-public class CycleCrossover extends AbstractDiscreteRecombination {
+public class CycleCrossover extends AbstractPermutationRecombination {
 	// The Cycle Crossover is concerned with preserving as much information 
 	// as possible about the absolute position in which elements occur.
 
@@ -55,11 +55,6 @@ public class CycleCrossover extends AbstractDiscreteRecombination {
 			i ++;
 		}
 		return children;
-	}
-
-	@Override
-	public boolean applicableToPermutation() {
-		return true;
 	}
 
 }

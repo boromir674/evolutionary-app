@@ -1,11 +1,11 @@
-package evolutionaryAlgorithmComponents.variationOperators.mutation.integerValue;
+package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 @Deprecated
-public class CreepMutation extends AbstractMutation {
+public class CreepMutation extends AbstractDiscreteMutation {
 	
 	private final static String title = "Creep Mutation";
 	
@@ -20,8 +20,8 @@ public class CreepMutation extends AbstractMutation {
 	}
 
 	@Override
-	public boolean applicableToDiscrete() {
-		return true;
+	public boolean applicableToPermutation() {
+		return false;
 	}
 
 }

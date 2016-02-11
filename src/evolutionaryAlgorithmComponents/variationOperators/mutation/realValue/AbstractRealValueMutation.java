@@ -7,6 +7,14 @@ import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutat
 
 public abstract class AbstractRealValueMutation extends AbstractMutation {
 	
+	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation#applicableToPermutation()
+	 */
+	@Override
+	public boolean applicableToPermutation() {
+		return false;
+	}
+
 	protected final static double epsilon = 0.001;
 	
 	public AbstractRealValueMutation(String title, double probabilityOfMutation) {

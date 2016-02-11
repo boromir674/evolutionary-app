@@ -12,7 +12,8 @@ public abstract class AbstractMutation implements Mutation{
 		this.title = title;
 		this.probability = probability;
 	}
-
+	
+	public abstract boolean applicableToPermutation();
 	/* (non-Javadoc)
 	 * @see interfaces.EvolutionaryAlgorithmComponent#getTitle()
 	 */

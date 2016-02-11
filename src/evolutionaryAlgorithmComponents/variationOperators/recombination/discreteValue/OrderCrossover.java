@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 
-public class OrderCrossover extends AbstractDiscreteRecombination {
+public class OrderCrossover extends AbstractPermutationRecombination {
 	// For order-based permutation problems (Davis)
 	// L. Davis, editor. Handbook of Genetic Algorithms. Van Nostrand Reinhold, 1991.
 
@@ -71,11 +71,6 @@ public class OrderCrossover extends AbstractDiscreteRecombination {
 		if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
 			throw new Exception("offspring 2 contains dublicates!");
 		return children;
-	}
-
-	@Override
-	public boolean applicableToPermutation() {
-		return true;
 	}
 
 }

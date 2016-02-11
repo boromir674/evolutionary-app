@@ -47,11 +47,17 @@ public class EvolutionaryAlgorithm {
 		util.Util.shuffleArray(parents, aRandom);
 	}
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
+		population.fitterTillEnd = population.fitterTillMu;
 		for (int i=0; i<population.getLambda(); i=i+2){
 			Individual[] children = variationOperator.operate(population.getPool()[parents[i]], population.getPool()[parents[i+1]], representation, aRandom);
 			population.addOffspring(children[0], evaluator);
-			if (children.length == 2)
+			if (children[0].getFitness() > population.fitterTillEnd.getFitness())
+				population.fitterTillEnd = children[0];
+			if (children.length == 2) {
 				population.addOffspring(children[1], evaluator);
+				if (children[1].getFitness() > population.fitterTillEnd.getFitness())
+					population.fitterTillEnd = children[1];
+			}
 			else
 				population.addOffspring(children[0], evaluator);
 		}

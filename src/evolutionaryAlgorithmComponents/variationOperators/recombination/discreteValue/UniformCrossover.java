@@ -42,4 +42,9 @@ public class UniformCrossover extends AbstractDiscreteRecombination {
 	public double getAlpha(){
 		return alpha;
 	}
+
+	@Override
+	public boolean applicableToPermutation() {
+		return false;
+	}
 }

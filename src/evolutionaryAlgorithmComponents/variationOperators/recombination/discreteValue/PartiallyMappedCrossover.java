@@ -98,4 +98,9 @@ public class PartiallyMappedCrossover extends AbstractDiscreteRecombination {
 		return children;		
 	}
 
+	@Override
+	public boolean applicableToPermutation() {
+		return true;
+	}
+
 }

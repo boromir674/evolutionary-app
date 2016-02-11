@@ -73,4 +73,9 @@ public class OrderCrossover extends AbstractDiscreteRecombination {
 		return children;
 	}
 
+	@Override
+	public boolean applicableToPermutation() {
+		return true;
+	}
+
 }

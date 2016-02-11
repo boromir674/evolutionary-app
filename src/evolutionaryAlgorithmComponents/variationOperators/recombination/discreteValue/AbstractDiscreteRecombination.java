@@ -14,5 +14,7 @@ public abstract class AbstractDiscreteRecombination extends AbstractRecombinatio
 	public boolean applicableToDiscrete() {
 		return true;
 	}
+	
+	public abstract boolean applicableToPermutation();
 
 }

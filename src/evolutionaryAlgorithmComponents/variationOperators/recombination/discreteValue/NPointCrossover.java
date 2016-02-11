@@ -50,4 +50,9 @@ public class NPointCrossover extends AbstractDiscreteRecombination {
 		return children;
 	}
 
+	@Override
+	public boolean applicableToPermutation() {
+		return false;
+	}
+
 }

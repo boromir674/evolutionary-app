@@ -158,4 +158,9 @@ public class EdgeCrossover extends AbstractDiscreteRecombination {
 		return shortest;
 	}
 
+	@Override
+	public boolean applicableToPermutation() {
+		return true;
+	}
+
 }

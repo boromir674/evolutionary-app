@@ -57,4 +57,9 @@ public class CycleCrossover extends AbstractDiscreteRecombination {
 		return children;
 	}
 
+	@Override
+	public boolean applicableToPermutation() {
+		return true;
+	}
+
 }

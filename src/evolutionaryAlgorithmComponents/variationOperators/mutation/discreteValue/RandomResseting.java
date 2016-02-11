@@ -4,9 +4,9 @@ import interfaces.Representation;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
-import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 
 public class RandomResseting extends AbstractDiscreteMutation {

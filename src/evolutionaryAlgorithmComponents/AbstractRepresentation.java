@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.representation;
+package evolutionaryAlgorithmComponents;
 
 import interfaces.Representation;
 

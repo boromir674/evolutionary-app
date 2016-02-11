@@ -2,8 +2,8 @@ package evolutionaryAlgorithmComponents.variationOperators.recombination.realVal
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 
 public class SimpleArithmetic extends AbstractRealValueRecombination {
 	

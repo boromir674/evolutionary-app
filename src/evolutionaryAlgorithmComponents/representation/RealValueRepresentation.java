@@ -2,6 +2,8 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractRepresentation;
+
 public class RealValueRepresentation extends AbstractRepresentation {
 	
 	private final static String title = "Real-Value";

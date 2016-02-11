@@ -2,9 +2,9 @@ package evolutionaryAlgorithmComponents.variationOperators.recombination.discret
 
 import org.junit.Test;
 
+import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
-import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 
 public class CycleCrossoverTest {
 

@@ -2,6 +2,8 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractRepresentation;
+
 public abstract class BinaryRepresentation extends AbstractRepresentation {
 	
 	private final static String title = "Binary";

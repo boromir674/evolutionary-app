@@ -8,6 +8,7 @@ import interfaces.Representation;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
+import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractDiscreteMutation;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractPermutationMutation;
 import evolutionaryAlgorithmComponents.variationOperators.recombination.AbstractRecombination;
 import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractDiscreteRecombination;
@@ -16,24 +17,23 @@ import evolutionaryAlgorithmComponents.variationOperators.recombination.discrete
 public class VarianceOperator implements EvolutionaryAlgorithmComponent{
 
 	private Recombination recombination;
-	private Mutation mutation;	
+	private Mutation mutation;
+	// flags
 	boolean applicableToPermutation = false;
-	
+	boolean applicableToDiscrete = false;
+
 	public VarianceOperator(Recombination recombinationType, Mutation mutationType){
 		this.recombination = recombinationType;
 		this.mutation = mutationType;
-		if (recombination instanceof AbstractPermutationRecombination && mutation instanceof AbstractPermutationMutation)
-			applicableToPermutation = true;
+		setFlags(new Object[]{recombination, mutation});
 	}
 	public VarianceOperator(Recombination recombinationType){
 		this.recombination = recombinationType;
-		if (recombination instanceof AbstractPermutationRecombination)
-			applicableToPermutation = true;
+		setFlags(new Object[]{recombination});
 	}
 	public VarianceOperator(Mutation mutationType){
 		this.mutation = mutationType;
-		if (mutation instanceof AbstractPermutationMutation)
-			applicableToPermutation = true;
+		setFlags(new Object[]{mutation});
 	}
 
 	public Individual[] operate(Individual mom, Individual dad, Random rand) throws Exception{
@@ -76,5 +76,21 @@ public class VarianceOperator implements EvolutionaryAlgorithmComponent{
 	public Mutation getMutation() {
 		return mutation;
 	}
-	
+
+	private void setFlags(Object[] array){
+		if (array.length == 1){
+			if (array[0] instanceof AbstractDiscreteRecombination || array[0] instanceof AbstractDiscreteMutation) {
+				applicableToDiscrete = true;
+				if (array[0] instanceof AbstractPermutationRecombination || array[0] instanceof AbstractPermutationMutation)
+					applicableToPermutation = true;
+			}
+		}
+		else
+			if (array[0] instanceof AbstractDiscreteRecombination && array[1] instanceof AbstractDiscreteMutation) {
+				applicableToDiscrete = true;
+				if (array[0] instanceof AbstractPermutationRecombination && array[1] instanceof AbstractPermutationMutation)
+					applicableToPermutation = true;
+			}
+	}
+
 }

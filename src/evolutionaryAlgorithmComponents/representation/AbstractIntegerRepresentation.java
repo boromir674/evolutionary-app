@@ -1,5 +1,7 @@
 package evolutionaryAlgorithmComponents.representation;
 
+import evolutionaryAlgorithmComponents.AbstractRepresentation;
+
 public abstract class AbstractIntegerRepresentation extends AbstractRepresentation {
 
 	protected int lowerBound;

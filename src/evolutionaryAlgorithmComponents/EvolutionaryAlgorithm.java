@@ -3,7 +3,10 @@ package evolutionaryAlgorithmComponents;
 import java.util.Collections;
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.variationOperators.VarianceOperator;
+import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
+import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
+import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
+import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
@@ -26,7 +29,7 @@ public class EvolutionaryAlgorithm {
 	private double lowerValue;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
-			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) {
+			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
 		representation = aRepresentation;
 		evaluator = anEvaluationMethod;
 		population = aPopulation;
@@ -34,6 +37,7 @@ public class EvolutionaryAlgorithm {
 		variationOperator = aVarianceOperator;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;
+		this.checkComponentsCompatibility(this);
 		printInfo();
 	}
 
@@ -49,7 +53,7 @@ public class EvolutionaryAlgorithm {
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		population.fitterTillEnd = population.fitterTillMu;
 		for (int i=0; i<population.getLambda(); i=i+2){
-			Individual[] children = variationOperator.operate(population.getPool()[parents[i]], population.getPool()[parents[i+1]], representation, aRandom);
+			Individual[] children = variationOperator.operate(population.getPool()[parents[i]], population.getPool()[parents[i+1]], aRandom);
 			population.addOffspring(children[0], evaluator);
 			if (children[0].getFitness() > population.fitterTillEnd.getFitness())
 				population.fitterTillEnd = children[0];
@@ -86,6 +90,17 @@ public class EvolutionaryAlgorithm {
 			}
 		}
 	}
+	
+
+	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
+		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
+			throw new IncompatibleComponentsException("children less than parents");
+		if (representation instanceof PermutationRepresentation && !variationOperator.applicableToPermutation)
+			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
+		if (representation instanceof AbstractIntegerRepresentation && !variationOperator.applicableToDiscrete)
+			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
+	}
+	
 	/**
 	 * @return the representation
 	 */

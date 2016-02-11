@@ -28,7 +28,6 @@ public class Experiment {
 
 	public Individual performOptimizationTask() throws Exception {
 		int i = 0;
-		Individual temp;
 		this.startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
 		Population previousPopulation;

@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.evaluation.permutation;
+package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.evaluation.permutation;
+package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
 import util.TSPReader;
 import interfaces.DistanceCalculator;

@@ -185,7 +185,11 @@ public class TSPReader {
 		this.initializeDataArray();
 		String line = bf.readLine().trim();
 		do {
-			if (line.equals("EOF") || line.equals("-1") || line.equals("") || line.equals("DISPLAY_DATA_SECTION"))
+			if (line.equals("")){
+				line = bf.readLine().trim();
+				continue;
+			}
+			if (line.equals("EOF") || line.equals("-1") || line.equals("DISPLAY_DATA_SECTION"))
 				break;
 			this.parseDataLine(line);
 			try {

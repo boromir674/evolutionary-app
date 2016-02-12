@@ -22,7 +22,7 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 
 	@Override
 	public int[] select(Population pop) {
-		double[] fitArray = new double[pop.getPool().length];
+/*		double[] fitArray = new double[pop.getPool().length];
 		for (int i=0; i<fitArray.length; i++)
 			fitArray[i] = pop.getPool()[i].getFitness();
 		double minFitness = Util.findMin(fitArray);
@@ -35,7 +35,8 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 		cumulProbs[0] = fitArray[0]/fitnessSum;
 		for (int i=1; i<fitArray.length; i++){	
 			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
-		}
+		}*/
+		cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getPool().length);
 		int[] survivors = Util.stochasticUniversalSampling(cumulProbs, pop.getMu(), random);
 		return survivors;
 	}

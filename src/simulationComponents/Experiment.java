@@ -31,12 +31,14 @@ public class Experiment {
 		int i = 0;
 		this.startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
+		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
 			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
 
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
+			//this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu() + evolutionaryAlgorithm.getPopulation().getLambda());
 			evolutionaryAlgorithm.survivorSelection();
 
 			// debug -----------------
@@ -57,7 +59,7 @@ public class Experiment {
 					this.evolutionaryAlgorithm.printPerformance();
 				} catch (Exception e){
 				}
-				this.evolutionaryAlgorithm.getPopulation().visualize(precision);
+				this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 			}
 			i++;
 		}

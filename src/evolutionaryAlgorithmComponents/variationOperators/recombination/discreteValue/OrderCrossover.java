@@ -64,7 +64,6 @@ public class OrderCrossover extends AbstractPermutationRecombination {
 			if (counter1 == toBeFilled  && counter2 == toBeFilled)
 				done = true;
 			i = (i + 1) % dimensions;
-
 		}
 		if (mom.getRepresentation() instanceof PermutationRepresentation) {
 			if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome()))

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
+import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;
@@ -99,6 +100,8 @@ public class EvolutionaryAlgorithm {
 			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
 		if (representation instanceof AbstractIntegerRepresentation && !variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
+		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
+			throw new IncompatibleComponentsException("real value representation, but discrete operator");
 	}
 	
 	/**

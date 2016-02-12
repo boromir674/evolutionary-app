@@ -24,14 +24,16 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 		for (int i=0; i<d; i++){
 			try {
 				if (!connected((int)anIndividual.getChromosome()[i], (int)anIndividual.getChromosome()[(i+1)%d]))
-					fitness += 1; // penalty for non-connectivity
+					fitness -= 1; // penalty for non-connectivity
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(0);
 			}
 		}
 		super.evaluationsUsed ++;
-		return -fitness;
+		if (super.bestScoreEncountered < fitness)
+			super.bestScoreEncountered = fitness;
+		return fitness;
 	}
 
 	@Override

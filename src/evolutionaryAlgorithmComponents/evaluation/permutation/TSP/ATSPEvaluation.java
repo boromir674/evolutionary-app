@@ -21,9 +21,11 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 		int d = in.getRepresentation().getDimensions();
 		double fitness = 0;
 		for (int i=0; i<d; i++)
-			fitness += this.distance((int)in.getChromosome()[i], (int)in.getChromosome()[(i+1)%d]);
+			fitness -= this.distance((int)in.getChromosome()[i], (int)in.getChromosome()[(i+1)%d]);
 		super.evaluationsUsed ++;
-		return -fitness;
+		if (super.bestScoreEncountered < fitness)
+			super.bestScoreEncountered = fitness;
+		return fitness;
 	}
 
 	@Override

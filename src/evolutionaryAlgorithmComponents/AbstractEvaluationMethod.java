@@ -9,7 +9,7 @@ public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	
 	private final String title;
 	protected double bestScoreEncountered = Double.NEGATIVE_INFINITY;
-	protected int evaluationsUsed;
+	protected int evaluationsUsed = 0;
 	
 	public AbstractEvaluationMethod(String title) {
 		this.title = title;

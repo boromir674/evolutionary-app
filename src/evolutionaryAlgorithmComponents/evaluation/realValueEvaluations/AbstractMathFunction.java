@@ -36,6 +36,8 @@ public abstract class AbstractMathFunction extends AbstractEvaluationMethod impl
 		else
 			fitness = this.f(values);
 		super.evaluationsUsed ++;
+		if (super.bestScoreEncountered < fitness)
+			super.bestScoreEncountered = fitness;
 		return fitness;
 	}
 }

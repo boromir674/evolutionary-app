@@ -9,6 +9,8 @@ import evolutionaryAlgorithmComponents.Individual;
 
 public class SphereFunction extends AbstractMathFunction implements HasProperties{
 	
+	private int cheatD;
+	
 	private final static String title = "Sphere Function";
 	// Evaluations budget
 	private final static int EVALS_LIMIT = 10000;
@@ -25,34 +27,18 @@ public class SphereFunction extends AbstractMathFunction implements HasPropertie
 	private final static String regular = "true";
 	private final static String separable = "true";
 	private String evals = Integer.toString(EVALS_LIMIT);
-	
+
 	public SphereFunction() {
 		super(title);
 	}
-	
-	/*public Object scaledScore(Object[] chromosome) {
-		if(evaluations > EVALS_LIMIT) return null;
-		Double[] chrom = new Double[chromosome.length];
-		for (int i=0; i<chrom.length; i++)
-			chrom[i] = (Double) chromosome[i];
-		// Transform function value (sphere is minimization).
-		// Normalize using the base performance
-		double f = 10 - 10*( (function(chrom)-ftarget) / BASE ) ;
-
-		if(f>best)
-			best = f;
-		evaluations++;
-
-		return new Double(f);
-	}*/
 
 	@Override
 	public double f(double[] x) {
+		cheatD = x.length;
 		// The standard sphere function. It has one minimum at 0.
 		double sum = 0;
 		for(int i=0; i<x.length; i++)
 			sum += x[i]*x[i];
-		//System.out.println(sum);
 		return sum;
 	}
 
@@ -69,6 +55,14 @@ public class SphereFunction extends AbstractMathFunction implements HasPropertie
 	@Override
 	public boolean hasMin() {
 		return true;
+	}
+
+	@Override
+	public Object[] getSolutionVector(){
+		Double[] solution = new Double[cheatD];
+		for (int i=0; i<solution.length; i++)
+			solution[i] = 0.0;
+		return solution;
 	}
 
 }

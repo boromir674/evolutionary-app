@@ -1,12 +1,13 @@
 package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import evolutionaryAlgorithmComponents.Individual;
 import interfaces.HasProperties;
 import interfaces.MathFunction;
 
-// This is an example evalation. It is based on the Rastrigin. It is a maximization problem with a maximum of 10 for 
+// This is an example evaluation. It is based on the Rastrigin. It is a maximization problem with a maximum of 10 for 
 //  	vector a_.
 // The Rastrigin function itself is for minimization with minimum of 0.
 // Base performance is calculated as the distance of the expected fitness of a random search (with the same amount of available
@@ -14,7 +15,9 @@ import interfaces.MathFunction;
 //	according to this base, thus Fitness = 10 - 10*(f-fbest)/Base
 
 public class RastriginEvaluation extends AbstractMathFunction implements HasProperties{
-
+	
+	private int cheatD;
+	
 	private final static String title = "Rastrigin Function";
 	// Evaluations budget
 	private final static int EVALS_LIMIT = 100000;
@@ -39,6 +42,7 @@ public class RastriginEvaluation extends AbstractMathFunction implements HasProp
 	// The Rastrigin function. The global minimum is 0.
 	@Override
 	public double f(double[] x) {
+		cheatD = x.length;
 		double sum = 0;
 		for(int i=0; i<x.length; i++)
 			sum += x[i]*x[i] - ALPHA*Math.cos(2*Math.PI*x[i]);
@@ -57,6 +61,14 @@ public class RastriginEvaluation extends AbstractMathFunction implements HasProp
 
 	@Override
 	public boolean hasMin() {
-		return false;
+		return true;
+	}
+
+	@Override
+	public Object[] getSolutionVector(){
+		Double[] solution = new Double[cheatD];
+		for (int i=0; i<solution.length; i++)
+			solution[i] = 0.0;
+		return solution;
 	}
 }

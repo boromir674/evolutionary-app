@@ -21,15 +21,6 @@ public abstract class AbstractMathFunction extends AbstractEvaluationMethod impl
 			return this.f(values);
 	}
 
-	/* (non-Javadoc)
-	 * @see interfaces.EvaluationMethod#getSolutionVector()
-	 */
-	@Override
-	public Object[] getSolutionVector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public AbstractMathFunction(String title) {
 		super(title);
 	}

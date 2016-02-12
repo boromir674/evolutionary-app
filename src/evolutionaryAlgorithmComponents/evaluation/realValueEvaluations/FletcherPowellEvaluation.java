@@ -24,7 +24,6 @@ public class FletcherPowellEvaluation extends AbstractMathFunction implements Ha
 	@SuppressWarnings("unused")
 	private final static double BASE = 15796.33;
 	// The minimum of the sphere function
-	@SuppressWarnings("unused")
 	private static double ftarget;
 
 	// Properties of the evaluation
@@ -141,5 +140,18 @@ public class FletcherPowellEvaluation extends AbstractMathFunction implements Ha
 	@Override
 	public boolean hasMin() {
 		return true;
+	}
+
+	@Override
+	public Object[] getSolutionVector() throws NullPointerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.evaluation.realValueEvaluations.AbstractMathFunction#getSolutionFitness()
+	 */
+	@Override
+	public double getSolutionFitness() {
+		return ftarget;
 	}
 }

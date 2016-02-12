@@ -16,7 +16,7 @@ public class OrderCrossover extends AbstractPermutationRecombination {
 
 	private final static String title = "Order Crossover";
 	private Random random;
-	
+
 	public OrderCrossover(Random aRandom) {
 		super(title);
 		this.random = aRandom;
@@ -24,7 +24,7 @@ public class OrderCrossover extends AbstractPermutationRecombination {
 
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) throws Exception {
-		
+
 		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
 		int dimensions = mom.getRepresentation().getDimensions();
 		int point1 = random.nextInt(dimensions);
@@ -66,10 +66,12 @@ public class OrderCrossover extends AbstractPermutationRecombination {
 			i = (i + 1) % dimensions;
 
 		}
-		if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome()))
-			throw new Exception("offspring 1 contains dublicates!");
-		if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
-			throw new Exception("offspring 2 contains dublicates!");
+		if (mom.getRepresentation() instanceof PermutationRepresentation) {
+			if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome()))
+				throw new Exception("offspring 1 contains dublicates!");
+			if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
+				throw new Exception("offspring 2 contains dublicates!");
+		}
 		return children;
 	}
 

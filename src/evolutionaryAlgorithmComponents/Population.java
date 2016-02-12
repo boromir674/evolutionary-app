@@ -113,12 +113,13 @@ public class Population implements Cloneable{
 		return pool;
 	}
 
-	public void visualize() throws Exception {
+	public void visualize(int precision) throws Exception {
 		double[] fitArray = new double[mu];
 		for (int i=0; i<mu; i++)
 			fitArray[i] = pool[i].getFitness();
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
-		System.out.format("%d %.0f %.0f %.0f%n", generationCount, this.getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
+		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
+		System.out.format(visual, generationCount, this.getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
 	}
 
 	public double getDiversity() {

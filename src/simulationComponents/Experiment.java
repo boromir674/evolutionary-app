@@ -19,6 +19,7 @@ public class Experiment {
 	private Random random;
 	public boolean debug;
 	public int visuals;
+	public int precision = 2;
 
 	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition, Random aRandom){
 		evolutionaryAlgorithm = EA;
@@ -54,11 +55,9 @@ public class Experiment {
 			if (visuals != 0 && i%visuals == 0) {
 				try {
 					this.evolutionaryAlgorithm.printPerformance();
+				} catch (Exception e){
 				}
-				catch (Exception e) {
-
-				}
-				this.evolutionaryAlgorithm.getPopulation().visualize();
+				this.evolutionaryAlgorithm.getPopulation().visualize(precision);
 			}
 			i++;
 		}

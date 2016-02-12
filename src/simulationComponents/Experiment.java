@@ -63,6 +63,11 @@ public class Experiment {
 			}
 			i++;
 		}
+		try {
+			this.evolutionaryAlgorithm.printPerformance();
+		} catch (Exception e){
+		}
+		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
 

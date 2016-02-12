@@ -20,7 +20,7 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 		int counter = anExperiment.getEvolutionaryAlgorithm().getEvaluator().getEvaluationsUsed();
 		evaluationsCounter = counter - progress;
 		double newBest = anExperiment.getEvolutionaryAlgorithm().getEvaluator().getBestScoreEncountered();
-		System.out.println(newBest);
+		//System.out.println(newBest);
 		if (newBest > currentBest) {
 			currentBest = newBest;
 			progress = counter;

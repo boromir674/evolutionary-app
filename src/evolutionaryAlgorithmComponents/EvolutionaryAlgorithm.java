@@ -176,14 +176,14 @@ public class EvolutionaryAlgorithm {
 
 	public void printInfo(){
 		System.out.println("\nEvolutionary Algorithm deployed with components:");
-		System.out.println("Evaluation Method: " + evaluator.getTitle());
+		System.out.println("Evaluation: " + evaluator.getTitle());
 		System.out.format("Population size: μ=%d%n", population.getMu());
 		System.out.format("Offsprings: λ=%d%n", population.getLambda());
 		System.out.println("Representation: " + representation.getTitle());
 		System.out.println("Parent Selection: " + parentSelectionMethod.getTitle());
 		System.out.println("Recombination: " + variationOperator.getRecombination().getTitle());
 		System.out.println("Mutation: " + variationOperator.getMutation().getTitle());
-		System.out.println("Mutation probability: " + variationOperator.getMutation().getProbability());
+		System.out.println("probability: " + variationOperator.getMutation().getProbability());
 		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
 	}
 

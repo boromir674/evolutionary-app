@@ -9,6 +9,7 @@ public class HopedFitness extends AbstractTerminationCondition {
 	private final static String title = "Known/Hoped Fitness";
 	private double hopedFitness;
 	private boolean flag;
+	public double threshold = 1e-5;
 
 	public HopedFitness(double hopedFitness) {
 		super(title);
@@ -29,7 +30,7 @@ public class HopedFitness extends AbstractTerminationCondition {
 				System.exit(0);
 			}
 		if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().
-				getFitness() >= hopedFitness){
+				getFitness() >= hopedFitness - threshold){
 			return true;
 		}
 		return false;

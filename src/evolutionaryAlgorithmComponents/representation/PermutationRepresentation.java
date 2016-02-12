@@ -30,7 +30,7 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 	}
 
 	/**
-	 * @param in the chromosome to bein evaluated
+	 * @param in the chromosome to being evaluated
 	 * @return true if the chromosome encodes a valid permutation of integers, false otherwise
 	 */
 	public static boolean chromosomeOK(Object[] in) {

@@ -27,8 +27,8 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	}
 
 	@Override
-	public int distance(int node1, int node2) throws Exception {
-		super.checkNodes(node1, node2);
+	public int distance(int node1, int node2){
+		//super.checkNodes(node1, node2);
 		if (super.myDistanceCalculator == null) {
 			if (super.fullMatrixFlag)
 				return super.fullMatrixDistance(node1, node2);
@@ -40,7 +40,7 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	}
 
 	@Override
-	public double getSolutionFitness() throws Exception {
+	public double getSolutionFitness() {
 		Integer[] vector = (Integer[])super.getSolutionVector();
 		double fitness = 0;
 		for (int i=0; i<vector.length; i++)

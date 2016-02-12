@@ -19,9 +19,8 @@ public class Individual implements Comparable<Individual>{
 	Population pop;
 
 	public Individual() {
-
 	}
-
+	
 	@Override
 	public int compareTo(Individual ind1) {
 		double fit1 = this.getFitness();

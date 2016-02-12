@@ -28,7 +28,8 @@ public class EvolutionaryAlgorithm {
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
-
+	private boolean fitnessSharing = false;
+	
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
 		representation = aRepresentation;
@@ -75,10 +76,13 @@ public class EvolutionaryAlgorithm {
 			Individual[] newGeneration = new Individual[survivors.length + population.getLambda()];
 			population.fitterTillMu = population.getPool()[survivors[0]];
 			newGeneration[0] = population.getPool()[survivors[0]];
+			newGeneration[0].incrementAge();
 			for (int i=1; i<survivors.length; i++){
-				if (population.getPool()[survivors[i]].getFitness() > population.fitterTillMu.getFitness())
-					population.fitterTillMu = population.getPool()[survivors[i]];
 				newGeneration[i] = population.getPool()[survivors[i]];
+				newGeneration[i].incrementAge();
+				if (newGeneration[i].getFitness() > population.fitterTillMu.getFitness())
+					population.fitterTillMu = newGeneration[i];
+				
 			}
 			population.updatePoolWithNewGeneration(newGeneration);
 		} catch (SortsInPlaceThePopulationException e) {
@@ -91,8 +95,25 @@ public class EvolutionaryAlgorithm {
 			}
 		}
 	}
-	
-
+	public void printInfo(){
+		System.out.println("\nEvolutionary Algorithm deployed with components:");
+		System.out.println("Evaluation: " + evaluator.getTitle());
+		System.out.format("Population size: μ=%d%n", population.getMu());
+		System.out.format("Offsprings: λ=%d%n", population.getLambda());
+		System.out.println("Representation: " + representation.getTitle());
+		System.out.println("Parent Selection: " + parentSelectionMethod.getTitle());
+		System.out.println("Recombination: " + variationOperator.getRecombination().getTitle());
+		System.out.println("Mutation: " + variationOperator.getMutation().getTitle());
+		System.out.println("probability: " + variationOperator.getMutation().getProbability());
+		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
+	}
+	public void printPerformance() throws Exception {
+		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
+		System.out.format("%.2f ", percentage);		
+	}
+	private void applyFitnessSharingScheme(){
+		
+	}
 	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
 		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");
@@ -102,8 +123,7 @@ public class EvolutionaryAlgorithm {
 			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
 		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("real value representation, but discrete operator");
-	}
-	
+	}	
 	/**
 	 * @return the representation
 	 */
@@ -177,21 +197,12 @@ public class EvolutionaryAlgorithm {
 		this.survivorSelectionMethod = survivorSelectionMethod;
 	}
 
-	public void printInfo(){
-		System.out.println("\nEvolutionary Algorithm deployed with components:");
-		System.out.println("Evaluation: " + evaluator.getTitle());
-		System.out.format("Population size: μ=%d%n", population.getMu());
-		System.out.format("Offsprings: λ=%d%n", population.getLambda());
-		System.out.println("Representation: " + representation.getTitle());
-		System.out.println("Parent Selection: " + parentSelectionMethod.getTitle());
-		System.out.println("Recombination: " + variationOperator.getRecombination().getTitle());
-		System.out.println("Mutation: " + variationOperator.getMutation().getTitle());
-		System.out.println("probability: " + variationOperator.getMutation().getProbability());
-		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
+	public boolean isFitnessSharing() {
+		return fitnessSharing;
 	}
 
-	public void printPerformance() throws Exception {
-		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
-		System.out.format("%.2f ", percentage);		
+	public void setFitnessSharing(boolean fitnessSharing) {
+		this.fitnessSharing = fitnessSharing;
 	}
+
 }

@@ -1,5 +1,6 @@
 package simulationComponents;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import simulationComponents.terminationConditions.EvaluationLimit;
@@ -68,6 +69,8 @@ public class Experiment {
 		} catch (Exception e){
 		}
 		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
+		double duration = ((double)(System.nanoTime() - this.startingTime)) / 1000000000;
+		System.out.println("Elapsed Time : " + new DecimalFormat("#.##########").format(duration) + " Seconds");
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
 

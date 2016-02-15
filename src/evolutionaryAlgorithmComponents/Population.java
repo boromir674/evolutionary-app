@@ -3,14 +3,18 @@ package evolutionaryAlgorithmComponents;
 import interfaces.Representation;
 import interfaces.EvaluationMethod;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import util.Util;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import exceptions.NoKnownSolutionException;
 
 public class Population implements Cloneable{
 

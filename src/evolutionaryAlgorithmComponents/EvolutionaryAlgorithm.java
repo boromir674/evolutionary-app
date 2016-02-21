@@ -113,18 +113,20 @@ public class EvolutionaryAlgorithm {
 		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
 		System.out.format("%.2f ", percentage);		
 	}
+	
 	private void applyFitnessSharingScheme(){
 		int alpha = 1;
 		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
 			double denominator = 0;
 			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
 				double distance = ((AbstractRepresentation)representation).genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
-				if (distance <= 0.1)
-					denominator += 1 - Math.pow(distance/0.1, alpha);
+				if (distance <= 5)
+					denominator += 1 - Math.pow(distance/5, alpha);
 			}
 			population.getPool()[i].fitness /= denominator;
 		}
 	}
+	
 	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
 		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");

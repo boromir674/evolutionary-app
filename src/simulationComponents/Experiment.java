@@ -31,18 +31,15 @@ public class Experiment {
 	public Individual performOptimizationTask() throws Exception {
 		int i = 0;
 		this.startingTime = System.nanoTime();
-		evolutionaryAlgorithm.randomInitialization(random);
-		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
+		evolutionaryAlgorithm.randomInitialization(random);		
 		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
 			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
-
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			//this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu() + evolutionaryAlgorithm.getPopulation().getLambda());
 			evolutionaryAlgorithm.survivorSelection();
 
-			// debug -----------------
 			if (debug) {
 				Individual best = this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 				Individual newBest = findMax(evolutionaryAlgorithm.getPopulation());
@@ -53,8 +50,6 @@ public class Experiment {
 					if (newBest.getFitness() < oldBest)
 						throw new Exception("next gen is worse then previous");
 			}
-			//------------------------
-
 			if (visuals != 0 && i%visuals == 0) {
 				try {
 					this.evolutionaryAlgorithm.printPerformance();
@@ -64,10 +59,9 @@ public class Experiment {
 			}
 			i++;
 		}
-		try {
-			this.evolutionaryAlgorithm.printPerformance();
-		} catch (Exception e){
-		}
+		try {this.evolutionaryAlgorithm.printPerformance();}
+		catch (Exception e){}
+		
 		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		double duration = ((double)(System.nanoTime() - this.startingTime)) / 1000000000;
 		System.out.println("Elapsed Time : " + new DecimalFormat("#.##########").format(duration) + " Seconds");

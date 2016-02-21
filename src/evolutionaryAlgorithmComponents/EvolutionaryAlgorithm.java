@@ -29,7 +29,7 @@ public class EvolutionaryAlgorithm {
 	private int[] survivors;
 	private double lowerValue;
 	private boolean fitnessSharing = false;
-	
+
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
 		representation = aRepresentation;
@@ -70,6 +70,8 @@ public class EvolutionaryAlgorithm {
 	}
 
 	public void survivorSelection() throws Exception {
+		if (fitnessSharing)
+			this.applyFitnessSharingScheme();
 		this.population.generationCount ++;
 		try {
 			survivors = survivorSelectionMethod.select(population);
@@ -82,7 +84,7 @@ public class EvolutionaryAlgorithm {
 				newGeneration[i].incrementAge();
 				if (newGeneration[i].getFitness() > population.fitterTillMu.getFitness())
 					population.fitterTillMu = newGeneration[i];
-				
+
 			}
 			population.updatePoolWithNewGeneration(newGeneration);
 		} catch (SortsInPlaceThePopulationException e) {
@@ -112,7 +114,15 @@ public class EvolutionaryAlgorithm {
 		System.out.format("%.2f ", percentage);		
 	}
 	private void applyFitnessSharingScheme(){
-		
+		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
+			double denominator = 0;
+			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
+				double distance = AbstractRepresentation.genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
+				if (distance <= sigmaShare)
+					denominator += 1 - Math.pow(distance/sigmaShare, alpha);
+			}
+			population.getPool()[i].fitness /= denominator;
+		}
 	}
 	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
 		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
@@ -197,12 +207,11 @@ public class EvolutionaryAlgorithm {
 		this.survivorSelectionMethod = survivorSelectionMethod;
 	}
 
-	public boolean isFitnessSharing() {
-		return fitnessSharing;
+	public void fitnessSharingON() {
+		this.fitnessSharing = true;
 	}
-
-	public void setFitnessSharing(boolean fitnessSharing) {
-		this.fitnessSharing = fitnessSharing;
+	public void fitnessSharingOFF() {
+		this.fitnessSharing = false;
 	}
 
 }

@@ -28,7 +28,7 @@ public class Population implements Cloneable{
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
-	int generationCount = 1;
+	int generationCount;
 	EvolutionaryAlgorithm evo;
 	private int offspringStoreIndex;
 	private int parentStoreIndex;
@@ -44,7 +44,7 @@ public class Population implements Cloneable{
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
 		cheatRandom = aRandom;
 		pool = new Individual[mu+lambda];
-		generationCount = 1;
+		generationCount = 0;
 		offspringStoreIndex = 0;
 		parentStoreIndex = 0;
 		Individual member = new Individual();

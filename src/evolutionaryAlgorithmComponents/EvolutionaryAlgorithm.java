@@ -114,12 +114,13 @@ public class EvolutionaryAlgorithm {
 		System.out.format("%.2f ", percentage);		
 	}
 	private void applyFitnessSharingScheme(){
+		int alpha = 1;
 		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
 			double denominator = 0;
 			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
 				double distance = ((AbstractRepresentation)representation).genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
-				if (distance <= sigmaShare)
-					denominator += 1 - Math.pow(distance/sigmaShare, alpha);
+				if (distance <= 0.1)
+					denominator += 1 - Math.pow(distance/0.1, alpha);
 			}
 			population.getPool()[i].fitness /= denominator;
 		}

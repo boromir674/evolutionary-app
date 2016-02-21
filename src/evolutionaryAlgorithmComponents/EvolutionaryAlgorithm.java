@@ -117,7 +117,7 @@ public class EvolutionaryAlgorithm {
 		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
 			double denominator = 0;
 			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
-				double distance = AbstractRepresentation.genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
+				double distance = ((AbstractRepresentation)representation).genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
 				if (distance <= sigmaShare)
 					denominator += 1 - Math.pow(distance/sigmaShare, alpha);
 			}

@@ -18,4 +18,10 @@ public class IntegerRepresentation extends AbstractIntegerRepresentation {
 		return chromosome;
 	}
 
+	@Override
+	public double genotypicDistance(Object[] chromosome, Object[] chromosome2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

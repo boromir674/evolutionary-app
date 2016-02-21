@@ -46,7 +46,8 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 		return true;
 	}
 	
-	public static double genotypicDistance(int[] chromosome0, int[] chromosome1) {
+	@Override
+	public double genotypicDistance(Object[] chromosome0, Object[] chromosome1) {
 		//https://en.wikipedia.org/wiki/Kendall_tau_distance
 		int d = chromosome0.length;
 		int distance = 0;

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import evolutionaryAlgorithmComponents.Individual;
 
 public class PermutationRepresentation extends AbstractIntegerRepresentation {
@@ -42,6 +44,20 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 				flags[(int)(in[i])-1] = true;
 		}
 		return true;
+	}
+	
+	public static double genotypicDistance(int[] chromosome0, int[] chromosome1) {
+		//https://en.wikipedia.org/wiki/Kendall_tau_distance
+		int d = chromosome0.length;
+		int distance = 0;
+		for (int i=0; i<d; i++) {
+			for (int j=i+1; j<d; j++) {
+				if (ArrayUtils.indexOf(chromosome1, i) > ArrayUtils.indexOf(chromosome1, j)) {
+					distance ++;
+				}
+			}
+		}
+		return distance / (double) (d*(d-1)/2); // normalized
 	}
 
 }

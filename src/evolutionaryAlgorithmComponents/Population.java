@@ -63,6 +63,7 @@ public class Population implements Cloneable{
 	}
 	void forceFitter(){
 		pool[cheatRandom.nextInt(mu)] = fitterTillEnd;
+		fitterTillMu = fitterTillEnd;
 	}
 	void addOffspring(Individual someone, EvaluationMethod evaluator) throws Exception{
 		someone.computeMyFitness(evaluator);

@@ -84,18 +84,14 @@ public class EvolutionaryAlgorithm {
 				newGeneration[i].incrementAge();
 				if (newGeneration[i].getFitness() > population.fitterTillMu.getFitness())
 					population.fitterTillMu = newGeneration[i];
-
 			}
 			population.updatePoolWithNewGeneration(newGeneration);
 		} catch (SortsInPlaceThePopulationException e) {
 			population.fitterTillMu = population.getPool()[0];
 		}
-		if (survivorSelectionMethod.forceElitism()){
-			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness()){
+		if (survivorSelectionMethod.forceElitism())
+			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness())
 				population.forceFitter();
-				population.fitterTillMu = population.fitterTillEnd;
-			}
-		}
 	}
 	public void printInfo(){
 		System.out.println("\nEvolutionary Algorithm deployed with components:");

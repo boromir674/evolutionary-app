@@ -40,12 +40,9 @@ public class Experiment {
 			if (debug)
 				this.compareToPreviousPopulation(previousPopulation);
 			if (visuals != 0 && i%visuals == 0) {
-				try {
-					this.evolutionaryAlgorithm.printPerformance();
-				} catch (Exception e){
-				}
-				this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
-			}
+				try {this.evolutionaryAlgorithm.printPerformance();}
+				catch (Exception e){}
+				this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());}
 			i++;
 		}
 		try {this.evolutionaryAlgorithm.printPerformance();}
@@ -69,10 +66,6 @@ public class Experiment {
 			evolutionaryAlgorithm.survivorSelection();
 		}
 		double x = evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness();
-		// 1 <= j <= replicates
-		// xmean_0 = 0 , var_1 = 0
-		// xmean_{j+1} = xmean_j + (x_{j+1} - xmean_j) / (j+1)
-		// var_{j+1} = (1-1/j)*var_j - (j+1) * (xmean_{j+1} - xmean_j)^2
 		double[] result = new double[]{x, 0};
 		while (i<replicates){
 			System.out.println(String.format("Batch %d", i));

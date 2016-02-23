@@ -114,7 +114,7 @@ public class EvolutionaryAlgorithm {
 	}
 	
 	private void applyFitnessSharingScheme(){
-		int alpha = 1;
+		/*int alpha = 1;
 		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
 			double denominator = 0;
 			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
@@ -123,7 +123,7 @@ public class EvolutionaryAlgorithm {
 					denominator += 1 - Math.pow(distance/5, alpha);
 			}
 			population.getPool()[i].fitness /= denominator;
-		}
+		}*/
 	}
 	
 	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {

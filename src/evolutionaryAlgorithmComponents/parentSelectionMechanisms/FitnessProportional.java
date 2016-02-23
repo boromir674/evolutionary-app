@@ -17,21 +17,26 @@ public class FitnessProportional extends AbstractParentSelection {
 
 	@Override
 	public int[] select(Population pop, Random rand) throws Exception {
-		double[] fitArray = new double[pop.getMu()];
-		for (int i=0; i<fitArray.length; i++)
+		/*double[] fitArray = new double[pop.getMu()];
+		fitArray[0] = pop.getPool()[0].getFitness();
+		double minFitness = fitArray[0];
+		double fitnessSum = fitArray[0];
+		for (int i=1; i<fitArray.length; i++){
 			fitArray[i] = pop.getPool()[i].getFitness();
-		double minFitness = Util.findMin(fitArray);
-		double fitnessSum = 0;
-		for (int i=0; i<fitArray.length; i++) {
-			fitArray[i] = fitArray[i] - minFitness + 1;
+			if (fitArray[i] < minFitness)
+				minFitness = fitArray[i];
 			fitnessSum += fitArray[i];
 		}
+		fitnessSum += fitArray.length * (1 - minFitness);
 		double[] cumulProbs = new double[fitArray.length];
+		fitArray[0] = fitArray[0] - minFitness + 1;
 		cumulProbs[0] = fitArray[0]/fitnessSum;
-		for (int i=1; i<fitArray.length; i++){	
+		for (int i=1; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
 			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
-		}
-		// array with indices to the pool ArrayList
+		}*/
+
+		double[] cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getMu());
 		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs, pop.getLambda(), rand);
 		return parentPointers;
 	}

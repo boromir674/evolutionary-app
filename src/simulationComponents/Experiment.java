@@ -37,14 +37,13 @@ public class Experiment {
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
+			i++;
 			if (debug)
 				this.compareToPreviousPopulation(previousPopulation);
 			if (visuals != 0 && i%visuals == 0) {
 				try {this.evolutionaryAlgorithm.printPerformance();}
 				catch (Exception e){}
-				this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());}
-			i++;
-		}
+				this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());}}
 		try {this.evolutionaryAlgorithm.printPerformance();}
 		catch (Exception e){}
 		

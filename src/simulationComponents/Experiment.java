@@ -29,32 +29,16 @@ public class Experiment {
 	}
 
 	public Individual performOptimizationTask() throws Exception {
-		int i = 0;
-		this.startingTime = System.nanoTime();
+		int i = 0; startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
-		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
 			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
-
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
-			//this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu() + evolutionaryAlgorithm.getPopulation().getLambda());
 			evolutionaryAlgorithm.survivorSelection();
-
-			// debug -----------------
-			if (debug) {
-				Individual best = this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
-				Individual newBest = findMax(evolutionaryAlgorithm.getPopulation());
-				if (best.getFitness() != newBest.getFitness())
-					throw new Exception("error in getFittestIndvidual");
-				double oldBest = findMax(previousPopulation).getFitness();
-				if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism())
-					if (newBest.getFitness() < oldBest)
-						throw new Exception("next gen is worse then previous");
-			}
-			//------------------------
-
+			if (debug)
+				this.compareToPreviousPopulation(previousPopulation);
 			if (visuals != 0 && i%visuals == 0) {
 				try {
 					this.evolutionaryAlgorithm.printPerformance();
@@ -64,13 +48,11 @@ public class Experiment {
 			}
 			i++;
 		}
-		try {
-			this.evolutionaryAlgorithm.printPerformance();
-		} catch (Exception e){
-		}
+		try {this.evolutionaryAlgorithm.printPerformance();}
+		catch (Exception e){}
+		
 		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
-		double duration = ((double)(System.nanoTime() - this.startingTime)) / 1000000000;
-		System.out.println("Elapsed Time : " + new DecimalFormat("#.##########").format(duration) + " Seconds");
+		this.showDuration();
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
 
@@ -121,34 +103,32 @@ public class Experiment {
 			throw new Exception("Optimization hasn't started yet");
 		return this.startingTime;
 	}
-	/**
-	 * @return the evolutionaryAlgorithm
-	 */
 	public EvolutionaryAlgorithm getEvolutionaryAlgorithm() {
 		return evolutionaryAlgorithm;
 	}
-
-	/**
-	 * @param evolutionaryAlgorithm the evolutionaryAlgorithm to set
-	 */
 	public void setEvolutionaryAlgorithm(EvolutionaryAlgorithm evolutionaryAlgorithm) {
 		this.evolutionaryAlgorithm = evolutionaryAlgorithm;
 	}
-
-	/**
-	 * @return the terminationCondition
-	 */
 	public TerminationCondition getTerminationCondition() {
 		return terminationCondition;
 	}
-
-	/**
-	 * @param terminationCondition the terminationCondition to set
-	 */
 	public void setTerminationCondition(TerminationCondition terminationCondition) {
 		this.terminationCondition = terminationCondition;
 	}
-
+	private void compareToPreviousPopulation(Population previousPopulationInstance) throws Exception {
+		Individual best = this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
+		Individual newBest = findMax(evolutionaryAlgorithm.getPopulation());
+		if (best.getFitness() != newBest.getFitness())
+			throw new Exception("error in getFittestIndvidual");
+		double oldBest = findMax(previousPopulationInstance).getFitness();
+		if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism())
+			if (newBest.getFitness() < oldBest)
+				throw new Exception("next gen is worse then previous");
+	}
+	private void showDuration(){
+		double duration = ((double)(System.nanoTime() - this.startingTime)) / 1000000000;
+		System.out.println("Elapsed Time : " + new DecimalFormat("#.#").format(duration) + " Seconds");
+	}
 	// debug
 	private static Individual findMax(Population pop){
 		Individual max = pop.getPool()[0];

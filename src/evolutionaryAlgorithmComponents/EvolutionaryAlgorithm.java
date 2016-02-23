@@ -95,6 +95,7 @@ public class EvolutionaryAlgorithm {
 			}
 		}
 	}
+	
 	public void printInfo(){
 		System.out.println("\nEvolutionary Algorithm deployed with components:");
 		System.out.println("Evaluation: " + evaluator.getTitle());

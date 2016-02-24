@@ -5,6 +5,7 @@ import java.util.Random;
 
 import simulationComponents.terminationConditions.EvaluationLimit;
 import simulationComponents.terminationConditions.GenerationsLimitTerminationCondition;
+import util.Util;
 import interfaces.SurvivorSelection;
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
@@ -40,14 +41,10 @@ public class Experiment {
 			i++;
 			if (debug)
 				this.compareToPreviousPopulation(previousPopulation);
-			if (visuals != 0 && i%visuals == 0) {
-				try {this.evolutionaryAlgorithm.printPerformance();}
-				catch (Exception e){}
-				this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());}}
-		try {this.evolutionaryAlgorithm.printPerformance();}
-		catch (Exception e){}
-		
-		this.evolutionaryAlgorithm.getPopulation().visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
+			if (visuals != 0 && i%visuals == 0)
+				this.visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
+		}
+		this.visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		this.showDuration();
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
@@ -129,6 +126,19 @@ public class Experiment {
 				max = pop.getPool()[i];
 		}
 		return max;
+	}
+	private void visualize(int precision, int limit) {
+		Population pop = this.evolutionaryAlgorithm.getPopulation();
+		double[] fitArray = new double[limit];
+		for (int i=0; i<limit; i++)
+			fitArray[i] = pop.getPool()[i].getFitness();
+		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
+		try {
+			this.evolutionaryAlgorithm.printPerformance();}
+		catch (Exception e) {
+		}		
+		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
+		System.out.format(visual, pop.getGenerationCounter(), pop.getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
 	}
 
 }

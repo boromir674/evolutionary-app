@@ -98,16 +98,14 @@ public abstract class Util {
 		double[] fitArray = new double[limit-start];
 		fitArray[0] = anArrayOfIndividuals[start].getFitness();
 		double minFitness = fitArray[0];
-		double fitnessSum = 0;
+		double fitnessSum = fitArray[0];
 		for (int i=1; i<fitArray.length; i++){
 			fitArray[i] = anArrayOfIndividuals[start+i].getFitness();
 			if (fitArray[i] < minFitness)
 				minFitness = fitArray[i];
-			//fitnessSum += fitArray[i];
+			fitnessSum += fitArray[i];
 		}
-		//fitnessSum += fitArray.length * (1 - minFitness);
-		for (int i=0; i<fitArray.length; i++)
-			fitnessSum += fitArray[i] + 1 - minFitness;
+		fitnessSum += fitArray.length * (1 - minFitness);
 		double[] cumulProbs = new double[fitArray.length];
 		fitArray[0] = fitArray[0] - minFitness + 1;
 		cumulProbs[0] = fitArray[0]/fitnessSum;

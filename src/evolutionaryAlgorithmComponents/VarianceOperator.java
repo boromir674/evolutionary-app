@@ -7,14 +7,12 @@ import interfaces.Representation;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractDiscreteMutation;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractPermutationMutation;
-import evolutionaryAlgorithmComponents.variationOperators.recombination.AbstractRecombination;
 import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractDiscreteRecombination;
 import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractPermutationRecombination;
 
-public class VarianceOperator implements EvolutionaryAlgorithmComponent{
+public class VarianceOperator {
 
 	private Recombination recombination;
 	private Mutation mutation;
@@ -59,10 +57,6 @@ public class VarianceOperator implements EvolutionaryAlgorithmComponent{
 				if (someChildren[i].getChromosome()[j] == null)
 					return true;
 		return false;
-	}
-	@Override
-	public String getTitle() {
-		return null;
 	}
 	/**
 	 * @return the recombination

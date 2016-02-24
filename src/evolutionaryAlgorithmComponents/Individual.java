@@ -25,12 +25,7 @@ public class Individual implements Comparable<Individual>{
 	public int compareTo(Individual ind1) {
 		double fit1 = this.getFitness();
 		double fit2 = ind1.getFitness();
-		Double d1 = fit1;
-		Double d2 = fit2;
-		@SuppressWarnings("unused")
-		int r = d1.compareTo(d2);
-		int r2 = Double.compare(fit1, fit2);
-		return r2;
+		return Double.compare(fit1, fit2);
 	}
 
 	public void computeMyFitness(EvaluationMethod evaluator) throws Exception{
@@ -84,6 +79,20 @@ public class Individual implements Comparable<Individual>{
 	}
 	public Representation getRepresentation() {
 		return representation;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Individual a = new Individual();
+		a.age = this.age;
+		a.fitness = this.fitness;
+		a.pop = this.pop;
+		a.initializeEmpty(representation);
+		for (int i=0; i<a.chromosome.length; i++)
+			a.chromosome[i] = this.chromosome[i];
+		return a;
 	}
 	
 }

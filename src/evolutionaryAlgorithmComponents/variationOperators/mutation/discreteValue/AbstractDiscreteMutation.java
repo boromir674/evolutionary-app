@@ -1,6 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
-import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
+import evolutionaryAlgorithmComponents.AbstractMutation;
 
 public abstract class AbstractDiscreteMutation extends AbstractMutation {
 

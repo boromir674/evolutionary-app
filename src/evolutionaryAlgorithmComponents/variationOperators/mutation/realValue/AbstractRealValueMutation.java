@@ -2,8 +2,8 @@ package evolutionaryAlgorithmComponents.variationOperators.mutation.realValue;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractMutation;
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 
 public abstract class AbstractRealValueMutation extends AbstractMutation {
 	

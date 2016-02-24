@@ -1,5 +1,7 @@
 package util;
 
+import interfaces.FitnessCalculator;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -93,13 +95,34 @@ public abstract class Util {
 		return topCompetitors;
 	}
 
-	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit){
-		
+	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit, FitnessCalculator aFitnessCalculator){
+
 		double[] fitArray = new double[limit-start];
-		fitArray[0] = anArrayOfIndividuals[start].getFitness();
-		double minFitness = fitArray[0];
-		double fitnessSum = fitArray[0];
-		for (int i=1; i<fitArray.length; i++){
+		double minFitness = Double.POSITIVE_INFINITY;
+		double fitnessSum = 0;
+		for (int i=0; i<fitArray.length; i++){
+			fitArray[i] = aFitnessCalculator.computeFitness(anArrayOfIndividuals[start+i]);
+			if (fitArray[i] < minFitness)
+				minFitness = fitArray[i];
+			fitnessSum += fitArray[i];
+		}
+		fitnessSum += fitArray.length * (1 - minFitness);
+		double[] cumulProbs = new double[fitArray.length];
+		fitArray[0] = fitArray[0] - minFitness + 1;
+		cumulProbs[0] = fitArray[0]/fitnessSum;
+		for (int i=1; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
+			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
+		}
+
+		return cumulProbs;
+	}
+	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit){
+
+		double[] fitArray = new double[limit-start];
+		double minFitness = Double.POSITIVE_INFINITY;
+		double fitnessSum = 0;
+		for (int i=0; i<fitArray.length; i++){
 			fitArray[i] = anArrayOfIndividuals[start+i].getFitness();
 			if (fitArray[i] < minFitness)
 				minFitness = fitArray[i];

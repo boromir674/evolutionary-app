@@ -19,6 +19,7 @@ public class VarianceOperator {
 	// flags
 	boolean applicableToPermutation = false;
 	boolean applicableToDiscrete = false;
+	EvolutionaryAlgorithm evo;
 
 	public VarianceOperator(Recombination recombinationType, Mutation mutationType){
 		this.recombination = recombinationType;

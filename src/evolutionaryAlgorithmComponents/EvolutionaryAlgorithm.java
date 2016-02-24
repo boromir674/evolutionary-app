@@ -3,6 +3,8 @@ package evolutionaryAlgorithmComponents;
 import java.util.Collections;
 import java.util.Random;
 
+import util.Util;
+import evolutionaryAlgorithmComponents.fitnessSharingSchemes.BasicFitnessSharing;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
@@ -11,12 +13,13 @@ import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
+import interfaces.FitnessSharingScheme;
 import interfaces.ParentSelection;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
 
 public class EvolutionaryAlgorithm {
-
+	// Fundamental components
 	private Representation representation;
 	private EvaluationMethod evaluator;
 	private Population population;
@@ -24,11 +27,11 @@ public class EvolutionaryAlgorithm {
 	private ParentSelection parentSelectionMethod;
 	private SurvivorSelection survivorSelectionMethod;
 
+	private FitnessSharingScheme sharingScheme = null;
 	private int[] parents;
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
-	private boolean fitnessSharing = false;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
@@ -37,6 +40,7 @@ public class EvolutionaryAlgorithm {
 		population = aPopulation;
 		population.evo = this;
 		variationOperator = aVarianceOperator;
+		variationOperator.evo = this;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;
 		this.checkComponentsCompatibility(this);
@@ -50,8 +54,14 @@ public class EvolutionaryAlgorithm {
 	}
 	public void parentSelection(Random aRandom) throws Exception{
 		parents = parentSelectionMethod.select(population, aRandom);
-		util.Util.shuffleArray(parents, aRandom);
+		Util.shuffleArray(parents, aRandom);
+
 	}
+	private int[] share(Population population2, Random aRandom) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		population.fitterTillEnd = population.fitterTillMu;
 		for (int i=0; i<population.getLambda(); i=i+2){
@@ -70,8 +80,6 @@ public class EvolutionaryAlgorithm {
 	}
 
 	public void survivorSelection() throws Exception {
-		if (fitnessSharing)
-			this.applyFitnessSharingScheme();
 		this.population.generationCount ++;
 		try {
 			survivors = survivorSelectionMethod.select(population);
@@ -109,7 +117,7 @@ public class EvolutionaryAlgorithm {
 		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
 		System.out.format("%.2f ", percentage);		
 	}
-	
+
 	private void applyFitnessSharingScheme(){
 		/*int alpha = 1;
 		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
@@ -122,7 +130,7 @@ public class EvolutionaryAlgorithm {
 			population.getPool()[i].fitness /= denominator;
 		}*/
 	}
-	
+
 	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
 		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");
@@ -205,12 +213,14 @@ public class EvolutionaryAlgorithm {
 	public void setSurvivorSelectionMethod(SurvivorSelection survivorSelectionMethod) {
 		this.survivorSelectionMethod = survivorSelectionMethod;
 	}
-
+	public FitnessSharingScheme getFitnessSharingScheme(){
+		return sharingScheme;
+	}
 	public void fitnessSharingON() {
-		this.fitnessSharing = true;
+		this.sharingScheme = new BasicFitnessSharing();
 	}
 	public void fitnessSharingOFF() {
-		this.fitnessSharing = false;
+		this.sharingScheme = null;
 	}
 
 }

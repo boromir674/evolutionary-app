@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.variationOperators.mutation;
+package evolutionaryAlgorithmComponents;
 
 import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.Mutation;
@@ -7,7 +7,7 @@ public abstract class AbstractMutation implements Mutation{
 
 	private final String title;
 	private double probability;
-
+	
 	public AbstractMutation(String title, double probability){
 		this.title = title;
 		this.probability = probability;

@@ -47,13 +47,13 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 	}
 	
 	@Override
-	public double genotypicDistance(Object[] chromosome0, Object[] chromosome1) {
+	public double genotypicDistance(Individual ind0, Individual ind1) {
 		//https://en.wikipedia.org/wiki/Kendall_tau_distance
-		int d = chromosome0.length;
+		int d = ind0.getRepresentation().getDimensions();
 		int distance = 0;
 		for (int i=0; i<d; i++) {
 			for (int j=i+1; j<d; j++) {
-				if (ArrayUtils.indexOf(chromosome1, i) > ArrayUtils.indexOf(chromosome1, j)) {
+				if (ArrayUtils.indexOf(ind1.getChromosome(), ind0.getChromosome()[i]) > ArrayUtils.indexOf(ind1.getChromosome(), ind0.getChromosome()[j])) {
 					distance ++;
 				}
 			}

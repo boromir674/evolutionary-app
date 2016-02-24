@@ -2,6 +2,8 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.Individual;
+
 public class IntegerRepresentation extends AbstractIntegerRepresentation {
 	
 	private final static String title = "Integer";
@@ -19,9 +21,12 @@ public class IntegerRepresentation extends AbstractIntegerRepresentation {
 	}
 
 	@Override
-	public double genotypicDistance(Object[] chromosome, Object[] chromosome2) {
+	public double genotypicDistance(Individual anIndividual0,
+			Individual anIndividual1) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 
 }

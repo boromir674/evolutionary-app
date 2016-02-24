@@ -25,6 +25,6 @@ public abstract class AbstractRepresentation implements Representation{
 		return title;
 	}
 
-	public abstract double genotypicDistance(Object[] chromosome, Object[] chromosome2);
+	public abstract double genotypicDistance(Individual anIndividual0, Individual anIndividual1);
 	
 }

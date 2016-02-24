@@ -22,7 +22,7 @@ public class BasicFitnessSharing extends AbstractFitnessSharingScheme {
 	public double computeFitness(Individual ind) {
 		double denominator = 0;
 		for (int i=0; i<ind.getPopulation().getMu(); i++) {
-			double distance = ((AbstractRepresentation)ind.getPopulation().getPool()[0].getRepresentation()).genotypicDistance(ind.getChromosome(), ind.getPopulation().getPool()[i].getChromosome());
+			double distance = ((AbstractRepresentation)ind.getPopulation().getPool()[0].getRepresentation()).genotypicDistance(ind, ind.getPopulation().getPool()[i]);
 			if (distance <= 5)
 				denominator += 1 - Math.pow(distance/5, alpha);
 		}

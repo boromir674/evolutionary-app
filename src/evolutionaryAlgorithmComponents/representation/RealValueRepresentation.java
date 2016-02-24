@@ -3,6 +3,7 @@ package evolutionaryAlgorithmComponents.representation;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractRepresentation;
+import evolutionaryAlgorithmComponents.Individual;
 
 public class RealValueRepresentation extends AbstractRepresentation {
 	
@@ -68,9 +69,11 @@ public class RealValueRepresentation extends AbstractRepresentation {
 	}
 
 	@Override
-	public double genotypicDistance(Object[] chromosome, Object[] chromosome2) {
+	public double genotypicDistance(Individual anIndividual0,
+			Individual anIndividual1) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }

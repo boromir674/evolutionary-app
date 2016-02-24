@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import util.Util;
-import evolutionaryAlgorithmComponents.fitnessSharingSchemes.BasicFitnessSharing;
+import evolutionaryAlgorithmComponents.Schemes.BasicFitnessSharing;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
@@ -28,7 +28,7 @@ public class EvolutionaryAlgorithm {
 	private SurvivorSelection survivorSelectionMethod;
 
 	private FitnessSharingScheme sharingScheme = null;
-	private int[] parents;
+	protected int[] parents;
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
@@ -125,7 +125,10 @@ public class EvolutionaryAlgorithm {
 			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
 		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("real value representation, but discrete operator");
-	}	
+	}
+	public int[] getParents(){
+		return this.parents;
+	}
 	/**
 	 * @return the representation
 	 */

@@ -18,7 +18,6 @@ import exceptions.NoKnownSolutionException;
 
 public class Population implements Cloneable{
 
-	// temp method
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
@@ -58,8 +57,35 @@ public class Population implements Cloneable{
 		}
 		fitterTillEnd = fitterTillMu;
 	}
+	
+	/** This method finds and returns the Individual, among the Population (of size mu), that
+	 * has the highest/maximum fitness value. 
+	 * @return the fittest Individual
+	 */
+	public Individual getFittestIndividual(){
+		return this.fitterTillMu;
+	}
+	public double getDiversity() {
+		double[] fitArray = new double[mu];
+		for (int i=0; i<mu; i++)
+			fitArray[i] = pool[i].getFitness();
+		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
+		return meanAndStd[1];
+	}
 	public int getGenerationCounter(){
 		return generationCount;
+	}
+	public EvolutionaryAlgorithm getEvolutionaryAlgorithm(){
+		return evo;
+	}
+	public int getMu() {
+		return mu;
+	}
+	public int getLambda() {
+		return lambda;
+	}
+	public Individual[] getPool() {
+		return pool;
 	}
 	void forceFitter(){
 		pool[cheatRandom.nextInt(mu)] = fitterTillEnd;
@@ -84,44 +110,5 @@ public class Population implements Cloneable{
 		if (in.getFitness() > fitterTillMu.getFitness())
 			fitterTillMu = in;
 	}
-
-	/** This method finds and returns the Individual, among the Population (of size mu), that
-	 * has the highest/maximum fitness value. 
-	 * @return the fittest Individual
-	 */
-	public Individual getFittestIndividual(){
-		return this.fitterTillMu;
-	}
-	public Individual getFittestIndividualFromTheWholePool(){
-		return fitterTillEnd;
-	}
-	public EvolutionaryAlgorithm getEvolutionaryAlgorithm(){
-		return evo;
-	}
-	/**
-	 * @return the mu
-	 */
-	public int getMu() {
-		return mu;
-	}
-	/**
-	 * @return the lambda
-	 */
-	public int getLambda() {
-		return lambda;
-	}
-	/**
-	 * @return the pool
-	 */
-	public Individual[] getPool() {
-		return pool;
-	}
-	public double getDiversity() {
-		double[] fitArray = new double[mu];
-		for (int i=0; i<mu; i++)
-			fitArray[i] = pool[i].getFitness();
-		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
-		return meanAndStd[1];
-	}
-
+	
 }

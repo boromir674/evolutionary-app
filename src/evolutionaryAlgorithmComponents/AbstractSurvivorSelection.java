@@ -12,6 +12,6 @@ public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 
 	public String getTitle(){
 		return title;
-	} 
+	}
 
 }

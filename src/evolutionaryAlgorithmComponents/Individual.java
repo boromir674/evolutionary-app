@@ -79,7 +79,9 @@ public class Individual implements Comparable<Individual>{
 	public int getAge(){
 		return age;
 	}
-
+	public Population getPopulation(){
+		return this.pop;
+	}
 	public Representation getRepresentation() {
 		return representation;
 	}

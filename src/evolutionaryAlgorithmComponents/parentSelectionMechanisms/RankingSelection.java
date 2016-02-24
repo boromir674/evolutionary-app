@@ -18,9 +18,8 @@ public class RankingSelection extends AbstractParentSelection {
 	@Override
 	public int[] select(Population pop, Random rand) throws Exception {
 		double[] fitArray = new double[pop.getMu()];
-		fitArray[0] = pop.getPool()[0].getFitness();
-		double minFitness = fitArray[0];
-		for (int i=1; i<fitArray.length; i++){
+		double minFitness = Double.POSITIVE_INFINITY;
+		for (int i=0; i<fitArray.length; i++){
 			fitArray[i] = pop.getPool()[i].getFitness();
 			if (fitArray[i] < minFitness)
 				minFitness = fitArray[i];

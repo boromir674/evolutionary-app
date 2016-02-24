@@ -80,10 +80,8 @@ public class Individual implements Comparable<Individual>{
 		return age;
 	}
 
-	/**
-	 * @return the representation
-	 */
 	public Representation getRepresentation() {
 		return representation;
 	}
+	
 }

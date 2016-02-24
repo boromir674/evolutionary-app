@@ -6,6 +6,7 @@ import java.util.Random;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
+import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 import exceptions.SortsInPlaceThePopulationException;
@@ -45,4 +46,5 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 	public boolean forceElitism() {
 		return true;
 	}
+
 }

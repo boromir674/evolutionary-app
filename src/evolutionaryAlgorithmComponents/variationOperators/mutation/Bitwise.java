@@ -2,6 +2,7 @@ package evolutionaryAlgorithmComponents.variationOperators.mutation;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractMutation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractDiscreteMutation;
 

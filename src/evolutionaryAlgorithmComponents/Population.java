@@ -68,6 +68,7 @@ public class Population implements Cloneable{
 	void addOffspring(Individual someone, EvaluationMethod evaluator) throws Exception{
 		someone.computeMyFitness(evaluator);
 		pool[offspringStoreIndex+mu] = someone;
+		someone.pop = this;
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda;
 		if (someone.getFitness() > fitterTillEnd.getFitness())
 			fitterTillEnd = someone;
@@ -79,6 +80,7 @@ public class Population implements Cloneable{
 	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
 		in.computeMyFitness(eval);
 		pool[parentStoreIndex] = in;
+		in.pop = this;
 		parentStoreIndex = (parentStoreIndex + 1) % mu;
 		if (in.getFitness() > fitterTillMu.getFitness())
 			fitterTillMu = in;
@@ -94,9 +96,10 @@ public class Population implements Cloneable{
 	}
 	public Individual getFittestIndividualFromTheWholePool(){
 		return fitterTillEnd;
-
 	}
-
+	public EvolutionaryAlgorithm getEvolutionaryAlgorithm(){
+		return evo;
+	}
 	/**
 	 * @return the mu
 	 */

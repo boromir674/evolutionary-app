@@ -7,7 +7,6 @@ import java.util.Random;
 import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
-import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 
 public class RandomResseting extends AbstractDiscreteMutation {
 	

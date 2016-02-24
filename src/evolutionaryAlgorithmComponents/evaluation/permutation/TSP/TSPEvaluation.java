@@ -17,7 +17,7 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	}
 
 	@Override
-	public double computeFitness(Individual in) throws Exception {
+	public double computeFitness(Individual in) {
 		int d = in.getRepresentation().getDimensions();
 		double fitness = 0;
 		for (int i=0; i<d; i++)

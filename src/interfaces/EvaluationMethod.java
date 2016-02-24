@@ -3,7 +3,7 @@ package interfaces;
 import evolutionaryAlgorithmComponents.Individual;
 import exceptions.NoKnownSolutionException;
 
-public interface EvaluationMethod extends EvolutionaryAlgorithmComponent {
+public interface EvaluationMethod extends EvolutionaryAlgorithmComponent, FitnessCalculator {
 	/**
 	 * Returns the maximum fitness value that has been encountered so far.
 	 * @return the maximum fitness value.
@@ -20,14 +20,6 @@ public interface EvaluationMethod extends EvolutionaryAlgorithmComponent {
 	 * should be conducted using the same EvaluationMethod. 
 	 */
 	void reInitialize();
-	/**
-	 * Calculates the fitness value for the specified individual's chromosome.
-	 * Should be implemented such that bigger fitness values indicate fitter individuals.
-	 * @param anIndividual the Individual to be evaluated.
-	 * @return the fitness value.
-	 * @throws Exception 
-	 */
-	public double computeFitness(Individual anIndividual) throws Exception;
 	/**
 	 * This method should return an array which represents the vector containing the solution to the 
 	 * original problem. This vector will naturally correspond also to the best fitness value.  

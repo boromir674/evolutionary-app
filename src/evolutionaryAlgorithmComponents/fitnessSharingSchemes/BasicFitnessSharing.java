@@ -29,11 +29,4 @@ public class BasicFitnessSharing extends AbstractFitnessSharingScheme {
 		return ind.getFitness() / denominator;
 	}
 
-	@Override
-	public int[] select(Population pop, Random rand) {
-		double[] cumulProbs1 = Util.getCumulativeDistribution(pop.getPool(), 0, pop.getMu(), this);
-		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs1, pop.getLambda(), rand);
-		return parentPointers;
-	}
-
 }

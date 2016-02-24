@@ -43,7 +43,7 @@ public class EvolutionaryAlgorithm {
 		variationOperator.evo = this;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;
-		this.checkComponentsCompatibility(this);
+		this.checkComponentsCompatibility();
 		printInfo();
 	}
 
@@ -53,13 +53,10 @@ public class EvolutionaryAlgorithm {
 		this.lowerValue = this.population.getFittestIndividual().getFitness();
 	}
 	public void parentSelection(Random aRandom) throws Exception{
-		parents = parentSelectionMethod.select(population, aRandom);
-		Util.shuffleArray(parents, aRandom);
-
-	}
-	private int[] share(Population population2, Random aRandom) {
-		// TODO Auto-generated method stub
-		return null;
+		if (sharingScheme == null)
+			parents = parentSelectionMethod.select(population, aRandom);
+		else
+			parents = sharingScheme.select(population, aRandom);
 	}
 
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
@@ -118,20 +115,7 @@ public class EvolutionaryAlgorithm {
 		System.out.format("%.2f ", percentage);		
 	}
 
-	private void applyFitnessSharingScheme(){
-		/*int alpha = 1;
-		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
-			double denominator = 0;
-			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
-				double distance = ((AbstractRepresentation)representation).genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
-				if (distance <= 5)
-					denominator += 1 - Math.pow(distance/5, alpha);
-			}
-			population.getPool()[i].fitness /= denominator;
-		}*/
-	}
-
-	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
+	private void checkComponentsCompatibility() throws IncompatibleComponentsException {
 		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");
 		if (representation instanceof PermutationRepresentation && !variationOperator.applicableToPermutation)

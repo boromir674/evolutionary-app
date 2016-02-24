@@ -1,6 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.realValue;
 
-import evolutionaryAlgorithmComponents.variationOperators.recombination.AbstractRecombination;
+import evolutionaryAlgorithmComponents.AbstractRecombination;
 
 public abstract class AbstractRealValueRecombination extends AbstractRecombination {
 	

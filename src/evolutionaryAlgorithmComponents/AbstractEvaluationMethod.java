@@ -7,6 +7,8 @@ import interfaces.EvaluationMethod;
 
 public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	
+	EvolutionaryAlgorithm myEvolutionaryAlgorithm;
+
 	private final String title;
 	protected double bestScoreEncountered = Double.NEGATIVE_INFINITY;
 	protected int evaluationsUsed = 0;

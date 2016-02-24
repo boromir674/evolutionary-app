@@ -1,6 +1,5 @@
-package evolutionaryAlgorithmComponents.variationOperators.recombination;
+package evolutionaryAlgorithmComponents;
 
-import evolutionaryAlgorithmComponents.Individual;
 import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.Recombination;
 import interfaces.Representation;

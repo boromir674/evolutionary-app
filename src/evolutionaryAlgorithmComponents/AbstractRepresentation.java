@@ -24,5 +24,7 @@ public abstract class AbstractRepresentation implements Representation{
 	public String getTitle() {
 		return title;
 	}
+
+	public abstract double genotypicDistance(Object[] chromosome, Object[] chromosome2);
 	
 }

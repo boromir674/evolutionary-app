@@ -28,7 +28,7 @@ public class Population implements Cloneable{
 	private int mu; // population size
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
-	int generationCount = 1;
+	int generationCount;
 	EvolutionaryAlgorithm evo;
 	private int offspringStoreIndex;
 	private int parentStoreIndex;
@@ -44,7 +44,7 @@ public class Population implements Cloneable{
 	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
 		cheatRandom = aRandom;
 		pool = new Individual[mu+lambda];
-		generationCount = 1;
+		generationCount = 0;
 		offspringStoreIndex = 0;
 		parentStoreIndex = 0;
 		Individual member = new Individual();
@@ -63,14 +63,15 @@ public class Population implements Cloneable{
 	}
 	void forceFitter(){
 		pool[cheatRandom.nextInt(mu)] = fitterTillEnd;
+		fitterTillMu = fitterTillEnd;
 	}
 	void addOffspring(Individual someone, EvaluationMethod evaluator) throws Exception{
 		someone.computeMyFitness(evaluator);
 		pool[offspringStoreIndex+mu] = someone;
+		someone.pop = this;
 		offspringStoreIndex = (offspringStoreIndex + 1) % lambda;
 		if (someone.getFitness() > fitterTillEnd.getFitness())
 			fitterTillEnd = someone;
-		someone.pop = this;
 	}
 	void updatePoolWithNewGeneration(Individual[] newPool){
 		this.pool = newPool;
@@ -78,10 +79,10 @@ public class Population implements Cloneable{
 	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
 		in.computeMyFitness(eval);
 		pool[parentStoreIndex] = in;
+		in.pop = this;
 		parentStoreIndex = (parentStoreIndex + 1) % mu;
 		if (in.getFitness() > fitterTillMu.getFitness())
 			fitterTillMu = in;
-		in.pop = this;
 	}
 
 	/** This method finds and returns the Individual, among the Population (of size mu), that
@@ -93,30 +94,28 @@ public class Population implements Cloneable{
 	}
 	public Individual getFittestIndividualFromTheWholePool(){
 		return fitterTillEnd;
-
 	}
-
+	public EvolutionaryAlgorithm getEvolutionaryAlgorithm(){
+		return evo;
+	}
 	/**
 	 * @return the mu
 	 */
 	public int getMu() {
 		return mu;
 	}
-
 	/**
 	 * @return the lambda
 	 */
 	public int getLambda() {
 		return lambda;
 	}
-
 	/**
 	 * @return the pool
 	 */
 	public Individual[] getPool() {
 		return pool;
 	}
-
 	public void visualize(int precision, int limit) throws Exception {
 		double[] fitArray = new double[limit];
 		for (int i=0; i<limit; i++)
@@ -125,7 +124,6 @@ public class Population implements Cloneable{
 		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
 		System.out.format(visual, generationCount, this.getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
 	}
-
 	public double getDiversity() {
 		double[] fitArray = new double[mu];
 		for (int i=0; i<mu; i++)

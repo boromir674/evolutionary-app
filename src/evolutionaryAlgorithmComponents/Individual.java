@@ -12,7 +12,7 @@ import exceptions.NoKnownSolutionException;
 
 public class Individual implements Comparable<Individual>{
 
-	private double fitness; // the fitness value of the Individual's chromosome
+	protected double fitness; // the fitness value of the Individual's chromosome
 	private Object[] chromosome; // the chromosome represented as an Object array
 	private int age = 0;
 	private Representation representation;
@@ -79,11 +79,11 @@ public class Individual implements Comparable<Individual>{
 	public int getAge(){
 		return age;
 	}
-
-	/**
-	 * @return the representation
-	 */
+	public Population getPopulation(){
+		return this.pop;
+	}
 	public Representation getRepresentation() {
 		return representation;
 	}
+	
 }

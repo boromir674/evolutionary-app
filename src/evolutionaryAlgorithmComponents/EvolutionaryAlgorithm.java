@@ -3,6 +3,8 @@ package evolutionaryAlgorithmComponents;
 import java.util.Collections;
 import java.util.Random;
 
+import util.Util;
+import evolutionaryAlgorithmComponents.fitnessSharingSchemes.BasicFitnessSharing;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
@@ -11,12 +13,13 @@ import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
+import interfaces.FitnessSharingScheme;
 import interfaces.ParentSelection;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
 
 public class EvolutionaryAlgorithm {
-
+	// Fundamental components
 	private Representation representation;
 	private EvaluationMethod evaluator;
 	private Population population;
@@ -24,12 +27,12 @@ public class EvolutionaryAlgorithm {
 	private ParentSelection parentSelectionMethod;
 	private SurvivorSelection survivorSelectionMethod;
 
+	private FitnessSharingScheme sharingScheme = null;
 	private int[] parents;
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
-	private boolean fitnessSharing = false;
-	
+
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
 		representation = aRepresentation;
@@ -37,9 +40,10 @@ public class EvolutionaryAlgorithm {
 		population = aPopulation;
 		population.evo = this;
 		variationOperator = aVarianceOperator;
+		variationOperator.evo = this;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;
-		this.checkComponentsCompatibility(this);
+		this.checkComponentsCompatibility();
 		printInfo();
 	}
 
@@ -49,9 +53,12 @@ public class EvolutionaryAlgorithm {
 		this.lowerValue = this.population.getFittestIndividual().getFitness();
 	}
 	public void parentSelection(Random aRandom) throws Exception{
-		parents = parentSelectionMethod.select(population, aRandom);
-		util.Util.shuffleArray(parents, aRandom);
+		if (sharingScheme == null)
+			parents = parentSelectionMethod.select(population, aRandom);
+		else
+			parents = sharingScheme.select(population, aRandom);
 	}
+
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
 		population.fitterTillEnd = population.fitterTillMu;
 		for (int i=0; i<population.getLambda(); i=i+2){
@@ -82,18 +89,14 @@ public class EvolutionaryAlgorithm {
 				newGeneration[i].incrementAge();
 				if (newGeneration[i].getFitness() > population.fitterTillMu.getFitness())
 					population.fitterTillMu = newGeneration[i];
-				
 			}
 			population.updatePoolWithNewGeneration(newGeneration);
 		} catch (SortsInPlaceThePopulationException e) {
 			population.fitterTillMu = population.getPool()[0];
 		}
-		if (survivorSelectionMethod.forceElitism()){
-			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness()){
+		if (survivorSelectionMethod.forceElitism())
+			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness())
 				population.forceFitter();
-				population.fitterTillMu = population.fitterTillEnd;
-			}
-		}
 	}
 	
 	public void printInfo(){
@@ -112,21 +115,8 @@ public class EvolutionaryAlgorithm {
 		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
 		System.out.format("%.2f ", percentage);		
 	}
-	
-	private void applyFitnessSharingScheme(){
-		/*int alpha = 1;
-		for (int i=0; i<population.getMu()+population.getLambda(); i++) {
-			double denominator = 0;
-			for (int j=0; j<population.getMu()+population.getLambda(); j++) {
-				double distance = ((AbstractRepresentation)representation).genotypicDistance(population.getPool()[i].getChromosome(), population.getPool()[i].getChromosome());
-				if (distance <= 5)
-					denominator += 1 - Math.pow(distance/5, alpha);
-			}
-			population.getPool()[i].fitness /= denominator;
-		}*/
-	}
-	
-	private void checkComponentsCompatibility(EvolutionaryAlgorithm anEA) throws IncompatibleComponentsException {
+
+	private void checkComponentsCompatibility() throws IncompatibleComponentsException {
 		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");
 		if (representation instanceof PermutationRepresentation && !variationOperator.applicableToPermutation)
@@ -208,12 +198,14 @@ public class EvolutionaryAlgorithm {
 	public void setSurvivorSelectionMethod(SurvivorSelection survivorSelectionMethod) {
 		this.survivorSelectionMethod = survivorSelectionMethod;
 	}
-
+	public FitnessSharingScheme getFitnessSharingScheme(){
+		return sharingScheme;
+	}
 	public void fitnessSharingON() {
-		this.fitnessSharing = true;
+		this.sharingScheme = new BasicFitnessSharing();
 	}
 	public void fitnessSharingOFF() {
-		this.fitnessSharing = false;
+		this.sharingScheme = null;
 	}
 
 }

@@ -67,4 +67,10 @@ public class RealValueRepresentation extends AbstractRepresentation {
 		return highestValue;
 	}
 
+	@Override
+	public double genotypicDistance(Object[] chromosome, Object[] chromosome2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

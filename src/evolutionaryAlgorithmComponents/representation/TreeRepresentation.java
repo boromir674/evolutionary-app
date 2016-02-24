@@ -24,4 +24,10 @@ public class TreeRepresentation extends AbstractRepresentation {
 		return null;
 	}
 
+	@Override
+	public double genotypicDistance(Object[] chromosome, Object[] chromosome2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

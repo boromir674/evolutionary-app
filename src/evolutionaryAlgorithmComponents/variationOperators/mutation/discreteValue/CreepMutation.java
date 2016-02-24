@@ -2,8 +2,8 @@ package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValu
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractMutation;
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 @Deprecated
 public class CreepMutation extends AbstractDiscreteMutation {
 	

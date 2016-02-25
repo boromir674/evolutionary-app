@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.Schemes;
+package evolutionaryAlgorithmComponents.schemes;
 
 import java.util.Random;
 

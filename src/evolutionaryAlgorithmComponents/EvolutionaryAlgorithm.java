@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.Random;
 
 import util.Util;
-import evolutionaryAlgorithmComponents.Schemes.BasicFitnessSharing;
-import evolutionaryAlgorithmComponents.Schemes.DeterministicCrowding;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.schemes.BasicFitnessSharing;
+import evolutionaryAlgorithmComponents.schemes.DeterministicCrowding;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;

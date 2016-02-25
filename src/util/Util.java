@@ -43,56 +43,25 @@ public abstract class Util {
 		return indicesSampled;
 	}
 
-	public static int[] tournamentSelection(int numberOfSamples, double[] values, Random aRandom){
-		// tournament selection algorithm
-		int k = 10;
-		int tempIndex = 0;
+	public static int[] tournamentSelection(int numberOfSamples, int tournamentSize, double[] values, Random aRandom){
+		// tournament size: if larger then weaker inds have smaller chance of being selected
+		int contestant;
 		int winner = 0;
-		double max = Double.MIN_VALUE;
+		double max = Double.NEGATIVE_INFINITY;
 		int[] indicesSampled = new int[numberOfSamples];
 
 		for (int i=0; i<numberOfSamples; i++){
-			for (int j=0; j<k; j++){// with replacement
-				tempIndex = aRandom.nextInt(values.length);
-				if (values[tempIndex] > max){
-					max = values[tempIndex];
-					winner = tempIndex;
+			for (int j=0; j<tournamentSize; j++){// with replacement
+				contestant = aRandom.nextInt(values.length);
+				if (values[contestant] > max){
+					max = values[contestant];
+					winner = contestant;
 				}
 			}
 			indicesSampled[i] = winner;
-			max = Double.MIN_VALUE;
+			max = Double.NEGATIVE_INFINITY;
 		}
 		return indicesSampled;
-	}
-
-	public static int[] roundRobinTournament(int numberOfBest, int q, Object[] values, Random aRandom){
-		int[] topCompetitors = new int[numberOfBest];
-		Integer[][] wins = new Integer[values.length][2];
-		for (int j=0; j<wins.length; j++){
-			wins[j][0] = 0;
-			wins[j][1] = j;
-		}
-		int randomIndex;
-
-		for (int i=0; i<values.length; i++){
-			for (int j=0; j<q; j++){// with replacement
-				randomIndex = aRandom.nextInt(values.length);
-				if (((Double)values[randomIndex]).compareTo((Double)values[i]) < 0){
-					wins[i][0] ++;
-				}
-			}
-		}
-		Arrays.sort(wins, new Comparator<Integer[]>() {
-			@Override
-			public int compare(final Integer[] entry1, Integer[] entry2) {
-				final Integer w1 = entry1[0];
-				final Integer w2 = entry2[0];
-				return w2.compareTo(w1); // Descending order
-			}
-		});
-		for (int i=0; i<topCompetitors.length; i++)
-			topCompetitors[i] = wins[i][1];
-		return topCompetitors;
 	}
 
 	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit, FitnessCalculator aFitnessCalculator){

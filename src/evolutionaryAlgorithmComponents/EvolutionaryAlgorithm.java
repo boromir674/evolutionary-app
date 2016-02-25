@@ -5,6 +5,7 @@ import java.util.Random;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.Schemes.BasicFitnessSharing;
+import evolutionaryAlgorithmComponents.Schemes.DeterministicCrowding;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
@@ -203,6 +204,9 @@ public class EvolutionaryAlgorithm {
 	}
 	public FitnessSharingScheme getFitnessSharingScheme(){
 		return sharingScheme;
+	}
+	public void deterministicCrowdingON(Random aRandom) {
+		this.survivorSelectionMethod = new DeterministicCrowding(aRandom);
 	}
 	public void fitnessSharingON() {
 		this.sharingScheme = new BasicFitnessSharing();

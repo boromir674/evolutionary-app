@@ -108,8 +108,7 @@ public class EvolutionaryAlgorithm {
 		System.out.println("Representation: " + representation.getTitle());
 		System.out.println("Parent Selection: " + parentSelectionMethod.getTitle());
 		System.out.println("Recombination: " + variationOperator.getRecombination().getTitle());
-		System.out.println("Mutation: " + variationOperator.getMutation().getTitle());
-		System.out.println("probability: " + variationOperator.getMutation().getProbability());
+		System.out.format("Mutation (p=%.2f): " + variationOperator.getMutation().getTitle()+"%n", variationOperator.getMutation().getProbability());
 		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
 	}
 	public void printPerformance() throws Exception {

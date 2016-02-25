@@ -35,6 +35,7 @@ public class RankingSelection extends AbstractParentSelection {
 			cumulProbs[i] = cumulProbs[i-1] + probs[i];
 		}
 		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs, pop.getLambda(), rand);
+		Util.shuffleArray(parentPointers, rand);
 		return parentPointers;
 	}	
 

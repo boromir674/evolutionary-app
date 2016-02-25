@@ -22,6 +22,7 @@ public class FitnessProportional extends AbstractParentSelection {
 	public int[] select(Population pop, Random rand) throws Exception {
 		double[] cumulativeProbabilities = Util.getCumulativeDistribution(pop.getPool(), 0, pop.getMu());
 		int[] parentPointers = Util.stochasticUniversalSampling(cumulativeProbabilities, pop.getLambda(), rand);
+		Util.shuffleArray(parentPointers, rand);
 		return parentPointers;
 	}
 

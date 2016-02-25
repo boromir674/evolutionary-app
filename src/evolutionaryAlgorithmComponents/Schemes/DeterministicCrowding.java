@@ -15,7 +15,7 @@ public class DeterministicCrowding extends AbstractSurvivorSelection {
 	
 	private final static String title = "Deterministic Crowding";
 	private Random rand;
-	
+	// uniform parent selection recommended
 	public DeterministicCrowding(Random aRandom) {
 		super(title);
 		this.rand = aRandom;
@@ -50,6 +50,11 @@ public class DeterministicCrowding extends AbstractSurvivorSelection {
 
 	@Override
 	public boolean forceElitism() {
+		return false;
+	}
+
+	@Override
+	public boolean isElitist() {
 		return true;
 	}
 

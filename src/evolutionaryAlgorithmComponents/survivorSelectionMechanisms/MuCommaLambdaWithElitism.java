@@ -5,6 +5,14 @@ import evolutionaryAlgorithmComponents.Population;
 
 public class MuCommaLambdaWithElitism extends MuCommaLambda {
 
+	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda#isElitist()
+	 */
+	@Override
+	public boolean isElitist() {
+		return true;
+	}
+
 	public MuCommaLambdaWithElitism() {
 		super();
 	}

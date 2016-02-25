@@ -34,4 +34,9 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 		return false;
 	}
 
+	@Override
+	public boolean isElitist() {
+		return false;
+	}
+
 }

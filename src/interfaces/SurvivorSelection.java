@@ -25,4 +25,6 @@ public interface SurvivorSelection extends EvolutionaryAlgorithmComponent{
 	 * @return true if the answer is yes, false if the answer is no.
 	 */
 	public boolean forceElitism();
+	
+	public boolean isElitist();
 }

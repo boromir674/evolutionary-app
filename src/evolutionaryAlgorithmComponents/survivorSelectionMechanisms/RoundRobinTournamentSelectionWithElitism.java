@@ -4,6 +4,14 @@ import java.util.Random;
 
 public class RoundRobinTournamentSelectionWithElitism extends RoundRobinTournamentSelection {
 	
+	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.survivorSelectionMechanisms.RoundRobinTournamentSelection#isElitist()
+	 */
+	@Override
+	public boolean isElitist() {
+		return true;
+	}
+
 	public RoundRobinTournamentSelectionWithElitism(Random aRandom) {
 		super(aRandom);
 	}

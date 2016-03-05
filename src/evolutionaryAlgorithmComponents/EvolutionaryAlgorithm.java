@@ -95,7 +95,7 @@ public class EvolutionaryAlgorithm {
 		} catch (SortsInPlaceThePopulationException e) {
 			population.fitterTillMu = population.getPool()[0];
 		}
-		if (survivorSelectionMethod.forceElitism())
+		if (((AbstractSurvivorSelection) survivorSelectionMethod).forceElitism())
 			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness())
 				population.forceFitter();
 	}

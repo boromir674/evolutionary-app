@@ -110,7 +110,7 @@ public class Experiment {
 		if (best.getFitness() != newBest.getFitness())
 			throw new Exception("error in getFittestIndvidual");
 		double oldBest = findMax(previousPopulationInstance).getFitness();
-		if (evolutionaryAlgorithm.getSurvivorSelectionMethod().forceElitism())
+		if (evolutionaryAlgorithm.getSurvivorSelectionMethod().isElitist())
 			if (newBest.getFitness() < oldBest)
 				throw new Exception("next gen is worse then previous");
 	}

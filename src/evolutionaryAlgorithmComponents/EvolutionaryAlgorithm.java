@@ -125,6 +125,8 @@ public class EvolutionaryAlgorithm {
 			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
 		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("real value representation, but discrete operator");
+		if (survivorSelectionMethod instanceof DeterministicCrowding && population.getMu() != population.getLambda())
+			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands 2 children per parents pair; it should be the case: μ=λ");
 	}
 	public int[] getParents(){
 		return this.parents;
@@ -203,15 +205,6 @@ public class EvolutionaryAlgorithm {
 	}
 	public FitnessSharingScheme getFitnessSharingScheme(){
 		return sharingScheme;
-	}
-	public void deterministicCrowdingON(Random aRandom) {
-		this.survivorSelectionMethod = new DeterministicCrowding(aRandom);
-	}
-	public void fitnessSharingON() {
-		this.sharingScheme = new BasicFitnessSharing();
-	}
-	public void fitnessSharingOFF() {
-		this.sharingScheme = null;
 	}
 
 }

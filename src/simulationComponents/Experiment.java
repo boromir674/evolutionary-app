@@ -19,6 +19,7 @@ public class Experiment {
 	private TerminationCondition terminationCondition;
 	private long startingTime = 0;
 	private Random random;
+	
 	public boolean debug;
 	public int visuals;
 	public int precision = 2;

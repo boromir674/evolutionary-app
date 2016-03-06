@@ -3,9 +3,10 @@ package evolutionaryAlgorithmComponents;
 import java.util.Random;
 
 import util.Util;
-import interfaces.FitnessSharingScheme;
+import interfaces.EvolutionaryAlgorithmComponent;
+import interfaces.FitnessCalculator;
 
-public abstract class AbstractFitnessSharingScheme implements FitnessSharingScheme {
+public abstract class AbstractFitnessSharingScheme implements FitnessCalculator, EvolutionaryAlgorithmComponent {
 	
 	private String title;
 	
@@ -16,13 +17,6 @@ public abstract class AbstractFitnessSharingScheme implements FitnessSharingSche
 	@Override
 	public String getTitle() {
 		return title;
-	}
-
-	@Override
-	public int[] select(Population pop, Random rand) {
-		double[] cumulProbs1 = Util.getCumulativeDistribution(pop.getPool(), 0, pop.getMu(), this);
-		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs1, pop.getLambda(), rand);
-		return parentPointers;
 	}
 
 }

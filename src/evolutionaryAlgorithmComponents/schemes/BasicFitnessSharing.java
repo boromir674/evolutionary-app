@@ -14,6 +14,7 @@ public class BasicFitnessSharing extends AbstractFitnessSharingScheme {
 
 	private final static String title = "Simple fitness sharing";
 	private int alpha = 1; //linear recommended
+	
 	public BasicFitnessSharing() {
 		super(title);
 	}

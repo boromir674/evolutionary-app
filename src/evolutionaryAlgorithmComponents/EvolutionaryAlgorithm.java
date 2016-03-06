@@ -14,7 +14,6 @@ import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
-import interfaces.FitnessSharingScheme;
 import interfaces.ParentSelection;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
@@ -28,7 +27,7 @@ public class EvolutionaryAlgorithm {
 	private ParentSelection parentSelectionMethod;
 	private SurvivorSelection survivorSelectionMethod;
 
-	private FitnessSharingScheme sharingScheme = null;
+	private AbstractFitnessSharingScheme sharingScheme = null;
 	protected int[] parents;
 	boolean maxInFirstPosition;
 	private int[] survivors;
@@ -56,8 +55,8 @@ public class EvolutionaryAlgorithm {
 	public void parentSelection(Random aRandom) throws Exception{
 		if (sharingScheme == null)
 			parents = parentSelectionMethod.select(population, aRandom);
-		else
-			parents = sharingScheme.select(population, aRandom);
+		else{}
+			//parents = sharingScheme.select(population, aRandom);
 	}
 
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
@@ -202,9 +201,6 @@ public class EvolutionaryAlgorithm {
 	 */
 	public void setSurvivorSelectionMethod(SurvivorSelection survivorSelectionMethod) {
 		this.survivorSelectionMethod = survivorSelectionMethod;
-	}
-	public FitnessSharingScheme getFitnessSharingScheme(){
-		return sharingScheme;
 	}
 
 }

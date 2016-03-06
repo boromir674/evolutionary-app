@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 
-import interfaces.FitnessSharingScheme;
-
 import java.util.Random;
 
 import util.Util;

@@ -37,7 +37,7 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 		for (int i=1; i<fitArray.length; i++){	
 			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
 		}*/
-		double[] cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getPool().length);
+		double[] cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getPool().length, null);
 		int[] survivors = Util.stochasticUniversalSampling(cumulProbs, pop.getMu(), random);
 		return survivors;
 	}

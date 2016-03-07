@@ -45,8 +45,8 @@ public class Overselection extends AbstractParentSelection {
 		ArrayUtils.reverse(pop.getPool(), 0, pop.getMu());
 		ensure(pop);
 
-		double[] upperCumulProbs = Util.getCumulativeDistribution(pop.getPool(), 0, fitterGroupIndex);
-		double[] lowerCumulProbs = Util.getCumulativeDistribution(pop.getPool(), fitterGroupIndex, pop.getMu());
+		double[] upperCumulProbs = Util.getCumulativeDistribution(pop.getPool(), 0, fitterGroupIndex, null);
+		double[] lowerCumulProbs = Util.getCumulativeDistribution(pop.getPool(), fitterGroupIndex, pop.getMu(), null);
 		//TODO debug
 		upperPick = Util.stochasticUniversalSampling(upperCumulProbs, (int)(eliteSelectionRate*pop.getLambda()), aRandom);
 		lowerPick = Util.stochasticUniversalSampling(lowerCumulProbs, (int)(lesserSelectionRate*pop.getLambda()), aRandom);

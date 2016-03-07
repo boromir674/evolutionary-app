@@ -65,7 +65,8 @@ public abstract class Util {
 	}
 
 	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit, FitnessCalculator aFitnessCalculator){
-
+		if (aFitnessCalculator == null)
+			aFitnessCalculator = new RawFitnessReporter();
 		double[] fitArray = new double[limit-start];
 		double minFitness = Double.POSITIVE_INFINITY;
 		double fitnessSum = 0;
@@ -86,7 +87,7 @@ public abstract class Util {
 
 		return cumulProbs;
 	}
-	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit){
+	/*public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit){
 
 		double[] fitArray = new double[limit-start];
 		double minFitness = Double.POSITIVE_INFINITY;
@@ -107,7 +108,7 @@ public abstract class Util {
 		}
 
 		return cumulProbs;
-	}
+	}*/
 
 	public static double findMin(double[] fitarray){
 		//int minIndex = 0;

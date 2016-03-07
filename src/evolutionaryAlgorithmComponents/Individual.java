@@ -68,7 +68,7 @@ public class Individual implements Comparable<Individual>{
 		System.out.println();
 	}
 
-	public void incrementAge(){
+	void incrementAge(){
 		age ++;
 	}
 	public int getAge(){

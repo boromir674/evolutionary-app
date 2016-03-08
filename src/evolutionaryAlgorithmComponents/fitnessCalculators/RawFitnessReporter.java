@@ -1,9 +1,9 @@
-package util;
+package evolutionaryAlgorithmComponents.fitnessCalculators;
 
 import evolutionaryAlgorithmComponents.Individual;
 import interfaces.FitnessCalculator;
 
-class RawFitnessReporter implements FitnessCalculator {
+public class RawFitnessReporter implements FitnessCalculator {
 
 	@Override
 	public double computeFitness(Individual anIndividual) {

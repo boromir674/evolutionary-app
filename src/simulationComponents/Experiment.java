@@ -11,7 +11,6 @@ import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
-import exceptions.NoKnownSolutionException;
 
 public class Experiment {
 

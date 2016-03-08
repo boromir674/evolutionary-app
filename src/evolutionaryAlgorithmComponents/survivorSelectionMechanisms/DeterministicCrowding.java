@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.schemes;
+package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
 import java.util.Random;
 

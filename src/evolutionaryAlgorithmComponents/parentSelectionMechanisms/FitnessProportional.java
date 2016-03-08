@@ -9,6 +9,7 @@ import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 
 public class FitnessProportional extends AbstractParentSelection {
 
@@ -17,8 +18,8 @@ public class FitnessProportional extends AbstractParentSelection {
 
 	public FitnessProportional(){
 		super(title);
+		this.fitnessCalculator = new RawFitnessReporter();
 	}
-
 	public FitnessProportional(FitnessCalculator aFitnessCalculator){
 		super(title);
 		this.fitnessCalculator = aFitnessCalculator;

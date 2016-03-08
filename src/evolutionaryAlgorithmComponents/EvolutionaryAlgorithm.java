@@ -4,16 +4,18 @@ import java.util.Collections;
 import java.util.Random;
 
 import util.Util;
+import evolutionaryAlgorithmComponents.fitnessCalculators.BasicFitnessSharing;
+import evolutionaryAlgorithmComponents.fitnessCalculators.DynamicNiching;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
-import evolutionaryAlgorithmComponents.schemes.BasicFitnessSharing;
-import evolutionaryAlgorithmComponents.schemes.DeterministicCrowding;
+import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.DeterministicCrowding;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
 import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
+import interfaces.FitnessCalculator;
 import interfaces.ParentSelection;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
@@ -31,6 +33,7 @@ public class EvolutionaryAlgorithm {
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
+	private AbstractFitnessSharingScheme fitnessSharingScheme;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
@@ -51,7 +54,10 @@ public class EvolutionaryAlgorithm {
 		population.initializeRandom(representation, aRandom, evaluator);
 		this.lowerValue = this.population.getFittestIndividual().getFitness();
 	}
+	//if diakoptis at Dynamic Niching then this.scheme = new DynamicNiching;
 	public void parentSelection(Random aRandom) throws Exception{
+		if (this.fitnessSharingScheme instanceof DynamicNiching)
+			((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(population, 10);
 		parents = parentSelectionMethod.select(population, aRandom);
 	}
 
@@ -68,7 +74,7 @@ public class EvolutionaryAlgorithm {
 					population.fitterTillEnd = children[1];
 			}
 			else
-				population.addOffspring(children[0], evaluator);
+				population.addOffspring((Individual) children[0].clone(), evaluator);
 		}
 	}
 
@@ -76,7 +82,6 @@ public class EvolutionaryAlgorithm {
 		this.population.generationCount ++;
 		try {
 			survivors = survivorSelectionMethod.select(population);
-			
 			population.updatePoolWithNewGeneration(survivors);
 		} catch (SortsInPlaceThePopulationException e) {
 			population.fitterTillMu = population.getPool()[0];
@@ -112,7 +117,7 @@ public class EvolutionaryAlgorithm {
 		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("real value representation, but discrete operator");
 		if (survivorSelectionMethod instanceof DeterministicCrowding && population.getMu() != population.getLambda())
-			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands 2 children per parents pair; it should be the case: μ=λ");
+			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands: μ=λ");
 	}
 	public int[] getParents(){
 		return this.parents;

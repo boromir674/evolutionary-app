@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.schemes;
+package evolutionaryAlgorithmComponents.fitnessCalculators;
 
 import java.util.ArrayList;
 import java.util.Arrays;

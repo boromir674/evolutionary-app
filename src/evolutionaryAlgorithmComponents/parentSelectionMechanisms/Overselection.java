@@ -1,5 +1,7 @@
 package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 
+import interfaces.FitnessCalculator;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -9,6 +11,7 @@ import util.Util;
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 
 public class Overselection extends AbstractParentSelection {
 
@@ -17,9 +20,16 @@ public class Overselection extends AbstractParentSelection {
 	private final static double lesserSelectionRate = 0.2;
 	private double a;
 	private double b;
+	
+	private FitnessCalculator fitnessCalculator;
 
 	public Overselection() {
 		super(title);
+		this.fitnessCalculator = new RawFitnessReporter();
+	}
+	public Overselection(FitnessCalculator aFitnessCalculator) {
+		super(title);
+		this.fitnessCalculator = aFitnessCalculator;
 	}
 
 	@Override
@@ -45,8 +55,8 @@ public class Overselection extends AbstractParentSelection {
 		ArrayUtils.reverse(pop.getPool(), 0, pop.getMu());
 		ensure(pop);
 
-		double[] upperCumulProbs = Util.getCumulativeDistribution(pop.getPool(), 0, fitterGroupIndex, null);
-		double[] lowerCumulProbs = Util.getCumulativeDistribution(pop.getPool(), fitterGroupIndex, pop.getMu(), null);
+		double[] upperCumulProbs = Util.getCumulativeDistribution(pop.getPool(), 0, fitterGroupIndex, fitnessCalculator);
+		double[] lowerCumulProbs = Util.getCumulativeDistribution(pop.getPool(), fitterGroupIndex, pop.getMu(), fitnessCalculator);
 		//TODO debug
 		upperPick = Util.stochasticUniversalSampling(upperCumulProbs, (int)(eliteSelectionRate*pop.getLambda()), aRandom);
 		lowerPick = Util.stochasticUniversalSampling(lowerCumulProbs, (int)(lesserSelectionRate*pop.getLambda()), aRandom);

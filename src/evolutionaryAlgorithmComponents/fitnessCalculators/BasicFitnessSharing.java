@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.schemes;
+package evolutionaryAlgorithmComponents.fitnessCalculators;
 
 import interfaces.FitnessCalculator;
 

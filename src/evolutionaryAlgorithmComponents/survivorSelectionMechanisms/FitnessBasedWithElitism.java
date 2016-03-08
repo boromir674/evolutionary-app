@@ -1,5 +1,7 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
+import interfaces.FitnessCalculator;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
@@ -9,16 +11,24 @@ import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 import exceptions.SortsInPlaceThePopulationException;
 
 public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 
 	private final static String title = "Stochastic Fitness-based with Elitism";
 	private Random random;
+	private FitnessCalculator fitnessCalculator;
 
 	public FitnessBasedWithElitism(Random aRandom) {
 		super(title);
 		random = aRandom;
+		this.fitnessCalculator = new RawFitnessReporter();
+	}
+	public FitnessBasedWithElitism(Random aRandom, FitnessCalculator aFitnessCalculator) {
+		super(title);
+		random = aRandom;
+		this.fitnessCalculator = aFitnessCalculator;
 	}
 
 	@Override
@@ -37,7 +47,7 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 		for (int i=1; i<fitArray.length; i++){	
 			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
 		}*/
-		double[] cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getPool().length, null);
+		double[] cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getPool().length, fitnessCalculator);
 		int[] survivors = Util.stochasticUniversalSampling(cumulProbs, pop.getMu(), random);
 		return survivors;
 	}

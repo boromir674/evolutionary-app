@@ -65,8 +65,6 @@ public abstract class Util {
 	}
 
 	public static double[] getCumulativeDistribution(Individual[] anArrayOfIndividuals, int start, int limit, FitnessCalculator aFitnessCalculator){
-		if (aFitnessCalculator == null)
-			aFitnessCalculator = new RawFitnessReporter();
 		double[] fitArray = new double[limit-start];
 		double minFitness = Double.POSITIVE_INFINITY;
 		double fitnessSum = 0;

@@ -20,7 +20,7 @@ public class DynamicNiching extends AbstractFitnessSharingScheme {
 	private int[] nichesSizes;
 	private static final MinHeap heap = new MinHeap();
 
-	public DynamicNiching(String title) {
+	public DynamicNiching() {
 		super(title);
 	}
 

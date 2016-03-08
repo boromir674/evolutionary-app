@@ -27,7 +27,6 @@ public class EvolutionaryAlgorithm {
 	private ParentSelection parentSelectionMethod;
 	private SurvivorSelection survivorSelectionMethod;
 
-	private AbstractFitnessSharingScheme sharingScheme = null;
 	protected int[] parents;
 	boolean maxInFirstPosition;
 	private int[] survivors;
@@ -53,10 +52,7 @@ public class EvolutionaryAlgorithm {
 		this.lowerValue = this.population.getFittestIndividual().getFitness();
 	}
 	public void parentSelection(Random aRandom) throws Exception{
-		if (sharingScheme == null)
-			parents = parentSelectionMethod.select(population, aRandom);
-		else{}
-			//parents = sharingScheme.select(population, aRandom);
+		parents = parentSelectionMethod.select(population, aRandom);
 	}
 
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
@@ -80,17 +76,8 @@ public class EvolutionaryAlgorithm {
 		this.population.generationCount ++;
 		try {
 			survivors = survivorSelectionMethod.select(population);
-			Individual[] newGeneration = new Individual[survivors.length + population.getLambda()];
-			population.fitterTillMu = population.getPool()[survivors[0]];
-			newGeneration[0] = population.getPool()[survivors[0]];
-			newGeneration[0].incrementAge();
-			for (int i=1; i<survivors.length; i++){
-				newGeneration[i] = population.getPool()[survivors[i]];
-				newGeneration[i].incrementAge();
-				if (newGeneration[i].getFitness() > population.fitterTillMu.getFitness())
-					population.fitterTillMu = newGeneration[i];
-			}
-			population.updatePoolWithNewGeneration(newGeneration);
+			
+			population.updatePoolWithNewGeneration(survivors);
 		} catch (SortsInPlaceThePopulationException e) {
 			population.fitterTillMu = population.getPool()[0];
 		}
@@ -98,7 +85,7 @@ public class EvolutionaryAlgorithm {
 			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness())
 				population.forceFitter();
 	}
-	
+
 	public void printInfo(){
 		System.out.println("\nEvolutionary Algorithm deployed with components:");
 		System.out.println("Evaluation: " + evaluator.getTitle());

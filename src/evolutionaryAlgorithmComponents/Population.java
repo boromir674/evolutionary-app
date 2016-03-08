@@ -99,8 +99,18 @@ public class Population implements Cloneable{
 		if (someone.getFitness() > fitterTillEnd.getFitness())
 			fitterTillEnd = someone;
 	}
-	void updatePoolWithNewGeneration(Individual[] newPool){
-		this.pool = newPool;
+	void updatePoolWithNewGeneration(int[] survivors){
+		Individual[] newGeneration = new Individual[survivors.length + lambda];
+		fitterTillMu = pool[survivors[0]];
+		newGeneration[0] = pool[survivors[0]];
+		newGeneration[0].incrementAge();
+		for (int i=1; i<survivors.length; i++){
+			newGeneration[i] = pool[survivors[i]];
+			newGeneration[i].incrementAge();
+			if (newGeneration[i].getFitness() > fitterTillMu.getFitness())
+				fitterTillMu = newGeneration[i];
+		}
+		this.pool = newGeneration;
 	}
 	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
 		in.computeMyFitness(eval);

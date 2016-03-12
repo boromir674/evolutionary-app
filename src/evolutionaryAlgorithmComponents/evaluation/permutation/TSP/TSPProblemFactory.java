@@ -3,8 +3,6 @@ package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.CeilingEuclidean;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.Euclidean;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.GeographicalDistance;
@@ -12,11 +10,8 @@ import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculator
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.Maximum;
 import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.PseudoEuclidean;
 import exceptions.FileFormatNotSupportedException;
-import exceptions.NoKnownSolutionException;
 import interfaces.EvaluationMethod;
-import interfaces.TSP;
 import interfaces.DistanceCalculator;
-import interfaces.TSPLIBProblem;
 import util.TSPReader;
 
 public class TSPProblemFactory {

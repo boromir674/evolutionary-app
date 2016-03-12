@@ -3,7 +3,6 @@ package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
 public class UniformSelection extends AbstractParentSelection {

@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import interfaces.Representation;
-
 import java.util.Arrays;
 import java.util.Random;
 

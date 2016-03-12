@@ -1,8 +1,5 @@
 package evolutionaryAlgorithmComponents;
 
-import java.util.Random;
-
-import util.Util;
 import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.FitnessCalculator;
 

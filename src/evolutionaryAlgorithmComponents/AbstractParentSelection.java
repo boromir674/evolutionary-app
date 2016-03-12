@@ -1,6 +1,5 @@
 package evolutionaryAlgorithmComponents;
 
-import interfaces.FitnessCalculator;
 import interfaces.ParentSelection;
 
 public abstract class AbstractParentSelection implements ParentSelection {

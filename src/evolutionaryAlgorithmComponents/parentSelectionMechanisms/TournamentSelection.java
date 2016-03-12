@@ -4,7 +4,6 @@ import java.util.Random;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
 public class TournamentSelection extends AbstractParentSelection {

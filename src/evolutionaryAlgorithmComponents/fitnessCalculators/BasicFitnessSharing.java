@@ -1,14 +1,8 @@
 package evolutionaryAlgorithmComponents.fitnessCalculators;
 
-import interfaces.FitnessCalculator;
-
-import java.util.Random;
-
-import util.Util;
 import evolutionaryAlgorithmComponents.AbstractFitnessSharingScheme;
 import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.Population;
 
 public class BasicFitnessSharing extends AbstractFitnessSharingScheme {
 

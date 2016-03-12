@@ -1,7 +1,6 @@
 package simulationComponents.terminationConditions;
 
 import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
-import exceptions.NoKnownSolutionException;
 import simulationComponents.Experiment;
 
 public class HopedFitness extends AbstractTerminationCondition {

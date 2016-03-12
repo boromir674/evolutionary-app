@@ -1,8 +1,5 @@
 package interfaces;
 
-import evolutionaryAlgorithmComponents.Individual;
-import exceptions.NoKnownSolutionException;
-
 public interface EvaluationMethod extends EvolutionaryAlgorithmComponent, FitnessCalculator {
 	/**
 	 * Returns the maximum fitness value that has been encountered so far.

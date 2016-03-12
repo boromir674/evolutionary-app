@@ -3,10 +3,7 @@ package simulationComponents;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-import simulationComponents.terminationConditions.EvaluationLimit;
-import simulationComponents.terminationConditions.GenerationsLimitTerminationCondition;
 import util.Util;
-import interfaces.SurvivorSelection;
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;

@@ -1,11 +1,8 @@
 package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
 
-import java.util.Arrays;
 import java.util.Properties;
 
-import evolutionaryAlgorithmComponents.Individual;
 import interfaces.HasProperties;
-import interfaces.MathFunction;
 
 // This is an example evaluation. It is based on the Rastrigin. It is a maximization problem with a maximum of 10 for 
 //  	vector a_.

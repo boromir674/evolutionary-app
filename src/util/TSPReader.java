@@ -1,13 +1,10 @@
 package util;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import exceptions.FileFormatNotSupportedException;
 

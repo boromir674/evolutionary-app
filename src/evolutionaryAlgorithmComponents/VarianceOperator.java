@@ -1,10 +1,7 @@
 package evolutionaryAlgorithmComponents;
 
-import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.Mutation;
 import interfaces.Recombination;
-import interfaces.Representation;
-
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractDiscreteMutation;

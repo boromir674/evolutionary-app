@@ -1,6 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.realValue;
 
-import interfaces.Representation;
 import evolutionaryAlgorithmComponents.Individual;
 
 public class WholeArithmetic extends AbstractRealValueRecombination {

@@ -3,7 +3,6 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 import util.Util;
 

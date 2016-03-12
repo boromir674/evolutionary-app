@@ -4,7 +4,6 @@ import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractMutation;
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.AbstractDiscreteMutation;
 
 public class Bitwise extends AbstractMutation {
 

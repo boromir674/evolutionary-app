@@ -4,7 +4,6 @@ import interfaces.Representation;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 

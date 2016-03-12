@@ -2,17 +2,12 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
 import interfaces.FitnessCalculator;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
-import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
-import exceptions.SortsInPlaceThePopulationException;
 
 public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 

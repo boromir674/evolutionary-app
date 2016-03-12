@@ -1,6 +1,5 @@
 package evolutionaryAlgorithmComponents;
 
-import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.Recombination;
 import interfaces.Representation;
 

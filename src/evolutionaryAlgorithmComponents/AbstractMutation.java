@@ -1,6 +1,5 @@
 package evolutionaryAlgorithmComponents;
 
-import interfaces.EvolutionaryAlgorithmComponent;
 import interfaces.Mutation;
 
 public abstract class AbstractMutation implements Mutation{

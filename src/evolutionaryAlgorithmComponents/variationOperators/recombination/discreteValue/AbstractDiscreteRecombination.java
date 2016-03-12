@@ -1,8 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import interfaces.Representation;
 import evolutionaryAlgorithmComponents.AbstractRecombination;
-import evolutionaryAlgorithmComponents.Individual;
 
 public abstract class AbstractDiscreteRecombination extends AbstractRecombination {
 	

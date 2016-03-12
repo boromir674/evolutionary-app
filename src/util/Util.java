@@ -2,12 +2,9 @@ package util;
 
 import interfaces.FitnessCalculator;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.Population;
 
 public abstract class Util {	
 

@@ -2,7 +2,6 @@ package interfaces;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
 /**

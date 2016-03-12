@@ -1,8 +1,5 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
-import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
-import evolutionaryAlgorithmComponents.Population;
-
 public class MuCommaLambdaWithElitism extends MuCommaLambda {
 
 	/* (non-Javadoc)

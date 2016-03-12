@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
-import evolutionaryAlgorithmComponents.AbstractMutation;
-
 public abstract class AbstractPermutationMutation extends AbstractDiscreteMutation {
 
 	/* (non-Javadoc)

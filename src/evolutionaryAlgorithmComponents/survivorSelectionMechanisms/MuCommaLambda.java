@@ -1,8 +1,5 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import util.MinHeap;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Individual;

@@ -1,8 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;

@@ -1,8 +1,6 @@
 package interfaces;
 
 import evolutionaryAlgorithmComponents.Population;
-import exceptions.LambdaLessThanMuException;
-import exceptions.SortsInPlaceThePopulationException;
 
 public interface SurvivorSelection extends EvolutionaryAlgorithmComponent{
 	

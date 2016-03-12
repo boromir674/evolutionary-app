@@ -1,8 +1,5 @@
 package evolutionaryAlgorithmComponents;
 
-import java.net.UnknownServiceException;
-
-import exceptions.NoKnownSolutionException;
 import interfaces.EvaluationMethod;
 
 public abstract class AbstractEvaluationMethod implements EvaluationMethod {

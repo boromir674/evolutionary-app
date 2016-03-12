@@ -1,14 +1,11 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import interfaces.Representation;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.AbstractDiscreteRecombination;
 
 public class EdgeCrossover extends AbstractPermutationRecombination {
 

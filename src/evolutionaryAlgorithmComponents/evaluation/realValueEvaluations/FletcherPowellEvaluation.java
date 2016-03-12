@@ -1,11 +1,7 @@
 package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
 
 import interfaces.HasProperties;
-import interfaces.MathFunction;
-
 import java.util.Properties;
-
-import evolutionaryAlgorithmComponents.Individual;
 
 // This is an example evaluation. It is based on the Fletcher Powell. It is a maximization problem with a maximum of 10 for 
 //  	vector a_.

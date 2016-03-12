@@ -1,10 +1,7 @@
 package evolutionaryAlgorithmComponents;
 
-import java.util.Collections;
 import java.util.Random;
 
-import util.Util;
-import evolutionaryAlgorithmComponents.fitnessCalculators.BasicFitnessSharing;
 import evolutionaryAlgorithmComponents.fitnessCalculators.DynamicNiching;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
@@ -12,10 +9,8 @@ import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.DeterministicCrowding;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
-import exceptions.NoKnownSolutionException;
 import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
-import interfaces.FitnessCalculator;
 import interfaces.ParentSelection;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;

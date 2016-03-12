@@ -3,12 +3,9 @@ package evolutionaryAlgorithmComponents;
 import interfaces.Representation;
 import interfaces.EvaluationMethod;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
-
-import exceptions.NoKnownSolutionException;
 
 public class Individual implements Comparable<Individual>{
 

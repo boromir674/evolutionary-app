@@ -11,6 +11,8 @@ tmp/
 local.properties
 .settings/
 .loadpath
+forms-1.3.0.jar
+forms-1.3.0.src.zip
 
 # Eclipse Core
 .project

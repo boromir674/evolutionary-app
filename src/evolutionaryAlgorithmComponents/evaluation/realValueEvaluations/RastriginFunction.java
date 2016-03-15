@@ -2,6 +2,7 @@ package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
 
 import java.util.Properties;
 
+import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
 import interfaces.HasProperties;
 
 // This is an example evaluation. It is based on the Rastrigin. It is a maximization problem with a maximum of 10 for 
@@ -11,7 +12,7 @@ import interfaces.HasProperties;
 //	evaluations) on the Rastrigin function to the function minimum, thus Base = E[f_best_random] - ftarget. Fitness is scaled
 //	according to this base, thus Fitness = 10 - 10*(f-fbest)/Base
 
-public class RastriginEvaluation extends AbstractMathFunction implements HasProperties{
+public class RastriginFunction extends AbstractMathFunction implements HasProperties{
 	
 	private int cheatD;
 	
@@ -32,7 +33,7 @@ public class RastriginEvaluation extends AbstractMathFunction implements HasProp
 	private static double ALPHA = 10;
 	private String evals = Integer.toString(EVALS_LIMIT);
 
-	public RastriginEvaluation() {
+	public RastriginFunction() {
 		super(title);
 	}
 

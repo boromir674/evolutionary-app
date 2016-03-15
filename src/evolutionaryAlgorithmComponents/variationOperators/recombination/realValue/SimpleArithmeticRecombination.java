@@ -4,12 +4,12 @@ import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
 
-public class SimpleArithmetic extends AbstractRealValueRecombination {
+public class SimpleArithmeticRecombination extends AbstractRealValueRecombination {
 	
 	private Random rand;
 	private static final String title = "Simple Arithmetic Recombination";
 	
-	public SimpleArithmetic(Random aRandom) {
+	public SimpleArithmeticRecombination(Random aRandom) {
 		super(title);
 		this.rand = aRandom;
 	}

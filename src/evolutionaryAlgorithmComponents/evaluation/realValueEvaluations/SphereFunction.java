@@ -1,7 +1,10 @@
 package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
 
 import interfaces.HasProperties;
+
 import java.util.Properties;
+
+import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
 
 public class SphereFunction extends AbstractMathFunction implements HasProperties{
 	

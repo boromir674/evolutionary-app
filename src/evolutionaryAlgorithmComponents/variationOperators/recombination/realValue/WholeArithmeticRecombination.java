@@ -2,11 +2,11 @@ package evolutionaryAlgorithmComponents.variationOperators.recombination.realVal
 
 import evolutionaryAlgorithmComponents.Individual;
 
-public class WholeArithmetic extends AbstractRealValueRecombination {
+public class WholeArithmeticRecombination extends AbstractRealValueRecombination {
 	
 	private final static String title = "Whole Arithmetic";
 	
-	public WholeArithmetic() {
+	public WholeArithmeticRecombination() {
 		super(title);
 	}
 

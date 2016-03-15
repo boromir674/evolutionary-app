@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
+package evolutionaryAlgorithmComponents.evaluation;
 
 import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
 import evolutionaryAlgorithmComponents.Individual;

@@ -28,7 +28,7 @@ public class EvolutionaryAlgorithm {
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
-	private AbstractFitnessSharingScheme fitnessSharingScheme;
+	private AbstractFitnessSharingScheme fitnessSharingScheme = new DynamicNiching(5);
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
@@ -123,7 +123,7 @@ public class EvolutionaryAlgorithm {
 	public Representation getRepresentation() {
 		return representation;
 	}
-	/**
+	/**getSolutionFitness()
 	 * @param representation the representation to set
 	 */
 	public void setRepresentation(Representation representation) {

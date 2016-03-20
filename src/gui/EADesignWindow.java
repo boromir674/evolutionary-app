@@ -64,7 +64,7 @@ public class EADesignWindow {
 	private final String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
 	private final String[] permutationRecombinationSet = new String[]{"Cycle Crossover", "Edge Crossover", "Order Crossover", "PMX"};
 	private final String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
-	private JTextField textField_2;
+	private final JTextField dimensionalityJTextField = new JTextField();
 	private final JLabel lblProblemInstance = new JLabel("Problem Instance");
 	private final JLabel lblDimensionality = new JLabel("dimensionality");
 	/**
@@ -175,9 +175,8 @@ public class EADesignWindow {
 
 		splitPane_6.setLeftComponent(lblDimensionality);
 
-		textField_2 = new JTextField();
-		splitPane_6.setRightComponent(textField_2);
-		textField_2.setColumns(10);
+		splitPane_6.setRightComponent(dimensionalityJTextField);
+		dimensionalityJTextField.setColumns(10);
 
 		JMenuBar menuBar_1 = new JMenuBar();
 		menuBar_1.setBounds(22, 87, 129, 21);
@@ -225,7 +224,7 @@ public class EADesignWindow {
 	}
 
 	private ArrayList<String> getContents(String aRelativePath){
-		String path = System.getProperty("user.dir") + aRelativePath;
+		path = System.getProperty("user.dir") + aRelativePath;
 		file = new File(path);
 		ArrayList<String> names = new ArrayList<String>(Arrays.asList(file.list()));
 		return names;
@@ -237,6 +236,15 @@ public class EADesignWindow {
 			folderContents[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					lblProblemInstance.setText(arg0.getActionCommand());
+					String dim = parseDimensions(arg0.getActionCommand());
+					if (!dim.isEmpty()){
+						dimensionalityJTextField.setText(dim);
+						dimensionalityJTextField.setEnabled(false);
+					}
+					else {
+						dimensionalityJTextField.setEnabled(true);
+						dimensionalityJTextField.setText("");						
+					}
 				}
 			});
 		}
@@ -245,23 +253,18 @@ public class EADesignWindow {
 		int i = 1;
 		int start = 0;
 		int end = 0;
-		while (start == 0 && end == 0){
+		while ((start == 0 || end == 0) && i<aFileName.length()){
 			char ch0 = aFileName.charAt(i-1);
 			char ch1 = aFileName.charAt(i);
 			if (!Character.isDigit(ch0) && Character.isDigit(ch1))
-				start = ch1;
+				start = i;
 			if (Character.isDigit(ch0) && !Character.isDigit(ch1))
-				end = ch1;
+				end = i;
+			i++;
 		}
+		if (end == 0)
+			return "";
 		return aFileName.substring(start, end);
 	}
-	class EvaluationPickListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			//((JMenuItem)(arg0.getSource())).get
-
-		}
-
-	}
 }

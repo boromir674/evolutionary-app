@@ -54,7 +54,8 @@ public class DynamicNiching extends AbstractFitnessSharingScheme {
 	}
 
 	public void greedyDynamicPeakIdentification(Population pop, int numberOfPeaks) {
-		Arrays.fill(this.nichesSizes, 0);
+		nichesSizes = new int[numberOfPeaks];
+		Arrays.fill(nichesSizes, 0);
 		int i = pop.getMu()-1;
 		ArrayList<Individual> DPS = new ArrayList<Individual>(); // Dynamic Peak Set
 		DPS.add(pop.getPool()[i]);

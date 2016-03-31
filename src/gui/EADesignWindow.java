@@ -1,64 +1,32 @@
 package gui;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JToolBar;
-
-import java.awt.BorderLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JPanel;
-import javax.swing.ButtonGroup;
-
-import java.awt.CardLayout;
-
-import javax.swing.JList;
-import javax.swing.JToggleButton;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JPopupMenu;
-
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.Choice;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.List;
-
-import javax.swing.JSplitPane;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
 import java.awt.GridLayout;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.SwingConstants;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JSlider;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
-import java.awt.Label;
-import java.awt.Font;
-
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class EADesignWindow {
@@ -67,21 +35,28 @@ public class EADesignWindow {
 	private File file;
 	private String path;
 	ArrayList<String> names;
-	private final String[] parentSelectionSet = new String[]{"Fitness Proportional", "Tournament", "Ranking", "Random"};
-	private final String[] survivorSelectionSet = new String[]{"Fitness Proportional","Tournament","Deterministic (μ+λ)","Deterministic (μ,λ)","Deterministic Crowding"};
+	private final static String[] parentSelectionSet = new String[]{"Fitness Proportional", "Tournament", "Ranking", "Random"};
+	private final static String[] survivorSelectionSet = new String[]{"Fitness Proportional","Tournament","Deterministic (μ+λ)","Deterministic (μ,λ)","Deterministic Crowding"};
 	private final static String[] allRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic","Cycle Crossover",
-			"Edge Crossover", "Order Crossover", "PMX", "N-point Crossover", "Uniform Crossover"};
-	private final String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
-	private final String[] permutationRecombinationSet = new String[]{"Cycle Crossover", "Edge Crossover", "Order Crossover", "PMX"};
-	private final String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
+		"Edge Crossover", "Order Crossover", "PMX", "N-point Crossover", "Uniform Crossover"};
+	private final static String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
+	private final static String[] permutationRecombinationSet = new String[]{"Cycle Crossover", "Edge Crossover", "Order Crossover", "PMX"};
+	@SuppressWarnings("unused")
+	private final static String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
 	private final static String[] allMutationSet = new String[]{"Bitwise","Creep","Insert","Invert","Random Reseting", "Scramble",
-		"Swap", "Correlated", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
+		"Swap", "Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
+	private final static String[] realValueMutationSet = new String[]{"Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
+	private final static String[] permutationMutationSet = new String[]{"Creep","Insert","Invert","Scramble","Swap"};
 	private final JTextField dimensionalityJTextField = new JTextField();
 	private final JLabel lblProblemInstance = new JLabel("");
-	private final JLabel lblDimensionality = new JLabel("dimensionality");
+	private final JLabel lblDimensionality = new JLabel("d");
 	private JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();
-	private JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();
-	
+	private JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();	
+	private JMenu mnRealValue = new JMenu("Real Value");
+	private JMenu mnPermutation = new JMenu("Permutation");
+	private JLabel lblRepresentation = new JLabel("Representation");
+	private JLabel lblRepresentationDescription = new JLabel("                                 "
+			+ "                                  ");
 	/**
 	 * Launch the application.
 	 */
@@ -108,18 +83,16 @@ public class EADesignWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initialize() {
-		recombinationJComboBox = new JComboBox(allRecombinationSet);
-		mutationJComboBox = new JComboBox(allMutationSet);
-		
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void initialize() {		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 707, 579);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-
+		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 
@@ -131,20 +104,25 @@ public class EADesignWindow {
 		frame.getContentPane().setLayout(null);
 
 		JMenuBar menuBar_1 = new JMenuBar();
-		menuBar_1.setBounds(32, 192, 129, 21);
+
+		menuBar_1.setBounds(12, 265, 129, 21);
 		frame.getContentPane().add(menuBar_1);
 
-		JMenu mnEvaluation = new JMenu("evaluation");
+		final JMenu mnEvaluation = new JMenu("evaluation");
+		mnEvaluation.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+					mnEvaluation.doClick();
+			}
+		});
 		menuBar_1.add(mnEvaluation);
-
-		JMenu mnRealValue = new JMenu("Real Value");
-
+		mnRealValue.setName("Vector of real numbers");
 		mnEvaluation.add(mnRealValue);
 		names = getContents("/src/evolutionaryAlgorithmComponents/evaluation/realValueEvaluations");
 		JMenuItem[] menuContents = new JMenuItem[names.size()];
 		this.populateMenu(mnRealValue, menuContents);
 
-		JMenu mnPermutation = new JMenu("Permutation");
+		mnPermutation.setName("Permutation of integers");
 		mnEvaluation.add(mnPermutation);
 
 		JMenu mnTsp = new JMenu("TSP");
@@ -169,25 +147,35 @@ public class EADesignWindow {
 		names = getContents("/TSP_samples/HCP/");
 		menuContents = new JMenuItem[names.size()];
 		this.populateMenu(mnHcp, menuContents);
-		
+
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBounds(132, 252, 273, 122);
+		splitPane.setBounds(12, 127, 373, 122);
 		frame.getContentPane().add(splitPane);
-		
+
 		JPanel panel = new JPanel();
 		splitPane.setLeftComponent(panel);
 		panel.setLayout(new GridLayout(5, 1));
-		
+
 		JPanel panel_1 = new JPanel();
 		splitPane.setRightComponent(panel_1);
 		panel_1.setLayout(new GridLayout(5, 1));
+		panel.add(lblRepresentation);
 		
-		JLabel label_4 = new JLabel("Evaluation");
-		panel.add(label_4);
-		panel_1.add(lblProblemInstance);
+				JLabel label_2 = new JLabel("Recombination");
+				panel.add(label_2);
+		
+				JLabel label_3 = new JLabel("Mutation");
+				panel.add(label_3);
 
 		JLabel lblParentSelection = new JLabel("Parent Selection");
 		panel.add(lblParentSelection);
+		panel_1.add(lblRepresentationDescription);
+		lblRepresentationDescription.setText("");
+		recombinationJComboBox.setModel(new DefaultComboBoxModel(allRecombinationSet));
+		panel_1.add(recombinationJComboBox);
+		
+				panel_1.add(mutationJComboBox);
+				mutationJComboBox.setModel(new DefaultComboBoxModel(allMutationSet));
 
 		JComboBox parentSelectionList = new JComboBox(parentSelectionSet);
 		panel_1.add(parentSelectionList);
@@ -197,84 +185,52 @@ public class EADesignWindow {
 
 		JComboBox survivorSelectionList = new JComboBox(survivorSelectionSet);
 		panel_1.add(survivorSelectionList);
-		
-		JLabel label_2 = new JLabel("Recombination");
-		panel.add(label_2);
-		
-		JLabel label_3 = new JLabel("Mutation");
-		panel.add(label_3);
-		
-		panel_1.add(recombinationJComboBox);
-		
-		panel_1.add(mutationJComboBox);
-
-		JSplitPane splitPane_6 = new JSplitPane();
-		splitPane_6.setBounds(32, 116, 252, 32);
-		frame.getContentPane().add(splitPane_6);
-		splitPane_6.setResizeWeight(0.5);
-
-		splitPane_6.setLeftComponent(lblDimensionality);
-		dimensionalityJTextField.setFont(UIManager.getFont("Button.font"));
-
-		splitPane_6.setRightComponent(dimensionalityJTextField);
-		dimensionalityJTextField.setColumns(10);
-
-		JSplitPane splitPane_4 = new JSplitPane();
-		splitPane_4.setBounds(32, 33, 115, 32);
-		frame.getContentPane().add(splitPane_4);
-		splitPane_4.setResizeWeight(0.2);
-
-		JLabel label_1 = new JLabel("λ");
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setToolTipText("number of children to produce per generation (should be even number)");
-		splitPane_4.setLeftComponent(label_1);
-
-		TextField textField_1 = new TextField();
-		textField_1.setFont(UIManager.getFont("Button.font"));
-		splitPane_4.setRightComponent(textField_1);
-
-		JSplitPane splitPane_2 = new JSplitPane();
-		splitPane_2.setBounds(32, 77, 115, 27);
-		frame.getContentPane().add(splitPane_2);
-		splitPane_2.setToolTipText("population size");
-		splitPane_2.setResizeWeight(0.2);
-
-		JLabel label = new JLabel("μ");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		splitPane_2.setLeftComponent(label);
-
-		TextField textField = new TextField();
-		textField.setFont(UIManager.getFont("Button.font"));
-		splitPane_2.setRightComponent(textField);
-		
-		JLabel lblRepresentation = new JLabel("Representation");
-		lblRepresentation.setBounds(32, 148, 121, 32);
-		frame.getContentPane().add(lblRepresentation);
-		
-		JLabel label_5 = new JLabel("");
-		label_5.setBounds(157, 148, 129, 32);
-		frame.getContentPane().add(label_5);
+				
+				JPanel panel_2 = new JPanel();
+				panel_2.setBounds(41, 12, 45, 60);
+				frame.getContentPane().add(panel_2);
+										panel_2.setLayout(new GridLayout(3, 1, 0, 0));
+										
+												JTextField jTextField = new JTextField();
+												jTextField.setHorizontalAlignment(SwingConstants.CENTER);
+												panel_2.add(jTextField);
+												jTextField.setFont(UIManager.getFont("Button.font"));
+								
+										JTextField jTextField_1 = new JTextField();
+										jTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_2.add(jTextField_1);
+										jTextField_1.setFont(UIManager.getFont("Button.font"));
+										dimensionalityJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_2.add(dimensionalityJTextField);
+										dimensionalityJTextField.setFont(UIManager.getFont("Button.font"));
+										dimensionalityJTextField.setColumns(10);
+										
+										JPanel panel_3 = new JPanel();
+										panel_3.setBounds(12, 12, 24, 60);
+										frame.getContentPane().add(panel_3);
+										panel_3.setLayout(new GridLayout(3, 1, 1, 0));
+										
+										JLabel lblNewLabel = new JLabel("μ");
+										panel_3.add(lblNewLabel);
+										lblNewLabel.setToolTipText("Population size to maintain (should be even number)");
+										lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+										
+												JLabel label_1 = new JLabel("λ");
+												panel_3.add(label_1);
+												label_1.setHorizontalAlignment(SwingConstants.CENTER);
+												label_1.setToolTipText("number of children to produce per generation (should be even number)");
+												panel_3.add(lblDimensionality);
+												lblDimensionality.setToolTipText("Dimensionality");
+												lblDimensionality.setHorizontalAlignment(SwingConstants.CENTER);
+												
+														JLabel label_4 = new JLabel("Evaluation");
+														label_4.setHorizontalAlignment(SwingConstants.CENTER);
+														label_4.setBounds(12, 77, 75, 20);
+														frame.getContentPane().add(label_4);
+														lblProblemInstance.setBounds(12, 102, 234, 20);
+														frame.getContentPane().add(lblProblemInstance);
 
 	}
-
-	/*private void populateMenu(JPopupMenu anEvaluationSubmenu, JMenuItem[] folderContents) {
-		for (int i=0; i<folderContents.length; i++){
-			folderContents[i] = new JMenuItem(names.get(i));
-			anEvaluationSubmenu.add(folderContents[i]);
-			folderContents[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					lblProblemInstance.setText(arg0.getActionCommand());
-					String dim = parseDimensions(arg0.getActionCommand());
-					dimensionalityJTextField.setText(dim);
-					if (!dim.isEmpty())
-						dimensionalityJTextField.setEnabled(false);
-
-					else
-						dimensionalityJTextField.setEnabled(true);						
-				}
-			});
-		}		
-	}*/
 
 	private ArrayList<String> getContents(String aRelativePath){
 		path = System.getProperty("user.dir") + aRelativePath;
@@ -285,13 +241,14 @@ public class EADesignWindow {
 
 	private void populateMenu(JMenu anEvaluationSubmenu, JMenuItem[] folderContents){
 		// anEvaluationSubmenu: parent of a leaf node in the evaluation tree
-		// it also stores the references of the menu's items 
+		// it also stores the references of the menu's items
 		for (int i=0; i<folderContents.length; i++){
 			folderContents[i] = new JMenuItem(names.get(i));
 			anEvaluationSubmenu.add(folderContents[i]);
 			folderContents[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					lblProblemInstance.setText(arg0.getActionCommand());
+					lblRepresentationDescription.setText(parseEvaLuationMenuChoice(arg0.getActionCommand()));
 					String dim = parseDimensions(arg0.getActionCommand());
 					dimensionalityJTextField.setText(dim);
 					if (!dim.isEmpty())
@@ -303,6 +260,7 @@ public class EADesignWindow {
 			});
 		}
 	}
+
 	private static String parseDimensions(String aFileName){
 		int i = 1;
 		int start = 0;
@@ -320,11 +278,19 @@ public class EADesignWindow {
 			return "";
 		return aFileName.substring(start, end);
 	}
-	/*private String[] decideOnOperatorSet(JMenu menu){
-		if (menu.getText().equals("Real Value"))
-			return realValueRecombinationSet;
-		else //(menu.getText().equals("Permutation"))
-			return permutationRecombinationSet;
-	}*/
-
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private String parseEvaLuationMenuChoice(String evaluationFileName){
+		if (evaluationFileName.contains("Function")) {
+			this.recombinationJComboBox.setModel(new DefaultComboBoxModel(realValueRecombinationSet));
+			this.mutationJComboBox.setModel(new DefaultComboBoxModel(realValueMutationSet));
+			return "Vector of real numbers";
+		}
+		else if (evaluationFileName.contains(".atsp") || evaluationFileName.contains(".atsp")
+				|| evaluationFileName.contains(".hcp")) {
+			this.recombinationJComboBox.setModel(new DefaultComboBoxModel(permutationRecombinationSet));
+			this.mutationJComboBox.setModel(new DefaultComboBoxModel(permutationMutationSet));
+			return "Permutation of integers";
+		}
+		return "";
+	}
 }

@@ -33,6 +33,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.JScrollBar;
+import java.awt.BorderLayout;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 
 public class EADesignWindow {
@@ -55,7 +57,7 @@ public class EADesignWindow {
 	private final static String[] permutationMutationSet = new String[]{"Creep","Insert","Invert","Scramble","Swap"};
 	private final JTextField dimensionalityJTextField = new JTextField();
 	private final JLabel lblProblemInstance = new JLabel("");
-	private final JLabel lblDimensionality = new JLabel("d");
+	private final JLabel lblDimensionality = new JLabel("d: ");
 	private JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();
 	private JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();	
 	private JMenu mnRealValue = new JMenu("Real Value");
@@ -193,73 +195,84 @@ public class EADesignWindow {
 
 		JComboBox survivorSelectionList = new JComboBox(survivorSelectionSet);
 		panel_1.add(survivorSelectionList);
-				
-				JPanel panel_2 = new JPanel();
-				panel_2.setBounds(41, 12, 45, 60);
-				frmEaRunner.getContentPane().add(panel_2);
-										panel_2.setLayout(new GridLayout(3, 1, 0, 0));
-										
-												JTextField jTextField = new JTextField();
-												jTextField.setHorizontalAlignment(SwingConstants.CENTER);
-												panel_2.add(jTextField);
-												jTextField.setFont(UIManager.getFont("Button.font"));
-								
-										JTextField jTextField_1 = new JTextField();
-										jTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_2.add(jTextField_1);
-										jTextField_1.setFont(UIManager.getFont("Button.font"));
-										dimensionalityJTextField.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_2.add(dimensionalityJTextField);
-										dimensionalityJTextField.setFont(UIManager.getFont("Button.font"));
-										dimensionalityJTextField.setColumns(10);
-										
-										JPanel panel_3 = new JPanel();
-										panel_3.setBounds(12, 12, 24, 60);
-										frmEaRunner.getContentPane().add(panel_3);
-										panel_3.setLayout(new GridLayout(3, 1, 1, 0));
-										
-										JLabel lblNewLabel = new JLabel("μ");
-										panel_3.add(lblNewLabel);
-										lblNewLabel.setToolTipText("Population size to maintain (should be even number)");
-										lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-										
-												JLabel label_1 = new JLabel("λ");
-												panel_3.add(label_1);
-												label_1.setHorizontalAlignment(SwingConstants.CENTER);
-												label_1.setToolTipText("number of children to produce per generation (should be even number)");
-												panel_3.add(lblDimensionality);
-												lblDimensionality.setToolTipText("Dimensionality");
-												lblDimensionality.setHorizontalAlignment(SwingConstants.CENTER);
 												
 														JLabel label_4 = new JLabel("Evaluation");
 														label_4.setHorizontalAlignment(SwingConstants.CENTER);
-														label_4.setBounds(12, 77, 75, 20);
+														label_4.setBounds(273, 74, 75, 20);
 														frmEaRunner.getContentPane().add(label_4);
 														lblProblemInstance.setBounds(12, 102, 234, 20);
 														frmEaRunner.getContentPane().add(lblProblemInstance);
-														
-														JLabel elitismJLabel = new JLabel("Elitism");
-														elitismJLabel.setToolTipText("Population's property of preserving the fittest individual through the generations");
-														elitismJLabel.setBounds(91, 12, 52, 23);
-														frmEaRunner.getContentPane().add(elitismJLabel);
 		ButtonGroup group = new ButtonGroup();
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(93, 32, 45, 45);
-		frmEaRunner.getContentPane().add(panel_4);
-		panel_4.setLayout(new GridLayout(2, 1, 0, 0));
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("on");
-		rdbtnNewRadioButton.setToolTipText("Satisfied either by natural selection or by force");
-		rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_4.add(rdbtnNewRadioButton);
-		group.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
-		rdbtnNewRadioButton_1.setToolTipText("Survival of the fittest is left on the selection process to decide on");
-		rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_4.add(rdbtnNewRadioButton_1);
-		group.add(rdbtnNewRadioButton_1);
+		JPanel panel_5 = new JPanel();
+		panel_5.setBounds(12, 12, 142, 70);
+		frmEaRunner.getContentPane().add(panel_5);
+		panel_5.setLayout(new BorderLayout(0, 1));
+								
+								JPanel panel_6 = new JPanel();
+								panel_6.setBounds(83, 12, 52, 61);
+								panel_6.setLayout(new BorderLayout(0, 0));
+								
+								JLabel elitismJLabel = new JLabel(" Elitism");
+								elitismJLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+								panel_6.add(elitismJLabel, BorderLayout.NORTH);
+								elitismJLabel.setToolTipText("Population's property of preserving the fittest individual through the generations");
+								
+								JPanel panel_4 = new JPanel();
+								panel_6.add(panel_4, BorderLayout.SOUTH);
+								panel_5.add(panel_6, BorderLayout.EAST);
+								
+								panel_4.setLayout(new GridLayout(2, 1, 0, 0));
+								
+								JRadioButton rdbtnNewRadioButton = new JRadioButton("on");
+								rdbtnNewRadioButton.setToolTipText("Satisfied either by natural selection or by force");
+								rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+								panel_4.add(rdbtnNewRadioButton);
+								group.add(rdbtnNewRadioButton);
+								
+								JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
+								rdbtnNewRadioButton_1.setToolTipText("Survival of the fittest is left on the selection process to decide on");
+								rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
+								panel_4.add(rdbtnNewRadioButton_1);
+								group.add(rdbtnNewRadioButton_1);
+								
+								JPanel panel_7 = new JPanel();
+								panel_5.add(panel_7, BorderLayout.WEST);
+								panel_7.setLayout(new BorderLayout(0, 0));
+								
+								JPanel panel_3 = new JPanel();
+								panel_7.add(panel_3, BorderLayout.WEST);
+								panel_3.setLayout(new GridLayout(3, 1, 1, 0));
+								
+								JLabel lblNewLabel = new JLabel("μ: ");
+								panel_3.add(lblNewLabel);
+								lblNewLabel.setToolTipText("Population size to maintain (should be even number)");
+								lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+								
+										JLabel label_1 = new JLabel("λ: ");
+										panel_3.add(label_1);
+										label_1.setHorizontalAlignment(SwingConstants.CENTER);
+										label_1.setToolTipText("number of children to produce per generation (should be even number)");
+										panel_3.add(lblDimensionality);
+										lblDimensionality.setToolTipText("Dimensionality");
+										lblDimensionality.setHorizontalAlignment(SwingConstants.CENTER);
+														
+														JPanel panel_8 = new JPanel();
+														panel_5.add(panel_8, BorderLayout.CENTER);
+														panel_8.setLayout(new GridLayout(3, 1, 0, 0));
+														JTextField jTextField = new JTextField();
+														panel_8.add(jTextField);
+														jTextField.setHorizontalAlignment(SwingConstants.CENTER);
+														jTextField.setFont(UIManager.getFont("Button.font"));
+														
+																JTextField jTextField_1 = new JTextField();
+																panel_8.add(jTextField_1);
+																jTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
+																jTextField_1.setFont(UIManager.getFont("Button.font"));
+																panel_8.add(dimensionalityJTextField);
+																dimensionalityJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+																dimensionalityJTextField.setFont(UIManager.getFont("Button.font"));
+																dimensionalityJTextField.setColumns(10);
 
 	}
 

@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,16 +23,21 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
+import javax.swing.JScrollBar;
+
 
 public class EADesignWindow {
 
-	private JFrame frame;
+	private JFrame frmEaRunner;
 	private File file;
 	private String path;
 	ArrayList<String> names;
@@ -65,7 +71,7 @@ public class EADesignWindow {
 			public void run() {
 				try {
 					EADesignWindow window = new EADesignWindow();
-					window.frame.setVisible(true);
+					window.frmEaRunner.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,12 +92,14 @@ public class EADesignWindow {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {		
-		frame = new JFrame();
-		frame.setBounds(100, 100, 707, 579);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmEaRunner = new JFrame();
+		frmEaRunner.setResizable(false);
+		frmEaRunner.setTitle("EA Runner");
+		frmEaRunner.setBounds(100, 100, 419, 354);
+		frmEaRunner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		frmEaRunner.setJMenuBar(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
@@ -101,12 +109,12 @@ public class EADesignWindow {
 
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
-		frame.getContentPane().setLayout(null);
+		frmEaRunner.getContentPane().setLayout(null);
 
 		JMenuBar menuBar_1 = new JMenuBar();
 
 		menuBar_1.setBounds(12, 265, 129, 21);
-		frame.getContentPane().add(menuBar_1);
+		frmEaRunner.getContentPane().add(menuBar_1);
 
 		final JMenu mnEvaluation = new JMenu("evaluation");
 		mnEvaluation.addMouseListener(new MouseAdapter() {
@@ -150,7 +158,7 @@ public class EADesignWindow {
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBounds(12, 127, 373, 122);
-		frame.getContentPane().add(splitPane);
+		frmEaRunner.getContentPane().add(splitPane);
 
 		JPanel panel = new JPanel();
 		splitPane.setLeftComponent(panel);
@@ -188,7 +196,7 @@ public class EADesignWindow {
 				
 				JPanel panel_2 = new JPanel();
 				panel_2.setBounds(41, 12, 45, 60);
-				frame.getContentPane().add(panel_2);
+				frmEaRunner.getContentPane().add(panel_2);
 										panel_2.setLayout(new GridLayout(3, 1, 0, 0));
 										
 												JTextField jTextField = new JTextField();
@@ -207,7 +215,7 @@ public class EADesignWindow {
 										
 										JPanel panel_3 = new JPanel();
 										panel_3.setBounds(12, 12, 24, 60);
-										frame.getContentPane().add(panel_3);
+										frmEaRunner.getContentPane().add(panel_3);
 										panel_3.setLayout(new GridLayout(3, 1, 1, 0));
 										
 										JLabel lblNewLabel = new JLabel("μ");
@@ -226,9 +234,32 @@ public class EADesignWindow {
 														JLabel label_4 = new JLabel("Evaluation");
 														label_4.setHorizontalAlignment(SwingConstants.CENTER);
 														label_4.setBounds(12, 77, 75, 20);
-														frame.getContentPane().add(label_4);
+														frmEaRunner.getContentPane().add(label_4);
 														lblProblemInstance.setBounds(12, 102, 234, 20);
-														frame.getContentPane().add(lblProblemInstance);
+														frmEaRunner.getContentPane().add(lblProblemInstance);
+														
+														JLabel elitismJLabel = new JLabel("Elitism");
+														elitismJLabel.setToolTipText("Population's property of preserving the fittest individual through the generations");
+														elitismJLabel.setBounds(91, 12, 52, 23);
+														frmEaRunner.getContentPane().add(elitismJLabel);
+		ButtonGroup group = new ButtonGroup();
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(93, 32, 45, 45);
+		frmEaRunner.getContentPane().add(panel_4);
+		panel_4.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("on");
+		rdbtnNewRadioButton.setToolTipText("Satisfied either by natural selection or by force");
+		rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_4.add(rdbtnNewRadioButton);
+		group.add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
+		rdbtnNewRadioButton_1.setToolTipText("Survival of the fittest is left on the selection process to decide on");
+		rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_4.add(rdbtnNewRadioButton_1);
+		group.add(rdbtnNewRadioButton_1);
 
 	}
 

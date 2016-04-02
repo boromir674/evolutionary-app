@@ -126,7 +126,6 @@ public class EADesignWindow {
 
 		final JMenu mnEvaluation = new JMenu("evaluation");
 
-
 		menuBar_1.add(mnEvaluation);
 		mnRealValue.setName("Vector of real numbers");
 		mnEvaluation.add(mnRealValue);
@@ -282,9 +281,14 @@ public class EADesignWindow {
 																scrollPane.setBounds(9, 168, 530, 147);
 																frmEaRunner.getContentPane().add(scrollPane);
 																
-																final JTextArea textArea_1 = new JTextArea();
+																JTextArea textArea_1 = new JTextArea();
 																scrollPane.setViewportView(textArea_1);
 																textArea_1.setEditable(false);
+																
+																JTextArea textArea = new JTextArea();
+																DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+																caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+																
 
 	}
 

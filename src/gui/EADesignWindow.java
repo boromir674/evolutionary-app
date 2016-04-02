@@ -18,11 +18,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.text.DefaultCaret;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -33,8 +35,12 @@ import java.awt.event.MouseEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.JScrollBar;
+
 import java.awt.BorderLayout;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 
 public class EADesignWindow {
@@ -97,7 +103,7 @@ public class EADesignWindow {
 		frmEaRunner = new JFrame();
 		frmEaRunner.setResizable(false);
 		frmEaRunner.setTitle("EA Runner");
-		frmEaRunner.setBounds(100, 100, 553, 388);
+		frmEaRunner.setBounds(100, 100, 554, 562);
 		frmEaRunner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -158,10 +164,12 @@ public class EADesignWindow {
 		frmEaRunner.getContentPane().add(splitPane);
 
 		JPanel panel = new JPanel();
+		panel.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
 		splitPane.setLeftComponent(panel);
 		panel.setLayout(new GridLayout(5, 1));
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(UIManager.getBorder("OptionPane.buttonAreaBorder"));
 		splitPane.setRightComponent(panel_1);
 		panel_1.setLayout(new GridLayout(5, 1));
 		panel.add(lblRepresentation);
@@ -174,6 +182,7 @@ public class EADesignWindow {
 
 		JLabel lblParentSelection = new JLabel("Parent Selection");
 		panel.add(lblParentSelection);
+		lblRepresentationDescription.setVerticalAlignment(SwingConstants.TOP);
 		panel_1.add(lblRepresentationDescription);
 		lblRepresentationDescription.setText("");
 		recombinationJComboBox.setModel(new DefaultComboBoxModel(allRecombinationSet));
@@ -209,6 +218,7 @@ public class EADesignWindow {
 								elitismJLabel.setToolTipText("Population's property of preserving the fittest individual through the generations");
 								
 								JPanel panel_4 = new JPanel();
+								panel_4.setBorder(UIManager.getBorder("RadioButton.border"));
 								panel_6.add(panel_4, BorderLayout.SOUTH);
 								panel_5.add(panel_6, BorderLayout.EAST);
 								
@@ -248,6 +258,7 @@ public class EADesignWindow {
 										lblDimensionality.setHorizontalAlignment(SwingConstants.CENTER);
 														
 														JPanel panel_8 = new JPanel();
+														panel_8.setBorder(UIManager.getBorder("TextArea.border"));
 														panel_5.add(panel_8, BorderLayout.CENTER);
 														panel_8.setLayout(new GridLayout(3, 1, 0, 0));
 														JTextField jTextField = new JTextField();
@@ -263,6 +274,21 @@ public class EADesignWindow {
 																dimensionalityJTextField.setHorizontalAlignment(SwingConstants.CENTER);
 																dimensionalityJTextField.setFont(UIManager.getFont("Button.font"));
 																dimensionalityJTextField.setColumns(10);
+																
+																JScrollPane scrollPane = new JScrollPane();
+																scrollPane.setViewportBorder(UIManager.getBorder("TextArea.border"));
+																scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+																scrollPane.setBounds(9, 168, 530, 147);
+																frmEaRunner.getContentPane().add(scrollPane);
+																
+																JTextArea textArea_1 = new JTextArea();
+																scrollPane.setViewportView(textArea_1);
+																textArea_1.setEditable(false);
+																
+																JTextArea textArea = new JTextArea();
+																DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+																caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+																
 
 	}
 

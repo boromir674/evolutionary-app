@@ -39,8 +39,11 @@ import javax.swing.JScrollBar;
 import java.awt.BorderLayout;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 
 public class EADesignWindow {
@@ -51,6 +54,7 @@ public class EADesignWindow {
 	ArrayList<String> names;
 	private final static String[] parentSelectionSet = new String[]{"Fitness Proportional", "Tournament", "Ranking", "Random"};
 	private final static String[] survivorSelectionSet = new String[]{"Fitness Proportional","Tournament","Deterministic (μ+λ)","Deterministic (μ,λ)","Deterministic Crowding"};
+	private final static String[] elitistSelectionSet = new String[]{"Deterministic (μ+λ)", "Deterministic Crowding"};
 	private final static String[] allRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic","Cycle Crossover",
 		"Edge Crossover", "Order Crossover", "PMX", "N-point Crossover", "Uniform Crossover"};
 	private final static String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
@@ -185,6 +189,7 @@ public class EADesignWindow {
 		lblRepresentationDescription.setVerticalAlignment(SwingConstants.TOP);
 		panel_1.add(lblRepresentationDescription);
 		lblRepresentationDescription.setText("");
+
 		recombinationJComboBox.setModel(new DefaultComboBoxModel(allRecombinationSet));
 		panel_1.add(recombinationJComboBox);
 		
@@ -201,7 +206,7 @@ public class EADesignWindow {
 		panel_1.add(survivorSelectionList);
 														lblProblemInstance.setBounds(22, 137, 234, 20);
 														frmEaRunner.getContentPane().add(lblProblemInstance);
-		ButtonGroup group = new ButtonGroup();
+		final ButtonGroup group = new ButtonGroup();
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(12, 12, 142, 70);
@@ -224,13 +229,14 @@ public class EADesignWindow {
 								
 								panel_4.setLayout(new GridLayout(2, 1, 0, 0));
 								
-								JRadioButton rdbtnNewRadioButton = new JRadioButton("on");
+								final JRadioButton rdbtnNewRadioButton = new JRadioButton("on");
 								rdbtnNewRadioButton.setToolTipText("Satisfied either by natural selection or by force");
 								rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+								rdbtnNewRadioButton.setSelected(true);
 								panel_4.add(rdbtnNewRadioButton);
 								group.add(rdbtnNewRadioButton);
 								
-								JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
+								final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
 								rdbtnNewRadioButton_1.setToolTipText("Survival of the fittest is left on the selection process to decide on");
 								rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
 								panel_4.add(rdbtnNewRadioButton_1);
@@ -289,7 +295,20 @@ public class EADesignWindow {
 																DefaultCaret caret = (DefaultCaret)textArea.getCaret();
 																caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 																
-
+																survivorSelectionList.addActionListener(new ActionListener() {
+																	public void actionPerformed(ActionEvent e) {
+																		String selection = ((String)((JComboBox)e.getSource()).getSelectedItem());
+																		if (ArrayUtils.contains(elitistSelectionSet, selection)) {
+																			rdbtnNewRadioButton.setSelected(true);
+																			rdbtnNewRadioButton.setEnabled(false);
+																			rdbtnNewRadioButton_1.setEnabled(false);
+																		}
+																		else {
+																			rdbtnNewRadioButton.setEnabled(true);
+																			rdbtnNewRadioButton_1.setEnabled(true);
+																		}
+																	}
+																});
 	}
 
 	private ArrayList<String> getContents(String aRelativePath){

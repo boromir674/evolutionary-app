@@ -97,7 +97,7 @@ public class EADesignWindow {
 		frmEaRunner = new JFrame();
 		frmEaRunner.setResizable(false);
 		frmEaRunner.setTitle("EA Runner");
-		frmEaRunner.setBounds(100, 100, 419, 354);
+		frmEaRunner.setBounds(100, 100, 553, 388);
 		frmEaRunner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -115,16 +115,11 @@ public class EADesignWindow {
 
 		JMenuBar menuBar_1 = new JMenuBar();
 
-		menuBar_1.setBounds(12, 265, 129, 21);
+		menuBar_1.setBounds(12, 94, 129, 21);
 		frmEaRunner.getContentPane().add(menuBar_1);
 
 		final JMenu mnEvaluation = new JMenu("evaluation");
-		mnEvaluation.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-					mnEvaluation.doClick();
-			}
-		});
+
 		menuBar_1.add(mnEvaluation);
 		mnRealValue.setName("Vector of real numbers");
 		mnEvaluation.add(mnRealValue);
@@ -159,7 +154,7 @@ public class EADesignWindow {
 		this.populateMenu(mnHcp, menuContents);
 
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBounds(12, 127, 373, 122);
+		splitPane.setBounds(166, 12, 373, 122);
 		frmEaRunner.getContentPane().add(splitPane);
 
 		JPanel panel = new JPanel();
@@ -195,12 +190,7 @@ public class EADesignWindow {
 
 		JComboBox survivorSelectionList = new JComboBox(survivorSelectionSet);
 		panel_1.add(survivorSelectionList);
-												
-														JLabel label_4 = new JLabel("Evaluation");
-														label_4.setHorizontalAlignment(SwingConstants.CENTER);
-														label_4.setBounds(273, 74, 75, 20);
-														frmEaRunner.getContentPane().add(label_4);
-														lblProblemInstance.setBounds(12, 102, 234, 20);
+														lblProblemInstance.setBounds(22, 137, 234, 20);
 														frmEaRunner.getContentPane().add(lblProblemInstance);
 		ButtonGroup group = new ButtonGroup();
 		

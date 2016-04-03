@@ -8,9 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-
+@SuppressWarnings("static-method")
 public final class LibraryModel extends SimpleFileVisitor<Path> implements FilenameFilter {
-	
+
 	private final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/"; 
 	// Components parent folders
 	private final static String realValueEvaluationRoot = "evaluation/realValueEvaluations/";
@@ -18,16 +18,16 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 	private final static String mutationSelectionRoot = "variationOperators/mutation/";
 	private final static String parentSelectionRoot = "parentSelectionMechanisms/";
 	private final static String survivorSelectionRoot = "survivorSelectionMechanisms/";
-	
+
 	private final String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
 			mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
 
 	private static ArrayList<String>[] models;// = new ArrayList[folders.length];
-	
+
 	public LibraryModel(){
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void readLibrary() {
 		models = new ArrayList[folders.length];
@@ -44,36 +44,29 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 			}
 		}
 	}
-	
-	public final static ArrayList<String> getRealValueFunctions(){
+
+	public final ArrayList<String> getRealValueFunctions(){
 		return models[0];
 	}
-	public final static ArrayList<String> getCrossOverOperators(){
+	public final ArrayList<String> getCrossOverOperators(){
 		return models[1];
 	}
-	public final static ArrayList<String> getMutationOperators(){
+	public final ArrayList<String> getMutationOperators(){
 		return models[2];
 	}
-	public final static ArrayList<String> getParentSelectionMethods(){
+	public final ArrayList<String> getParentSelectionMethods(){
 		return models[3];
 	}
-	public final static ArrayList<String> getSurvivorSelectionMethods(){
+	public final ArrayList<String> getSurvivorSelectionMethods(){
 		return models[4];
 	}
 	private void updateModel(Path file) {
-		if (accept(null, file.toString())){
-			if (file.startsWith(EA_COMPONENTS_ROOT+realValueEvaluationRoot)){
-				models[0].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
-			} else if (file.startsWith(EA_COMPONENTS_ROOT+recombinationSelectionRoot)){
-				models[1].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
-			} else if (file.startsWith(EA_COMPONENTS_ROOT+mutationSelectionRoot)){
-				models[2].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
-			} else if (file.startsWith(EA_COMPONENTS_ROOT+parentSelectionRoot)){
-				models[3].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
-			} else if (file.startsWith(EA_COMPONENTS_ROOT+survivorSelectionRoot)){
-				models[4].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
-			}
-		}
+		if (accept(null, file.toString()))
+			for (int i=0; i<folders.length; i++)
+				if (file.toString().contains(folders[i])) {
+					models[i].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
+					break;
+				}
 	}
 
 	@Override
@@ -88,7 +81,7 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 	@Override
 	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
 			throws IOException {
-			updateModel(file);
+		updateModel(file);
 		return super.visitFile(file, attrs);
 	}
 

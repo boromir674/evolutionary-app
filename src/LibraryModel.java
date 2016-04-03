@@ -22,11 +22,15 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 	private final String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
 			mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
 
-	@SuppressWarnings("unchecked")
-	private final ArrayList<String>[] models = new ArrayList[folders.length];
+	private static ArrayList<String>[] models;// = new ArrayList[folders.length];
 	
 	public LibraryModel(){
-
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void readLibrary() {
+		models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {
 			models[i] = new ArrayList<String>();
 			String path = EA_COMPONENTS_ROOT + folders[i];
@@ -40,7 +44,22 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 			}
 		}
 	}
-
+	
+	public final static ArrayList<String> getRealValueFunctions(){
+		return models[0];
+	}
+	public final static ArrayList<String> getCrossOverOperators(){
+		return models[1];
+	}
+	public final static ArrayList<String> getMutationOperators(){
+		return models[2];
+	}
+	public final static ArrayList<String> getParentSelectionMethods(){
+		return models[3];
+	}
+	public final static ArrayList<String> getSurvivorSelectionMethods(){
+		return models[4];
+	}
 	private void updateModel(Path file) {
 		if (accept(null, file.toString())){
 			if (file.startsWith(EA_COMPONENTS_ROOT+realValueEvaluationRoot)){

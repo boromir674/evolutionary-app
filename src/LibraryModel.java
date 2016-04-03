@@ -25,11 +25,11 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 	private static ArrayList<String>[] models;// = new ArrayList[folders.length];
 
 	public LibraryModel(){
-
+		this.readLibrary();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void readLibrary() {
+	private void readLibrary() {
 		models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {
 			models[i] = new ArrayList<String>();

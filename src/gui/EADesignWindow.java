@@ -1,7 +1,6 @@
 package gui;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,29 +21,17 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.text.DefaultCaret;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.JRadioButton;
-import javax.swing.JToggleButton;
-import javax.swing.JScrollBar;
-
 import java.awt.BorderLayout;
-
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.awt.Font;
 
 public class EADesignWindow {
 
@@ -55,26 +42,39 @@ public class EADesignWindow {
 	private final static String[] parentSelectionSet = new String[]{"Fitness Proportional", "Tournament", "Ranking", "Random"};
 	private final static String[] survivorSelectionSet = new String[]{"Fitness Proportional","Tournament","Deterministic (μ+λ)","Deterministic (μ,λ)","Deterministic Crowding"};
 	private final static String[] elitistSelectionSet = new String[]{"Deterministic (μ+λ)", "Deterministic Crowding"};
+	
 	private final static String[] allRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic","Cycle Crossover",
 		"Edge Crossover", "Order Crossover", "PMX", "N-point Crossover", "Uniform Crossover"};
+	private final static String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
 	private final static String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
 	private final static String[] permutationRecombinationSet = new String[]{"Cycle Crossover", "Edge Crossover", "Order Crossover", "PMX"};
-	@SuppressWarnings("unused")
-	private final static String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
+	
 	private final static String[] allMutationSet = new String[]{"Bitwise","Creep","Insert","Invert","Random Reseting", "Scramble",
 		"Swap", "Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
 	private final static String[] realValueMutationSet = new String[]{"Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
 	private final static String[] permutationMutationSet = new String[]{"Creep","Insert","Invert","Scramble","Swap"};
-	private final JTextField dimensionalityJTextField = new JTextField();
+	
 	private final JLabel lblProblemInstance = new JLabel("");
 	private final JLabel lblDimensionality = new JLabel("d: ");
-	private JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();
-	private JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();	
+	
+		
 	private JMenu mnRealValue = new JMenu("Real Value");
 	private JMenu mnPermutation = new JMenu("Permutation");
 	private JLabel lblRepresentation = new JLabel("Representation");
 	private JLabel lblRepresentationDescription = new JLabel("                                 "
 			+ "                                  ");
+	// package visibility
+	JTextField lambdaJTextField = new JTextField();
+	JTextField muJTextField = new JTextField();
+	final JTextField dJTextField = new JTextField();
+	JTextField recombinationRateJTextField;
+	JTextField mutationRateJTextField;
+	JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();
+	JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();	
+	JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
+	JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
+	final JRadioButton rdbtnElitismOn = new JRadioButton("on");
+	
 	/**
 	 * Launch the application.
 	 */
@@ -103,7 +103,8 @@ public class EADesignWindow {
 	 */
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initialize() {		
+	private void initialize() {
+
 		frmEaRunner = new JFrame();
 		frmEaRunner.setResizable(false);
 		frmEaRunner.setTitle("EA Runner");
@@ -123,14 +124,16 @@ public class EADesignWindow {
 		menuBar.add(mnHelp);
 		frmEaRunner.getContentPane().setLayout(null);
 
-		JMenuBar menuBar_1 = new JMenuBar();
+		JMenuBar flowtingMenuBar = new JMenuBar();
+		flowtingMenuBar.setToolTipText("Select instance ");
 
-		menuBar_1.setBounds(12, 94, 129, 21);
-		frmEaRunner.getContentPane().add(menuBar_1);
+		flowtingMenuBar.setBounds(166, 135, 88, 21);
+		frmEaRunner.getContentPane().add(flowtingMenuBar);
 
 		final JMenu mnEvaluation = new JMenu("evaluation");
+		mnEvaluation.setHorizontalAlignment(SwingConstants.CENTER);
 
-		menuBar_1.add(mnEvaluation);
+		flowtingMenuBar.add(mnEvaluation);
 		mnRealValue.setName("Vector of real numbers");
 		mnEvaluation.add(mnRealValue);
 		names = getContents("/src/evolutionaryAlgorithmComponents/evaluation/realValueEvaluations");
@@ -189,6 +192,7 @@ public class EADesignWindow {
 		lblRepresentationDescription.setVerticalAlignment(SwingConstants.TOP);
 		panel_1.add(lblRepresentationDescription);
 		lblRepresentationDescription.setText("");
+		recombinationJComboBox.setFont(UIManager.getFont("ComboBox.font"));
 
 		recombinationJComboBox.setModel(new DefaultComboBoxModel(allRecombinationSet));
 		panel_1.add(recombinationJComboBox);
@@ -196,20 +200,20 @@ public class EADesignWindow {
 				panel_1.add(mutationJComboBox);
 				mutationJComboBox.setModel(new DefaultComboBoxModel(allMutationSet));
 
-		JComboBox parentSelectionList = new JComboBox(parentSelectionSet);
 		panel_1.add(parentSelectionList);
+		parentSelectionList.setModel(new DefaultComboBoxModel(parentSelectionSet));
 
 		JLabel lblSurvivorSelection = new JLabel("Survivor Selection");
 		panel.add(lblSurvivorSelection);
-
-		JComboBox survivorSelectionList = new JComboBox(survivorSelectionSet);
+		
+		survivorSelectionList.setModel(new DefaultComboBoxModel(survivorSelectionSet));
 		panel_1.add(survivorSelectionList);
-														lblProblemInstance.setBounds(22, 137, 234, 20);
+														lblProblemInstance.setBounds(272, 136, 267, 20);
 														frmEaRunner.getContentPane().add(lblProblemInstance);
 		final ButtonGroup group = new ButtonGroup();
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(12, 12, 142, 70);
+		panel_5.setBounds(12, 12, 147, 70);
 		frmEaRunner.getContentPane().add(panel_5);
 		panel_5.setLayout(new BorderLayout(0, 1));
 								
@@ -217,7 +221,8 @@ public class EADesignWindow {
 								panel_6.setBounds(83, 12, 52, 61);
 								panel_6.setLayout(new BorderLayout(0, 0));
 								
-								JLabel elitismJLabel = new JLabel(" Elitism");
+								JLabel elitismJLabel = new JLabel("Elitism");
+								elitismJLabel.setHorizontalAlignment(SwingConstants.LEFT);
 								elitismJLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 								panel_6.add(elitismJLabel, BorderLayout.NORTH);
 								elitismJLabel.setToolTipText("Population's property of preserving the fittest individual through the generations");
@@ -229,14 +234,16 @@ public class EADesignWindow {
 								
 								panel_4.setLayout(new GridLayout(2, 1, 0, 0));
 								
-								final JRadioButton rdbtnNewRadioButton = new JRadioButton("on");
-								rdbtnNewRadioButton.setToolTipText("Satisfied either by natural selection or by force");
-								rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
-								rdbtnNewRadioButton.setSelected(true);
-								panel_4.add(rdbtnNewRadioButton);
-								group.add(rdbtnNewRadioButton);
+								
+								rdbtnElitismOn.setFont(UIManager.getFont("RadioButton.font"));
+								rdbtnElitismOn.setToolTipText("Satisfied either by natural selection or by force");
+								rdbtnElitismOn.setHorizontalAlignment(SwingConstants.CENTER);
+								rdbtnElitismOn.setSelected(true);
+								panel_4.add(rdbtnElitismOn);
+								group.add(rdbtnElitismOn);
 								
 								final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
+								rdbtnNewRadioButton_1.setFont(UIManager.getFont("RadioButton.font"));
 								rdbtnNewRadioButton_1.setToolTipText("Survival of the fittest is left on the selection process to decide on");
 								rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
 								panel_4.add(rdbtnNewRadioButton_1);
@@ -267,19 +274,18 @@ public class EADesignWindow {
 														panel_8.setBorder(UIManager.getBorder("TextArea.border"));
 														panel_5.add(panel_8, BorderLayout.CENTER);
 														panel_8.setLayout(new GridLayout(3, 1, 0, 0));
-														JTextField jTextField = new JTextField();
-														panel_8.add(jTextField);
-														jTextField.setHorizontalAlignment(SwingConstants.CENTER);
-														jTextField.setFont(UIManager.getFont("Button.font"));
+
+														panel_8.add(muJTextField);
+														muJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+														muJTextField.setFont(UIManager.getFont("Button.font"));
 														
-																JTextField jTextField_1 = new JTextField();
-																panel_8.add(jTextField_1);
-																jTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
-																jTextField_1.setFont(UIManager.getFont("Button.font"));
-																panel_8.add(dimensionalityJTextField);
-																dimensionalityJTextField.setHorizontalAlignment(SwingConstants.CENTER);
-																dimensionalityJTextField.setFont(UIManager.getFont("Button.font"));
-																dimensionalityJTextField.setColumns(10);
+																panel_8.add(lambdaJTextField);
+																lambdaJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+																lambdaJTextField.setFont(UIManager.getFont("Button.font"));
+																panel_8.add(dJTextField);
+																dJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+																dJTextField.setFont(UIManager.getFont("Button.font"));
+																dJTextField.setColumns(8);
 																
 																JScrollPane scrollPane = new JScrollPane();
 																scrollPane.setViewportBorder(UIManager.getBorder("TextArea.border"));
@@ -291,20 +297,57 @@ public class EADesignWindow {
 																scrollPane.setViewportView(textArea_1);
 																textArea_1.setEditable(false);
 																
+																JPanel panel_2 = new JPanel();
+																panel_2.setBorder(UIManager.getBorder("EditorPane.border"));
+																panel_2.setBounds(12, 88, 147, 68);
+																frmEaRunner.getContentPane().add(panel_2);
+																panel_2.setLayout(new BorderLayout(0, 0));
+																
+																JLabel lblRates = new JLabel("Rates");
+																lblRates.setFont(new Font("Courier 10 Pitch", Font.BOLD, 13));
+																lblRates.setHorizontalAlignment(SwingConstants.CENTER);
+																panel_2.add(lblRates, BorderLayout.NORTH);
+																
+																JPanel panel_11 = new JPanel();
+																panel_2.add(panel_11, BorderLayout.WEST);
+																panel_11.setLayout(new GridLayout(2, 1, 0, 0));
+																
+																JLabel lblRecombination = new JLabel("Recombination:");
+																lblRecombination.setHorizontalAlignment(SwingConstants.LEFT);
+																lblRecombination.setFont(new Font("Courier 10 Pitch", Font.BOLD, 12));
+																panel_11.add(lblRecombination);
+																
+																JLabel lblMutation = new JLabel("Mutation:");
+																lblMutation.setFont(new Font("Courier 10 Pitch", Font.BOLD, 12));
+																panel_11.add(lblMutation);
+																
+																JPanel panel_10 = new JPanel();
+																panel_2.add(panel_10, BorderLayout.EAST);
+																panel_10.setLayout(new GridLayout(2, 1, 5, 0));
+																
+																mutationRateJTextField = new JTextField();
+																mutationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+																mutationRateJTextField.setColumns(4);
+																panel_10.add(mutationRateJTextField);
+																
+																recombinationRateJTextField = new JTextField();
+																recombinationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+																panel_10.add(recombinationRateJTextField);
+																
 																JTextArea textArea = new JTextArea();
 																DefaultCaret caret = (DefaultCaret)textArea.getCaret();
 																caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 																
 																survivorSelectionList.addActionListener(new ActionListener() {
 																	public void actionPerformed(ActionEvent e) {
-																		String selection = ((String)((JComboBox)e.getSource()).getSelectedItem());
+																		String selection = ((String)((JComboBox<?>)e.getSource()).getSelectedItem());
 																		if (ArrayUtils.contains(elitistSelectionSet, selection)) {
-																			rdbtnNewRadioButton.setSelected(true);
-																			rdbtnNewRadioButton.setEnabled(false);
+																			rdbtnElitismOn.setSelected(true);
+																			rdbtnElitismOn.setEnabled(false);
 																			rdbtnNewRadioButton_1.setEnabled(false);
 																		}
 																		else {
-																			rdbtnNewRadioButton.setEnabled(true);
+																			rdbtnElitismOn.setEnabled(true);
 																			rdbtnNewRadioButton_1.setEnabled(true);
 																		}
 																	}
@@ -329,12 +372,12 @@ public class EADesignWindow {
 					lblProblemInstance.setText(arg0.getActionCommand());
 					lblRepresentationDescription.setText(parseEvaLuationMenuChoice(arg0.getActionCommand()));
 					String dim = parseDimensions(arg0.getActionCommand());
-					dimensionalityJTextField.setText(dim);
+					dJTextField.setText(dim);
 					if (!dim.isEmpty())
-						dimensionalityJTextField.setEnabled(false);
+						dJTextField.setEnabled(false);
 
 					else
-						dimensionalityJTextField.setEnabled(true);						
+						dJTextField.setEnabled(true);						
 				}
 			});
 		}
@@ -364,7 +407,7 @@ public class EADesignWindow {
 			this.mutationJComboBox.setModel(new DefaultComboBoxModel(realValueMutationSet));
 			return "Vector of real numbers";
 		}
-		else if (evaluationFileName.contains(".atsp") || evaluationFileName.contains(".atsp")
+		else if (evaluationFileName.contains(".tsp") || evaluationFileName.contains(".atsp")
 				|| evaluationFileName.contains(".hcp")) {
 			this.recombinationJComboBox.setModel(new DefaultComboBoxModel(permutationRecombinationSet));
 			this.mutationJComboBox.setModel(new DefaultComboBoxModel(permutationMutationSet));

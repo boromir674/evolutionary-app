@@ -6,8 +6,8 @@ import java.util.Random;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
+import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
-import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 
 public class FitnessProportional extends AbstractParentSelection {
 
@@ -16,7 +16,12 @@ public class FitnessProportional extends AbstractParentSelection {
 
 	public FitnessProportional(){
 		super(title);
-		this.fitnessCalculator = new RawFitnessReporter();
+		this.fitnessCalculator = new FitnessCalculator(){
+			@Override
+			public double computeFitness(Individual anIndividual) {
+				return anIndividual.getFitness();
+			}
+		};
 	}
 	public FitnessProportional(FitnessCalculator aFitnessCalculator){
 		super(title);

@@ -9,8 +9,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
+import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
-import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 
 public class Overselection extends AbstractParentSelection {
 
@@ -24,7 +24,12 @@ public class Overselection extends AbstractParentSelection {
 
 	public Overselection() {
 		super(title);
-		this.fitnessCalculator = new RawFitnessReporter();
+		this.fitnessCalculator = new FitnessCalculator() {
+			@Override
+			public double computeFitness(Individual anIndividual) {
+				return anIndividual.getFitness();
+			}
+		};
 	}
 	public Overselection(FitnessCalculator aFitnessCalculator) {
 		super(title);

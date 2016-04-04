@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -52,7 +53,7 @@ public class EADesignWindow {
 	private final static String[] realValueMutationSet = new String[]{"Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
 	private final static String[] permutationMutationSet = new String[]{"Creep","Insert","Invert","Scramble","Swap"};
 	
-	private final JLabel lblProblemInstance = new JLabel("");
+    final JLabel lblProblemInstance = new JLabel("");
 	private final JLabel lblDimensionality = new JLabel("d: ");
 		
 	private JMenu mnRealValue = new JMenu("Real Value");
@@ -64,8 +65,8 @@ public class EADesignWindow {
 	JTextField lambdaJTextField = new JTextField();
 	JTextField muJTextField = new JTextField();
 	final JTextField dJTextField = new JTextField();
-	JTextField recombinationRateJTextField;
-	JTextField mutationRateJTextField;
+	JTextField recombinationRateJTextField = new JTextField();
+	JTextField mutationRateJTextField = new JTextField();
 	JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();
 	JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();	
 	JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
@@ -103,6 +104,7 @@ public class EADesignWindow {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
 		parser = new EADesignWindowParser(this);
+		setDefaultValues();
 		frmEaRunner = new JFrame();
 		frmEaRunner.setResizable(false);
 		frmEaRunner.setTitle("EA Runner");
@@ -323,19 +325,23 @@ public class EADesignWindow {
 																panel_2.add(panel_10, BorderLayout.EAST);
 																panel_10.setLayout(new GridLayout(2, 1, 5, 0));
 																
-																mutationRateJTextField = new JTextField();
 																mutationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
 																mutationRateJTextField.setColumns(4);
 																panel_10.add(mutationRateJTextField);
 																
-																recombinationRateJTextField = new JTextField();
 																recombinationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
 																panel_10.add(recombinationRateJTextField);
 																
 																JButton runButton = new JButton("Run");
 																runButton.addActionListener(new ActionListener() {
 																	public void actionPerformed(ActionEvent arg0) {
-																		EvolutionaryAlgorithm ea = parser.parse();
+																		try {
+																			EvolutionaryAlgorithm ea = parser.parse();
+																		} catch (
+																				Exception e) {
+																			// TODO Auto-generated catch block
+																			e.printStackTrace();
+																		}
 																		//ea.
 																	}
 																});
@@ -422,5 +428,17 @@ public class EADesignWindow {
 			return "Permutation of integers";
 		}
 		return "";
+	}
+	
+	private void setDefaultValues(){
+		lambdaJTextField.setText("70");
+		muJTextField.setText("10");
+		dJTextField.setText("10");
+		recombinationRateJTextField.setText("1.0");
+		mutationRateJTextField.setText("0.9");
+		/*recombinationJComboBox.setSelectedItem(arg0);
+		JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();	
+		JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
+		JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();*/
 	}
 }

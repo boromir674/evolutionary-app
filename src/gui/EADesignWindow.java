@@ -372,6 +372,12 @@ public class EADesignWindow {
 			temp.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					try {
+						parseEvaLuationMenuChoice(e.getActionCommand());
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					lblProblemInstance.setText(e.getActionCommand());
 					lblRepresentationDescription.setText(e.getActionCommand());
 					String dim = parseDimensions(e.getActionCommand());
@@ -394,6 +400,12 @@ public class EADesignWindow {
 			temp.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					try {
+						parseEvaLuationMenuChoice(e.getActionCommand());
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					lblProblemInstance.setText(e.getActionCommand());
 					lblRepresentationDescription.setText(e.getActionCommand());
 					String dim = parseDimensions(e.getActionCommand());
@@ -428,8 +440,8 @@ public class EADesignWindow {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private String parseEvaLuationMenuChoice(String evaluationFileName) throws ClassNotFoundException{
 		if (evaluationFileName.contains("Function")) {
-			this.recombinationJComboBox.setModel(new DefaultComboBoxModel(LibraryModel.getRealValueApplicableCrossoverOperators().toArray()));
-			this.mutationJComboBox.setModel(new DefaultComboBoxModel(LibraryModel.getRealValueApplicableMutationOperators().toArray()));
+			this.recombinationJComboBox.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getRealValueApplicableCrossoverOperators())));
+			this.mutationJComboBox.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getRealValueApplicableMutationOperators())));
 			return "Vector of real numbers";
 		}
 		else if (evaluationFileName.contains(".tsp") || evaluationFileName.contains(".atsp")

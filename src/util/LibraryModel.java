@@ -1,6 +1,5 @@
 package util;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.nio.file.FileSystems;
@@ -23,15 +22,15 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	private final static String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
 			mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
 	
-	private static ArrayList<Path>[] models; // contains Classes implemented
-
+	private final static ArrayList<Path>[] models = new ArrayList[folders.length]; // contains Classes implemented
+	
 	public LibraryModel(){
 		this.readLibrary();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void readLibrary() {
-		models = new ArrayList[folders.length];
+		//models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {
 			models[i] = new ArrayList<Path>();
 			String path = EA_COMPONENTS_ROOT + folders[i];
@@ -59,6 +58,7 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	public final static ArrayList<Path> getSurvivorSelectionMethods(){
 		return models[4];
 	}
+	
 	private static void updateModel(Path file) {
 		if (accept(null, file.toString()))
 			for (int i=0; i<folders.length; i++)
@@ -68,7 +68,6 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 					break;
 				}
 	}
-
 	private static boolean accept(File dir, String name) {
 		if (name.contains("Abstract")|| !name.contains(".java") || name.contains("Test"))
 			return false;

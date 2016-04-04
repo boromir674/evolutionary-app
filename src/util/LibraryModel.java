@@ -12,7 +12,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 @SuppressWarnings("unchecked")
 public final class LibraryModel extends SimpleFileVisitor<Path> {
 	//private final static String EA_COMPONENTS_CLASS_ROOT = "evolutionaryAlgorithmComponents.";
-	private final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/"; 
+	public final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/"; 
 	// Components parent folders
 	private final static String realValueEvaluationRoot = "evaluation/mathFunctions/";
 	private final static String recombinationSelectionRoot = "variationOperators/recombination/";

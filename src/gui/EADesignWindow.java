@@ -31,9 +31,12 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import util.LibraryModel;
 
 import java.awt.Font;
+
+import javax.swing.JButton;
 
 public class EADesignWindow {
 
@@ -68,7 +71,7 @@ public class EADesignWindow {
 	JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
 	JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
 	final JRadioButton rdbtnElitismOn = new JRadioButton("on");
-	
+	private EADesignWindowParser parser;
 	/**
 	 * Launch the application.
 	 */
@@ -99,7 +102,7 @@ public class EADesignWindow {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
-
+		parser = new EADesignWindowParser(this);
 		frmEaRunner = new JFrame();
 		frmEaRunner.setResizable(false);
 		frmEaRunner.setTitle("EA Runner");
@@ -328,6 +331,16 @@ public class EADesignWindow {
 																recombinationRateJTextField = new JTextField();
 																recombinationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
 																panel_10.add(recombinationRateJTextField);
+																
+																JButton runButton = new JButton("Run");
+																runButton.addActionListener(new ActionListener() {
+																	public void actionPerformed(ActionEvent arg0) {
+																		EvolutionaryAlgorithm ea = parser.parse();
+																		//ea.
+																	}
+																});
+																runButton.setBounds(198, 452, 117, 25);
+																frmEaRunner.getContentPane().add(runButton);
 																
 																JTextArea textArea = new JTextArea();
 																DefaultCaret caret = (DefaultCaret)textArea.getCaret();

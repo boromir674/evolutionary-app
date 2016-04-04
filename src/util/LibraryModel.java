@@ -43,20 +43,20 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 		}
 	}
 	//TODO change return types
-	public final static ArrayList<Path> getRealValueFunctions(){
-		return models[0];
+	public final static Path[] getRealValueFunctions(){
+		return (Path[]) models[0].toArray();
 	}
-	public final static ArrayList<Path> getCrossoverOperators(){
-		return models[1];
+	public final static Path[] getCrossoverOperators(){
+		return (Path[]) models[1].toArray();
 	}
-	public final static ArrayList<Path> getMutationOperators(){
-		return models[2];
+	public final static Path[] getMutationOperators(){
+		return (Path[]) models[2].toArray();
 	}
-	public final static ArrayList<Path> getParentSelectionMethods(){
-		return models[3];
+	public final static Path[] getParentSelectionMethods(){
+		return (Path[]) models[3].toArray();
 	}
-	public final static ArrayList<Path> getSurvivorSelectionMethods(){
-		return models[4];
+	public final static Path[] getSurvivorSelectionMethods(){
+		return (Path[]) models[4].toArray();
 	}
 	
 	private static void updateModel(Path file) {

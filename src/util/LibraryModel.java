@@ -22,13 +22,13 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	private final static String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
 			mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
 	
+	@SuppressWarnings("unchecked")
 	private final static ArrayList<Path>[] models = new ArrayList[folders.length]; // contains Classes implemented
 	
 	public LibraryModel(){
 		this.readLibrary();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void readLibrary() {
 		//models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {

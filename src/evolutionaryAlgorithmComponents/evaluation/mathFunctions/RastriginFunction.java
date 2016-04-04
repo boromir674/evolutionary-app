@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents.evaluation.realValueEvaluations;
+package evolutionaryAlgorithmComponents.evaluation.mathFunctions;
 
 import java.util.Properties;
 

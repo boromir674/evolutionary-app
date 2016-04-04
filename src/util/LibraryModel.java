@@ -10,20 +10,20 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
-public final class LibraryModel extends SimpleFileVisitor<Path> implements FilenameFilter {
+public final class LibraryModel extends SimpleFileVisitor<Path> {
 
 	private final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/"; 
 	// Components parent folders
-	private final static String realValueEvaluationRoot = "evaluation/realValueEvaluations/";
+	private final static String realValueEvaluationRoot = "evaluation/mathFunctions/";
 	private final static String recombinationSelectionRoot = "variationOperators/recombination/";
 	private final static String mutationSelectionRoot = "variationOperators/mutation/";
 	private final static String parentSelectionRoot = "parentSelectionMechanisms/";
 	private final static String survivorSelectionRoot = "survivorSelectionMechanisms/";
 
-	private final String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
+	private final static String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
 			mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
 	
-	private static ArrayList<String>[] models; // contains Classes implemented
+	private static ArrayList<Path>[] models; // contains Classes implemented
 
 	public LibraryModel(){
 		this.readLibrary();
@@ -33,11 +33,9 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 	private void readLibrary() {
 		models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {
-			models[i] = new ArrayList<String>();
+			models[i] = new ArrayList<Path>();
 			String path = EA_COMPONENTS_ROOT + folders[i];
 			Path ppath = FileSystems.getDefault().getPath(path);
-			File file = new File(path);
-			file.listFiles(this);
 			try {
 				Files.walkFileTree(ppath, this);
 			} catch (IOException e) {
@@ -45,34 +43,33 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 			}
 		}
 	}
-
-	public final static ArrayList<String> getRealValueFunctions(){
+	//TODO change return types
+	public final static ArrayList<Path> getRealValueFunctions(){
 		return models[0];
 	}
-	public final static ArrayList<String> getCrossOverOperators(){
+	public final static ArrayList<Path> getCrossoverOperators(){
 		return models[1];
 	}
-	public final static ArrayList<String> getMutationOperators(){
+	public final static ArrayList<Path> getMutationOperators(){
 		return models[2];
 	}
-	public final static ArrayList<String> getParentSelectionMethods(){
+	public final static ArrayList<Path> getParentSelectionMethods(){
 		return models[3];
 	}
-	public final static ArrayList<String> getSurvivorSelectionMethods(){
+	public final static ArrayList<Path> getSurvivorSelectionMethods(){
 		return models[4];
 	}
-	private void updateModel(Path file) {
+	private static void updateModel(Path file) {
 		if (accept(null, file.toString()))
 			for (int i=0; i<folders.length; i++)
 				if (file.toString().contains(folders[i])) {
 					//models[i].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
-					models[i].add(file.toString());
+					models[i].add(file);
 					break;
 				}
 	}
 
-	@Override
-	public boolean accept(File dir, String name) {
+	private static boolean accept(File dir, String name) {
 		if (name.contains("Abstract")|| !name.contains(".java") || name.contains("Test"))
 			return false;
 		return true;
@@ -86,8 +83,5 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 		updateModel(file);
 		return super.visitFile(file, attrs);
 	}
-	
-	protected String getFileName(Path aFile){
-		return aFile.toFile().getName();
-	}
+
 }

@@ -42,7 +42,7 @@ public class EADesignWindow {
 	private String path;
 	ArrayList<String> names;
 	
-	private final static String[] elitistSelectionSet = new String[]{"Deterministic (μ+λ)", "Deterministic Crowding"};
+	private final static String[] elitistSelectionSet = new String[]{"MuPlusLambda", "DeterministicCrowding"};
 	private final static String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
 	private final static String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
 	private final static String[] permutationRecombinationSet = new String[]{"Cycle Crossover", "Edge Crossover", "Order Crossover", "PMX"};
@@ -51,7 +51,6 @@ public class EADesignWindow {
 	
 	private final JLabel lblProblemInstance = new JLabel("");
 	private final JLabel lblDimensionality = new JLabel("d: ");
-	
 		
 	private JMenu mnRealValue = new JMenu("Real Value");
 	private JMenu mnPermutation = new JMenu("Permutation");

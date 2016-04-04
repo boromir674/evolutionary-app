@@ -22,14 +22,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
-
 import javax.swing.JRadioButton;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.ArrayUtils;
+
+import util.LibraryModel;
 
 import java.awt.Font;
 
@@ -39,18 +41,11 @@ public class EADesignWindow {
 	private File file;
 	private String path;
 	ArrayList<String> names;
-	private final static String[] parentSelectionSet = new String[]{"Fitness Proportional", "Tournament", "Ranking", "Random"};
-	private final static String[] survivorSelectionSet = new String[]{"Fitness Proportional","Tournament","Deterministic (μ+λ)","Deterministic (μ,λ)","Deterministic Crowding"};
-	private final static String[] elitistSelectionSet = new String[]{"Deterministic (μ+λ)", "Deterministic Crowding"};
 	
-	private final static String[] allRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic","Cycle Crossover",
-		"Edge Crossover", "Order Crossover", "PMX", "N-point Crossover", "Uniform Crossover"};
+	private final static String[] elitistSelectionSet = new String[]{"Deterministic (μ+λ)", "Deterministic Crowding"};
 	private final static String[] genericRecombinationSet = new String[]{"N-point Crossover", "Uniform Crossover"};
 	private final static String[] realValueRecombinationSet = new String[]{"Simple Arithmetic", "Single Arithmetic", "Whole Arithmetic"};
 	private final static String[] permutationRecombinationSet = new String[]{"Cycle Crossover", "Edge Crossover", "Order Crossover", "PMX"};
-	
-	private final static String[] allMutationSet = new String[]{"Bitwise","Creep","Insert","Invert","Random Reseting", "Scramble",
-		"Swap", "Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
 	private final static String[] realValueMutationSet = new String[]{"Correlated", "Non uniform", "Ucorrelated with n sigmas", "Ucorrelated with 1 sigma", "Uniform"};
 	private final static String[] permutationMutationSet = new String[]{"Creep","Insert","Invert","Scramble","Swap"};
 	
@@ -82,6 +77,7 @@ public class EADesignWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					LibraryModel model = new LibraryModel();
 					EADesignWindow window = new EADesignWindow();
 					window.frmEaRunner.setVisible(true);
 				} catch (Exception e) {
@@ -194,19 +190,19 @@ public class EADesignWindow {
 		lblRepresentationDescription.setText("");
 		recombinationJComboBox.setFont(UIManager.getFont("ComboBox.font"));
 
-		recombinationJComboBox.setModel(new DefaultComboBoxModel(allRecombinationSet));
+		recombinationJComboBox.setModel(new DefaultComboBoxModel(LibraryModel.getCrossOverOperators().toArray()));
 		panel_1.add(recombinationJComboBox);
 		
 				panel_1.add(mutationJComboBox);
-				mutationJComboBox.setModel(new DefaultComboBoxModel(allMutationSet));
-
+				mutationJComboBox.setModel(new DefaultComboBoxModel(LibraryModel.getMutationOperators().toArray()));
+		
 		panel_1.add(parentSelectionList);
-		parentSelectionList.setModel(new DefaultComboBoxModel(parentSelectionSet));
+		parentSelectionList.setModel(new DefaultComboBoxModel(LibraryModel.getParentSelectionMethods().toArray()));
 
 		JLabel lblSurvivorSelection = new JLabel("Survivor Selection");
 		panel.add(lblSurvivorSelection);
 		
-		survivorSelectionList.setModel(new DefaultComboBoxModel(survivorSelectionSet));
+		survivorSelectionList.setModel(new DefaultComboBoxModel(LibraryModel.getSurvivorSelectionMethods().toArray()));
 		panel_1.add(survivorSelectionList);
 														lblProblemInstance.setBounds(272, 136, 267, 20);
 														frmEaRunner.getContentPane().add(lblProblemInstance);

@@ -46,19 +46,19 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 		}
 	}
 
-	public final ArrayList<String> getRealValueFunctions(){
+	public final static ArrayList<String> getRealValueFunctions(){
 		return models[0];
 	}
-	public final ArrayList<String> getCrossOverOperators(){
+	public final static ArrayList<String> getCrossOverOperators(){
 		return models[1];
 	}
-	public final ArrayList<String> getMutationOperators(){
+	public final static ArrayList<String> getMutationOperators(){
 		return models[2];
 	}
-	public final ArrayList<String> getParentSelectionMethods(){
+	public final static ArrayList<String> getParentSelectionMethods(){
 		return models[3];
 	}
-	public final ArrayList<String> getSurvivorSelectionMethods(){
+	public final static ArrayList<String> getSurvivorSelectionMethods(){
 		return models[4];
 	}
 	private void updateModel(Path file) {

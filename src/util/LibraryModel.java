@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-@SuppressWarnings("static-method")
+
 public final class LibraryModel extends SimpleFileVisitor<Path> implements FilenameFilter {
 
 	private final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/"; 
@@ -22,8 +22,8 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 
 	private final String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
 			mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
-
-	private static ArrayList<String>[] models;// = new ArrayList[folders.length];
+	
+	private static ArrayList<String>[] models; // contains Classes implemented
 
 	public LibraryModel(){
 		this.readLibrary();
@@ -65,7 +65,8 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 		if (accept(null, file.toString()))
 			for (int i=0; i<folders.length; i++)
 				if (file.toString().contains(folders[i])) {
-					models[i].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
+					//models[i].add(file.toFile().getName().substring(0, file.toFile().getName().length()-5));
+					models[i].add(file.toString());
 					break;
 				}
 	}
@@ -85,5 +86,8 @@ public final class LibraryModel extends SimpleFileVisitor<Path> implements Filen
 		updateModel(file);
 		return super.visitFile(file, attrs);
 	}
-
+	
+	protected String getFileName(Path aFile){
+		return aFile.toFile().getName();
+	}
 }

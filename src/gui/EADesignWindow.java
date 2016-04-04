@@ -336,6 +336,7 @@ public class EADesignWindow {
 																runButton.addActionListener(new ActionListener() {
 																	public void actionPerformed(ActionEvent arg0) {
 																		try {
+																			@SuppressWarnings("unused")
 																			EvolutionaryAlgorithm ea = parser.parse();
 																		} catch (
 																				Exception e) {

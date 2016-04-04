@@ -13,6 +13,10 @@ public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	public AbstractEvaluationMethod(String title) {
 		this.title = title;
 	}
+	//TODO computeFitness {
+	//update evaluations used
+	//update ebstScoreEncountered
+	//	}
 	
 	/**
 	 * @return the fitness value of the chromosome that contains the optimum solution

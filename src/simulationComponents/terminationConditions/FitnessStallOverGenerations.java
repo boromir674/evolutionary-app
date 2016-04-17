@@ -8,12 +8,10 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 	private int generationsSpan;
 	private int generationsCounter = 0;
 	private double currentBest = Double.NEGATIVE_INFINITY;
-	private double threshold;
 	
-	public FitnessStallOverGenerations(int generationsSpan, double threshold) {
+	public FitnessStallOverGenerations(int generationsSpan) {
 		super(title);
 		this.generationsSpan = generationsSpan;
-		this.threshold = threshold;
 	}
 
 	@Override
@@ -21,12 +19,14 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 		if (generationsCounter == generationsSpan)
 			return true;
 		double newBest = anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().getFitness();
-		if (newBest - currentBest < threshold)
-			generationsCounter ++;
-		else {
+		if (newBest > currentBest) {
+			currentBest = newBest;
 			generationsCounter = 0;
-			newBest = currentBest;
-		}			
+		}
+		else {
+			generationsCounter ++;
+			
+		}		
 		return false;
 	}
 

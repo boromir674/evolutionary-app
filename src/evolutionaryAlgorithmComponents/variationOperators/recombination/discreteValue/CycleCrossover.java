@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import interfaces.Representation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,7 +7,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import evolutionaryAlgorithmComponents.Individual;
 
-public class CycleCrossover extends AbstractDiscreteRecombination {
+public class CycleCrossover extends AbstractPermutationRecombination {
 	// The Cycle Crossover is concerned with preserving as much information 
 	// as possible about the absolute position in which elements occur.
 

@@ -1,57 +1,66 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
+import interfaces.FitnessCalculator;
+
 import java.util.Random;
 
 import util.Util;
+import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
+import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 
 public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 
 	private final static String title = "Stochastic Fitness-based with Elitism";
 	private Random random;
-	
+	private FitnessCalculator fitnessCalculator;
+
 	public FitnessBasedWithElitism(Random aRandom) {
 		super(title);
 		random = aRandom;
+		this.fitnessCalculator = new FitnessCalculator() {
+			@Override
+			public double computeFitness(Individual anIndividual) {
+				return anIndividual.getFitness();
+			}
+		};
+	}
+	public FitnessBasedWithElitism(Random aRandom, FitnessCalculator aFitnessCalculator) {
+		super(title);
+		random = aRandom;
+		this.fitnessCalculator = aFitnessCalculator;
 	}
 
 	@Override
-	public void select(Population aPopulation) throws Exception {
-		// stochastically selects survivors, sampling according to probabilities based
-		// on the fitness values of each member of the population while preserving the
-		// top performing individual at every generation
-		// Updates the population
-
-		double[] fitArray = Util.getFitnessArray(aPopulation);
-
-		int bestIndex = Util.findMaxIndex(fitArray); // index of member with best fitness value 
-
-		double[] probabilities = Util.findFitnessBasedProbabilities(fitArray);
-		double cumulativeProbs[] = Util.getCumulativeDistribution(probabilities);
-
-		// array with indices pointing to members for keeping
-		//int[] survivors = Utils.rouletteWheel(cumulativeProbs, mu, poolRandom);
-		int[] survivors = Util.stochasticUniversalSampling(cumulativeProbs, aPopulation.getMu(), random);
-
-		// check if best individual is kept
-		boolean kept = false;
-		int j = 0;
-		while (!kept & j<survivors.length){
-			if (survivors[j] == bestIndex)
-				kept = true;
-			j ++;
+	public int[] select(Population pop) {
+/*		double[] fitArray = new double[pop.getPool().length];
+		for (int i=0; i<fitArray.length; i++)
+			fitArray[i] = pop.getPool()[i].getFitness();
+		double minFitness = Util.findMin(fitArray);
+		double fitnessSum = 0;
+		for (int i=0; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
+			fitnessSum += fitArray[i];
 		}
-		if (!kept){ // if best not kept, replace a random member with it
-			int s = random.nextInt(aPopulation.getMu());
-			survivors[s] = bestIndex;
-		}			
+		double[] cumulProbs = new double[fitArray.length];
+		cumulProbs[0] = fitArray[0]/fitnessSum;
+		for (int i=1; i<fitArray.length; i++){	
+			cumulProbs[i] = cumulProbs[i-1] + fitArray[i]/fitnessSum;
+		}*/
+		double[] cumulProbs = util.Util.getCumulativeDistribution(pop.getPool(), 0, pop.getPool().length, fitnessCalculator);
+		int[] survivors = Util.stochasticUniversalSampling(cumulProbs, pop.getMu(), random);
+		return survivors;
+	}
 
-		// store members picked by the roulette at the top μ positions
-		for (int i=0; i<aPopulation.getMu(); i++)
-			aPopulation.set(i, aPopulation.member(survivors[i]));
-		aPopulation.getPool().subList(aPopulation.getMu(), aPopulation.getPool().size()).clear(); // discard all after top μ
-		super.select(aPopulation);
+	@Override
+	public boolean forceElitism() {
+		return true;
+	}
+
+	@Override
+	public boolean isElitist() {
+		return true;
 	}
 
 }
-

@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.representation;		
 
-import java.util.Random;
-
 public class OneSigma extends RealValueRepresentation {
 	
 	private final static String title = " with a single σ for the whole population";

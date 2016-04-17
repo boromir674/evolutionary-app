@@ -4,7 +4,6 @@ import java.util.Random;
 
 import util.Util;
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
 public class RankingSelection extends AbstractParentSelection {
@@ -16,18 +15,27 @@ public class RankingSelection extends AbstractParentSelection {
 	}
 
 	@Override
-	public Individual[] select(Population aPopulation, Random aRandom) throws Exception {
-		// stochastically selects lambda parents, sampling according to probabilities based
-		// on the linear rank of each member of the population
-		double[] fitArray = Util.getFitnessArray(aPopulation);
-		double[] rankProbabilities = Util.findRankingProbs(fitArray); // probabilities based on ranking
-		double[] cumulProbs = Util.getCumulativeDistribution(rankProbabilities);
-		// array with indices to the pool ArrayList
-		int[] matingPool = Util.stochasticUniversalSampling(cumulProbs, aPopulation.getLambda(), aRandom);
-		//matingPool = Utils.rouletteWheel(cumulProbs, lambda, poolRandom);
-		Individual[] parents = new Individual[aPopulation.getLambda()];
-		for (int i=0; i<parents.length; i++)
-			parents[i] = aPopulation.member(matingPool[i]);
-		return parents;
-	}
+	public int[] select(Population pop, Random rand) throws Exception {
+		double[] fitArray = new double[pop.getMu()];
+		double minFitness = Double.POSITIVE_INFINITY;
+		for (int i=0; i<fitArray.length; i++){
+			fitArray[i] = pop.getPool()[i].getFitness();
+			if (fitArray[i] < minFitness)
+				minFitness = fitArray[i];
+		}
+		double s = 1.5; // parameter: 1 < s <= 2
+		double[] probs = new double[fitArray.length];
+		probs[0] = (2.0 - s)/fitArray.length + 2*0*(s-1)/(fitArray.length*(fitArray.length-1));
+		double[] cumulProbs = new double[fitArray.length];
+		cumulProbs[0] = probs[0];
+		for (int i=1; i<fitArray.length; i++) {
+			fitArray[i] = fitArray[i] - minFitness + 1;
+			probs[i] = (2.0 - s)/fitArray.length + 2*i*(s-1)/(fitArray.length*(fitArray.length-1));
+			cumulProbs[i] = cumulProbs[i-1] + probs[i];
+		}
+		int[] parentPointers = Util.stochasticUniversalSampling(cumulProbs, pop.getLambda(), rand);
+		Util.shuffleArray(parentPointers, rand);
+		return parentPointers;
+	}	
+
 }

@@ -14,8 +14,8 @@ public class PseudoEuclidean implements DistanceCalculator {
 	 */
 	@Override
 	public int calculateDistance(double[] coords1, double[] coords2) {
-		double xd = coords1[0] - coords1[1];
-		double yd = coords2[0] - coords2[1];
+		double xd = coords1[0] - coords2[0];
+		double yd = coords1[1] - coords2[1];
 		double rij = Math.sqrt( (xd*xd + yd*yd) / 10.0 );
 		int tij = Math.round((float)rij);
 		if (tij<rij)

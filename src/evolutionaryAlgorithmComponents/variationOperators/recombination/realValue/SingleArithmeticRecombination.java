@@ -3,7 +3,6 @@ package evolutionaryAlgorithmComponents.variationOperators.recombination.realVal
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 
 public class SingleArithmeticRecombination extends AbstractRealValueRecombination {
 	

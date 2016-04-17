@@ -2,20 +2,19 @@ package interfaces;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 
 /**
  * Parent Selection Interface
  */
 public interface ParentSelection extends EvolutionaryAlgorithmComponent{
+
 	/**
-	 * 
-	 * @param aPopulation
-	 * @param lambda
-	 * @param aRandom
-	 * @return indices pointing to the elements 
-	 * @throws Exception 
+	 * This method should return linear indices pointing to the Population pool of
+	 * Individuals. The array returned can contain duplicates.
+	 * @param aPopulation the Population of mu Individuals
+	 * @param aRandom an instance of class Random
+	 * @return the indices pointing to the Individuals selected for undergoing variation 
 	 */
-	public Individual[] select(Population aPopulation, Random aRandom) throws Exception;
+	public int[] select(Population aPopulation, Random aRandom) throws Exception;
 }

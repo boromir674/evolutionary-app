@@ -1,8 +1,6 @@
 package interfaces;
 
-import evolutionaryAlgorithmComponents.Individual;
-
-public interface EvaluationMethod extends EvolutionaryAlgorithmComponent{
+public interface EvaluationMethod extends EvolutionaryAlgorithmComponent, FitnessCalculator {
 	/**
 	 * Returns the maximum fitness value that has been encountered so far.
 	 * @return the maximum fitness value.
@@ -20,10 +18,9 @@ public interface EvaluationMethod extends EvolutionaryAlgorithmComponent{
 	 */
 	void reInitialize();
 	/**
-	 * Calculates the fitness value for the specified chromosome.
-	 * Should be implemented such that bigger fitness indicates fitter individual.
-	 * @param chromosome An Object array representing the chromosome to be evaluated.
-	 * @return the fitness value.
+	 * This method should return an array which represents the vector containing the solution to the 
+	 * original problem. This vector will naturally correspond also to the best fitness value.  
+	 * @return the solution vector if it known, null otherwise.
 	 */
-	public abstract double computeFitness(Individual anIndividual);
+	public Object[] getSolutionVector();
 }

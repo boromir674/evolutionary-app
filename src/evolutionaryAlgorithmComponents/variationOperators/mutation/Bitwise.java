@@ -2,6 +2,7 @@ package evolutionaryAlgorithmComponents.variationOperators.mutation;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.AbstractMutation;
 import evolutionaryAlgorithmComponents.Individual;
 
 public class Bitwise extends AbstractMutation {
@@ -26,8 +27,13 @@ public class Bitwise extends AbstractMutation {
 	}
 
 	@Override
+	public boolean applicableToPermutation() {
+		return false;
+	}
+
+	@Override
 	public boolean applicableToDiscrete() {
-		return true;
+		return false;
 	}
 
 }

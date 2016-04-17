@@ -1,7 +1,6 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators;
 
 import interfaces.DistanceCalculator;
-import evolutionaryAlgorithmComponents.Individual;
 
 public class CeilingEuclidean implements DistanceCalculator {
 

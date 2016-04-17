@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import interfaces.Representation;
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -10,7 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 
-public class PartiallyMappedCrossover extends AbstractDiscreteRecombination {
+public class PartiallyMappedCrossover extends AbstractPermutationRecombination {
 	// Suitable for adjacency-type problems like TSP
 	// page 70
 	// D. Whitley. Permutations. In Back et al [27], chapter 33.3, pages 274-284.
@@ -27,18 +25,18 @@ public class PartiallyMappedCrossover extends AbstractDiscreteRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) throws Exception {
 
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(mom.getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(mom.getChromosome()))
 			throw new Exception("mom has duplicates");
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(dad.getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(dad.getChromosome()))
 			throw new Exception("dad has duplicates");
 
 		Individual[] children = this.go(mom, dad);
 
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[0].getChromosome())){
+		if (!PermutationRepresentation.chromosomeOK(children[0].getChromosome())){
 			children = this.go(mom, dad);
 			throw new Exception("offspring 1 contains dublicates!");
 		}
-		if (!((PermutationRepresentation)mom.getRepresentation()).chromosomeOK(children[1].getChromosome()))
+		if (!PermutationRepresentation.chromosomeOK(children[1].getChromosome()))
 			throw new Exception("offspring 2 contains dublicates!");
 
 		return children;

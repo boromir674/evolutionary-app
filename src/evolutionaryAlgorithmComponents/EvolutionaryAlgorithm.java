@@ -2,14 +2,21 @@ package evolutionaryAlgorithmComponents;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.variationOperators.VarianceOperator;
+import evolutionaryAlgorithmComponents.fitnessCalculators.DynamicNiching;
+import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
+import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
+import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.DeterministicCrowding;
+import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
+import exceptions.IncompatibleComponentsException;
+import exceptions.SortsInPlaceThePopulationException;
 import interfaces.EvaluationMethod;
 import interfaces.ParentSelection;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
 
 public class EvolutionaryAlgorithm {
-
+	// Fundamental components
 	private Representation representation;
 	private EvaluationMethod evaluator;
 	private Population population;
@@ -17,44 +24,98 @@ public class EvolutionaryAlgorithm {
 	private ParentSelection parentSelectionMethod;
 	private SurvivorSelection survivorSelectionMethod;
 
-	private Individual[] parents;
+	protected int[] parents;
+	boolean maxInFirstPosition;
+	private int[] survivors;
+	private double lowerValue;
+	private AbstractFitnessSharingScheme fitnessSharingScheme = new DynamicNiching(5);
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
-			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) {
+			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
 		representation = aRepresentation;
 		evaluator = anEvaluationMethod;
 		population = aPopulation;
+		population.evo = this;
 		variationOperator = aVarianceOperator;
+		variationOperator.evo = this;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;
+		this.checkComponentsCompatibility();
 		printInfo();
 	}
 
 	public void randomInitialization(Random aRandom) throws Exception{
 		evaluator.reInitialize();
-		population.initializeRandom(representation, aRandom, evaluator);		
+		population.initializeRandom(representation, aRandom, evaluator);
+		this.lowerValue = this.population.getFittestIndividual().getFitness();
 	}
+	//if diakoptis at Dynamic Niching then this.scheme = new DynamicNiching;
 	public void parentSelection(Random aRandom) throws Exception{
+		if (this.fitnessSharingScheme instanceof DynamicNiching)
+			((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(population, 10);
 		parents = parentSelectionMethod.select(population, aRandom);
 	}
+
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
+		population.fitterTillEnd = population.fitterTillMu;
 		for (int i=0; i<population.getLambda(); i=i+2){
-			Individual[] children = variationOperator.operate(parents[i], parents[i+1], representation, aRandom);
-			population.addIndividual(children[0], evaluator);
-			if (children.length == 2)
-				population.addIndividual(children[1], evaluator);
+			Individual[] children = variationOperator.operate(population.getPool()[parents[i]], population.getPool()[parents[i+1]], aRandom);
+			population.addOffspring(children[0], evaluator);
+			if (children[0].getFitness() > population.fitterTillEnd.getFitness())
+				population.fitterTillEnd = children[0];
+			if (children.length == 2) {
+				population.addOffspring(children[1], evaluator);
+				if (children[1].getFitness() > population.fitterTillEnd.getFitness())
+					population.fitterTillEnd = children[1];
+			}
 			else
-				population.addIndividual(children[0], evaluator);
-		}
-		if (population.getPool().size() - population.getMu() != population.getLambda()){
-			System.out.println("Did not produce lambda children");
-			System.exit(0);
+				population.addOffspring((Individual) children[0].clone(), evaluator);
 		}
 	}
 
 	public void survivorSelection() throws Exception {
-		survivorSelectionMethod.select(population);
 		this.population.generationCount ++;
+		try {
+			survivors = survivorSelectionMethod.select(population);
+			population.updatePoolWithNewGeneration(survivors);
+		} catch (SortsInPlaceThePopulationException e) {
+			population.fitterTillMu = population.getPool()[0];
+		}
+		if (((AbstractSurvivorSelection) survivorSelectionMethod).forceElitism())
+			if (population.fitterTillMu.getFitness() < population.fitterTillEnd.getFitness())
+				population.forceFitter();
+	}
+
+	public void printInfo(){
+		System.out.println("\nEvolutionary Algorithm deployed with components:");
+		System.out.println("Evaluation: " + evaluator.getTitle());
+		System.out.format("Population size: μ=%d%n", population.getMu());
+		System.out.format("Offsprings: λ=%d%n", population.getLambda());
+		System.out.println("Representation: " + representation.getTitle());
+		System.out.println("Parent Selection: " + parentSelectionMethod.getTitle());
+		System.out.println("Recombination: " + variationOperator.getRecombination().getTitle());
+		System.out.format("Mutation (p=%.2f): " + variationOperator.getMutation().getTitle()+"%n", variationOperator.getMutation().getProbability());
+		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
+	}
+	public void printPerformance() throws Exception {
+		double percentage = (this.population.getFittestIndividual().getFitness()-this.lowerValue)/(((AbstractEvaluationMethod) this.evaluator).getSolutionFitness() - this.lowerValue) * 100;	
+		System.out.format("%.2f ", percentage);		
+	}
+
+	private void checkComponentsCompatibility() throws IncompatibleComponentsException {
+		if (population.getLambda() < population.getMu() && survivorSelectionMethod instanceof MuCommaLambda)
+			throw new IncompatibleComponentsException("children less than parents");
+		if (representation instanceof PermutationRepresentation && !variationOperator.applicableToPermutation)
+			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
+		if (representation instanceof AbstractIntegerRepresentation && !variationOperator.applicableToDiscrete)
+			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
+		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
+			throw new IncompatibleComponentsException("real value representation, but discrete operator");
+		if (survivorSelectionMethod instanceof DeterministicCrowding && population.getMu() != population.getLambda())
+			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands: μ=λ");
+	}
+	public int[] getParents(){
+		return this.parents;
 	}
 	/**
 	 * @return the representation
@@ -62,7 +123,7 @@ public class EvolutionaryAlgorithm {
 	public Representation getRepresentation() {
 		return representation;
 	}
-	/**
+	/**getSolutionFitness()
 	 * @param representation the representation to set
 	 */
 	public void setRepresentation(Representation representation) {
@@ -129,15 +190,4 @@ public class EvolutionaryAlgorithm {
 		this.survivorSelectionMethod = survivorSelectionMethod;
 	}
 
-	public void printInfo(){
-		System.out.println("Evolutionary Algorithm deployed with components:\n");
-		System.out.format("Population size: μ=%d%n", population.getMu());
-		System.out.format("Offsprings: λ=%d%n", population.getLambda());
-		System.out.println("Representation: " + representation.getTitle());
-		System.out.println("Parent Selection: " + parentSelectionMethod.getTitle());
-		System.out.println("Recombination: " + variationOperator.getRecombination().getTitle());
-		System.out.println("Mutation: " + variationOperator.getMutation().getTitle());
-		System.out.println("Mutation probability: " + variationOperator.getMutation().getProbability());
-		System.out.println("Survivor Selection: " + survivorSelectionMethod.getTitle());
-	}
 }

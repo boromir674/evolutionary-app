@@ -1,13 +1,12 @@
 package util;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.apache.commons.lang3.ArrayUtils;
+import exceptions.FileFormatNotSupportedException;
 
 /**
  * An utility class that is used to parse .tsp files.
@@ -37,6 +36,7 @@ public class TSPReader {
 	private final static HashSet<String> displayDataTypes = new HashSet<String>(3);
 	private final static HashSet<String> sections = new HashSet<String>(8);
 
+	// private members with getters
 	private String path;
 	private String name;
 	private String type;
@@ -53,11 +53,14 @@ public class TSPReader {
 	private int vCounter;
 	private int[][] fixedEdges;
 
+	// local variables
 	private FileReader reader;
 	private BufferedReader bf;
+	// TODO convert ArrayList to array of pointers to various-length arrays.
 	private ArrayList<int[]> _fixedEdges;
 	private ArrayList<int[]> _list;
 	private int[] _matrixIndices;
+	private Integer[] solutionTour;
 
 	public TSPReader() {
 		for (int i=0; i<allTypes.length; i++)
@@ -77,8 +80,11 @@ public class TSPReader {
 	}
 
 	public void parseFile(String file) throws Exception{
+		String folder = decideOnFolder(file);
+		if (folder.equals(""))
+			throw new FileFormatNotSupportedException();
 		this.initialize();
-		this.path = System.getProperty("user.dir") + "/TSP_samples"+decideOnFolder(file);
+		this.path = System.getProperty("user.dir") + "/TSP_samples"+folder;
 		reader = new FileReader(path);
 		bf = new BufferedReader(reader);
 		this.parseInfoUntilSection();
@@ -89,6 +95,35 @@ public class TSPReader {
 			section = "";
 			this.parseInfoUntilSection();}
 		this.parseAllData();
+		bf.close();
+		try {
+			parseOptimumTour();
+		} catch (IOException e){
+			System.out.println(this.name + " has no opt");
+		}
+	}
+
+	private void parseOptimumTour() throws Exception{
+		String path1 = this.path.substring(0, this.path.indexOf('.')) + ".opt.tour";
+		reader = new FileReader(path1);
+		bf = new BufferedReader(reader);
+		solutionTour = new Integer[dimension];
+		String line = bf.readLine();
+		while (!line.equals("TOUR_SECTION")) {
+			line = bf.readLine();
+		}
+		line = bf.readLine().trim();
+		String[] pLine;
+		int i = 0;
+		while (!(line.equals("-1") || line == null || line.equals("EOF") || line.trim().equals(""))) {;
+			pLine = prepareForParsing(line);
+			int j;
+			for (j=0; j<pLine.length; j++)
+				solutionTour[i+j] = Integer.parseInt(pLine[j].trim());
+			i += j;
+			line = bf.readLine().trim();
+		}
+		bf.close();
 	}
 
 	private void parseFixedEdgeSection() throws Exception {
@@ -147,7 +182,11 @@ public class TSPReader {
 		this.initializeDataArray();
 		String line = bf.readLine().trim();
 		do {
-			if (line.equals("EOF") || line.equals("-1") || line.equals("") || line.equals("DISPLAY_DATA_SECTION"))
+			if (line.equals("")){
+				line = bf.readLine().trim();
+				continue;
+			}
+			if (line.equals("EOF") || line.equals("-1") || line.equals("DISPLAY_DATA_SECTION"))
 				break;
 			this.parseDataLine(line);
 			try {
@@ -163,7 +202,7 @@ public class TSPReader {
 	}
 
 	private void initializeDataArray() throws Exception{
-		if (!edgeWeightType.equals("EXPLICIT")){
+		if (!edgeWeightType.equals("EXPLICIT") && !edgeWeightType.equals("")){
 			if (edgeWeightType.equals("EUC_3D") || edgeWeightType.equals("MAN_3D") ||edgeWeightType.equals("MAX_3D"))
 				matrix = new double[dimension][3];
 			else
@@ -190,7 +229,9 @@ public class TSPReader {
 	private void parseDataLine(String line) throws Exception{
 		if (line.length() == 0)
 			throw new Exception("empty string came as input: blank line");
-		if (!edgeWeightType.equals("EXPLICIT"))
+		if (edgeDataFormat.equals("EDGE_LIST") && section.equals("EDGE_DATA_SECTION"))
+			this.readIntoArrayList(line);
+		else if (!edgeWeightType.equals("EXPLICIT"))
 			this.readCoordsDataLine(line);
 		else {
 			if (edgeWeightFormat.equals("FULL_MATRIX"))
@@ -228,7 +269,7 @@ public class TSPReader {
 		String[] pLine = prepareForParsing(line);
 		this._list.add(new int[pLine.length]);
 		for (int i=0; i<pLine.length; i++)
-			this._list.get(_list.size()-1)[i] = Integer.parseInt(pLine[i]);
+			this._list.get(_list.size()-1)[i] = Integer.parseInt(pLine[i].trim());
 	}
 	private void readAnyTriangular(String line) throws Exception{
 		String[] pLine = prepareForParsing(line);
@@ -284,8 +325,10 @@ public class TSPReader {
 		_matrixIndices = new int[2];
 		vector = null;
 		vCounter = 0;
+		solutionTour = null;
 		fixedEdges = null;
 		_fixedEdges = null;
+		solutionTour = null;
 	}
 	private static String decideOnType(String line) {
 		String temp = line.substring(line.indexOf(":")+1, line.length());
@@ -299,18 +342,20 @@ public class TSPReader {
 			return "SOP";
 		else return "CVRP";
 	}
-	
+
 	private static String decideOnFolder(String name){
 		if (name.substring(name.length()-4, name.length()).equals(".tsp"))
 			return "/TSP/"+name;
 		else if (name.substring(name.length()-4, name.length()).equals(".hcp"))
 			return "/HCP/"+name;
-		else if (name.substring(name.length()-4, name.length()).equals(".atsp"))
+		else if (name.substring(name.length()-5, name.length()).equals(".atsp"))
 			return "/ATSP/"+name;
 		else if (name.substring(name.length()-4, name.length()).equals(".sop"))
 			return "/SOP/"+name;
-		else
+		else if (name.substring(name.length()-4, name.length()).equals(".cvrp"))
 			return "/CVRP/"+name;
+		else
+			return "";
 	}
 	/**
 	 * @return the path
@@ -379,6 +424,7 @@ public class TSPReader {
 		if (_list != null){
 			matrix = new double[_list.size()][];
 			for (int i=0; i<_list.size(); i++){
+				matrix[i] = new double[2];
 				for (int j=0; j<_list.get(i).length; j++){
 					matrix[i][j] =  _list.get(i)[j];
 				}
@@ -398,5 +444,12 @@ public class TSPReader {
 	 */
 	public double[] getVector() {
 		return vector;
+	}
+
+	/**
+	 * @return the solutionTour
+	 */
+	public Integer[] getSolutionTour() {
+		return solutionTour;
 	}
 }

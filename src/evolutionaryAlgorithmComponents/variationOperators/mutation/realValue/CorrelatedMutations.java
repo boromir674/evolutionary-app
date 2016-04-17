@@ -7,7 +7,6 @@ import org.apache.commons.math3.linear.SingularMatrixException;
 
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
-import util.Util;
 
 public class CorrelatedMutations extends AbstractRealValueMutation {
 

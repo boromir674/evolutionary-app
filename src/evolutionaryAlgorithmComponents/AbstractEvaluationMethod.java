@@ -4,13 +4,25 @@ import interfaces.EvaluationMethod;
 
 public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	
+	EvolutionaryAlgorithm myEvolutionaryAlgorithm;
+
 	private final String title;
-	double bestScoreEncountered = Double.MIN_VALUE;
-	protected int evaluationsUsed;
+	protected double bestScoreEncountered = Double.NEGATIVE_INFINITY;
+	protected int evaluationsUsed = 0;
 	
 	public AbstractEvaluationMethod(String title) {
 		this.title = title;
 	}
+	//TODO computeFitness {
+	//update evaluations used
+	//update ebstScoreEncountered
+	//	}
+	
+	/**
+	 * @return the fitness value of the chromosome that contains the optimum solution
+	 * @throws Exception 
+	 */
+	public abstract double getSolutionFitness();
 	
 	/* (non-Javadoc)
 	 * @see interfaces.EvolutionaryAlgorithmComponent#getTitle()
@@ -35,13 +47,13 @@ public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	public int getEvaluationsUsed() {
 		return evaluationsUsed;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see interfaces.EvaluationMethod#reInitialize()
 	 */
 	@Override
 	public void reInitialize() {
-		bestScoreEncountered = Double.MIN_VALUE;
+		bestScoreEncountered = Double.NEGATIVE_INFINITY;
 		evaluationsUsed = 0;
 	}
 	

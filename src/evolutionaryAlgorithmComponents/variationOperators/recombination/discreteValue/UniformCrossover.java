@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import interfaces.Representation;
-
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
@@ -42,4 +40,5 @@ public class UniformCrossover extends AbstractDiscreteRecombination {
 	public double getAlpha(){
 		return alpha;
 	}
+
 }

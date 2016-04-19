@@ -37,13 +37,27 @@ public final class HyperFactory {
 		return (SurvivorSelection) Class.forName(s+fileName.substring(0, fileName.length()-5)).newInstance();
 	}
 
-	public final static Recombination getCrossoverOperator(String filename, double prob){
-		return null;
-
+	public final static Recombination getCrossoverOperator(String fileName, double prob) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
+		String s2 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
+		Recombination rec;
+		try {
+			rec = (Recombination) Class.forName(s1+fileName.substring(0, fileName.length()-5)).newInstance();
+		} catch (Exception e) {
+			rec = (Recombination) Class.forName(s2+fileName.substring(0, fileName.length()-5)).newInstance();
+		}
+		return rec;
 	}
-	public final static Mutation getMutationOperator(String filename, double prob){
-		return null;
-
+	public final static Mutation getMutationOperator(String fileName, double prob) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
+		String s2 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
+		Mutation mutation;
+		try {
+			mutation = (Mutation) Class.forName(s1+fileName.substring(0, fileName.length()-5)).newInstance();
+		} catch (Exception e) {
+			mutation = (Mutation) Class.forName(s2+fileName.substring(0, fileName.length()-5)).newInstance();
+		}
+		return mutation;
 	}
 
 	public final static Representation getRepresentation(EvaluationMethod anEvaluationMethod){

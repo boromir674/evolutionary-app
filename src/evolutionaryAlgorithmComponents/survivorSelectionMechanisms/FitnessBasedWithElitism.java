@@ -8,7 +8,6 @@ import util.Util;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
-import evolutionaryAlgorithmComponents.fitnessCalculators.RawFitnessReporter;
 
 public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 

@@ -380,7 +380,7 @@ public class EADesignWindow {
 					}
 					lblProblemInstance.setText(e.getActionCommand());
 					lblRepresentationDescription.setText(e.getActionCommand());
-					String dim = parseDimensions(e.getActionCommand());
+					String dim = util.Util.parseDimensions(e.getActionCommand());
 					dJTextField.setText(dim);
 					if (!dim.isEmpty())
 						dJTextField.setEnabled(false);
@@ -408,7 +408,7 @@ public class EADesignWindow {
 					}
 					lblProblemInstance.setText(e.getActionCommand());
 					lblRepresentationDescription.setText(e.getActionCommand());
-					String dim = parseDimensions(e.getActionCommand());
+					String dim = util.Util.parseDimensions(e.getActionCommand());
 					dJTextField.setText(dim);
 					if (!dim.isEmpty())
 						dJTextField.setEnabled(false);
@@ -420,23 +420,6 @@ public class EADesignWindow {
 		}
 	}
 
-	private static String parseDimensions(String aFileName){
-		int i = 1;
-		int start = 0;
-		int end = 0;
-		while ((start == 0 || end == 0) && i<aFileName.length()){
-			char ch0 = aFileName.charAt(i-1);
-			char ch1 = aFileName.charAt(i);
-			if (!Character.isDigit(ch0) && Character.isDigit(ch1))
-				start = i;
-			if (Character.isDigit(ch0) && !Character.isDigit(ch1))
-				end = i;
-			i++;
-		}
-		if (end == 0)
-			return "";
-		return aFileName.substring(start, end);
-	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private String parseEvaLuationMenuChoice(String evaluationFileName) throws ClassNotFoundException{
 		if (evaluationFileName.contains("Function")) {

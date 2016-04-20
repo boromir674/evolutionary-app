@@ -157,5 +157,23 @@ public abstract class Util {
 			array[i] = temp;
 		}
 	}
+	
+	public static String parseDimensions(String aFileName){
+		int i = 1;
+		int start = 0;
+		int end = 0;
+		while ((start == 0 || end == 0) && i<aFileName.length()){
+			char ch0 = aFileName.charAt(i-1);
+			char ch1 = aFileName.charAt(i);
+			if (!Character.isDigit(ch0) && Character.isDigit(ch1))
+				start = i;
+			if (Character.isDigit(ch0) && !Character.isDigit(ch1))
+				end = i;
+			i++;
+		}
+		if (end == 0)
+			return ""; // fileName contains no 'dimension'
+		return aFileName.substring(start, end);
+	}
 
 }

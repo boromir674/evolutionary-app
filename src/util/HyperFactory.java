@@ -53,17 +53,18 @@ public final class HyperFactory {
 		return (SurvivorSelection) Class.forName(s+aSurvivorSelectionName.substring(0, aSurvivorSelectionName.length()-offset)).newInstance();
 	}
 
-	public final static Recombination getCrossoverOperator(String aRecombinationName, double prob) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
+	public final static Recombination getCrossoverOperator(String aRecombinationName) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
 		int offset = 0;
 		if (aRecombinationName.endsWith(".java"))
 			offset = 5;
 		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
 		String s2 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
 		Recombination rec;
+		//TODO Fix!
 		try {
-			rec = (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor().newInstance(prob);
+			rec = (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor().newInstance();
 		} catch (Exception e) {
-			rec = (Recombination) Class.forName(s2+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor().newInstance(prob);
+			rec = (Recombination) Class.forName(s2+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor().newInstance();
 		}
 		return rec;
 	}

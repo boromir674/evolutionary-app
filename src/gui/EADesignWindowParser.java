@@ -30,8 +30,8 @@ public class EADesignWindowParser {
 	public EvolutionaryAlgorithm parse() throws Exception{ 
 		EvaluationMethod evaluation = HyperFactory.getEvaluationMethod(window.lblProblemInstance.getText());
 		Population population = new Population(Integer.parseInt(window.muJTextField.getText()), Integer.parseInt(window.lambdaJTextField.getText()));
-		Recombination recombination = HyperFactory.getCrossoverOperator(window.recombinationJComboBox.getSelectedItem().toString(), Integer.parseInt(window.recombinationRateJTextField.getText()));  
-		Mutation mutation = HyperFactory.getMutationOperator(window.mutationJComboBox.getSelectedItem().toString(), Integer.parseInt(window.recombinationRateJTextField.getText()));
+		Recombination recombination = HyperFactory.getCrossoverOperator(window.recombinationJComboBox.getSelectedItem().toString());  
+		Mutation mutation = HyperFactory.getMutationOperator(window.mutationJComboBox.getSelectedItem().toString(), Double.parseDouble(window.recombinationRateJTextField.getText()));
 		ParentSelection parentSelection = HyperFactory.getParentSelection(window.parentSelectionList.getSelectedItem().toString());
 		SurvivorSelection survivorSelection = HyperFactory.getSurvivorSelection(window.survivorSelectionList.getSelectedItem().toString());
 		Representation representation;
@@ -39,22 +39,7 @@ public class EADesignWindowParser {
 			representation = HyperFactory.getRepresentation(window.lblProblemInstance.getText());
 		else 
 			representation = HyperFactory.getRepresentation(window.dJTextField.getText(), window.mutationJComboBox.getSelectedItem().toString());
-		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);
-		
+		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);		
 	}
-	
-	private EvaluationMethod parseEvaluation() throws Exception {
-		String s = "evolutionaryAlgorithmComponents.evaluation.realValueFunction.";
-		TSPProblemFactory fac = new TSPProblemFactory();
-		if (window.lblProblemInstance.getText().endsWith(".java")) {
-			int l = window.lblProblemInstance.getText().length();
-			return (EvaluationMethod) Class.forName(s+(window.lblProblemInstance.getText().substring(0, l-5))).newInstance();
-		}
-		else //(window.lblProblemInstance.getText().endsWith(".tsp")||
-			//window.lblProblemInstance.getText().endsWith(".atsp")||window.lblProblemInstance.getText().endsWith(".hcp"))
-			return fac.produceTSPProblem(window.lblProblemInstance.getText());
-	}
-	
-	//private Representation
 
 }

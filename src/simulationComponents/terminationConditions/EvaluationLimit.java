@@ -11,6 +11,10 @@ public class EvaluationLimit extends AbstractTerminationCondition {
 		super(title);
 		this.evaluationsLimit = evaluationsLimit;
 	}
+	public EvaluationLimit(String evaluationsLimit) {
+		super(title);
+		this.evaluationsLimit = Integer.parseInt(evaluationsLimit);
+	}
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
@@ -25,5 +29,5 @@ public class EvaluationLimit extends AbstractTerminationCondition {
 	public int getEvaluationsLimit() {
 		return evaluationsLimit;
 	}
-	
+
 }

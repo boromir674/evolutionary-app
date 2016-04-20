@@ -13,7 +13,10 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 		super(title);
 		this.generationsSpan = generationsSpan;
 	}
-
+	public FitnessStallOverGenerations(String generationsSpan) {
+		super(title);
+		this.generationsSpan = Integer.parseInt(generationsSpan);
+	}
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
 		if (generationsCounter == generationsSpan)
@@ -28,10 +31,6 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 			
 		}		
 		return false;
-	}
-
-	public AbstractTerminationCondition getInstance(String parameter) {
-		return new FitnessStallOverGenerations(Integer.parseInt(parameter));
 	}
 
 }

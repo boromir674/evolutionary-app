@@ -14,7 +14,10 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 		super(title);
 		this.evaluationsSpan = evaluationsSpan;
 	}
-
+	public FitnessStallOverEvaluations(String evaluationsSpan) {
+		super(title);
+		this.evaluationsSpan = Integer.parseInt(evaluationsSpan);
+	}
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
 		int counter = anExperiment.getEvolutionaryAlgorithm().getEvaluator().getEvaluationsUsed();
@@ -28,10 +31,6 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 		else if (evaluationsCounter >= evaluationsSpan)
 			return true;
 		return false;
-	}
-
-	public AbstractTerminationCondition getInstance(String parameter) {
-		return new FitnessStallOverEvaluations(Integer.parseInt(parameter));
 	}
 
 }

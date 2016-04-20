@@ -1,6 +1,5 @@
 package simulationComponents.terminationConditions;
 
-import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
 import simulationComponents.Experiment;
 
@@ -14,6 +13,10 @@ public class HopedFitness extends AbstractTerminationCondition {
 	public HopedFitness(double hopedFitness) {
 		super(title);
 		this.hopedFitness = hopedFitness;
+	}
+	public HopedFitness(String hopedFitness) {
+		super(title);
+		this.hopedFitness = Double.parseDouble(hopedFitness);
 	}
 	public HopedFitness() {
 		super(title);
@@ -36,7 +39,4 @@ public class HopedFitness extends AbstractTerminationCondition {
 		return false;
 	}
 	
-	public static TerminationCondition getInstance(String parameter){
-		return new HopedFitness(Double.parseDouble(parameter));
-	}
 }

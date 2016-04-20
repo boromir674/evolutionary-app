@@ -11,6 +11,10 @@ public class GenerationsLimitTerminationCondition extends AbstractTerminationCon
 		super(title);
 		this.generationsLimit = generarionsLimit;
 	}
+	public GenerationsLimitTerminationCondition(String generarionsLimit) {
+		super(title);
+		this.generationsLimit = Integer.parseInt(generarionsLimit);
+	}
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
@@ -24,10 +28,6 @@ public class GenerationsLimitTerminationCondition extends AbstractTerminationCon
 	 */
 	public int getLimit() {
 		return generationsLimit;
-	}
-
-	public AbstractTerminationCondition getInstance(String parameter) {
-		return new GenerationsLimitTerminationCondition(Integer.parseInt(parameter));
 	}
 
 }

@@ -11,7 +11,10 @@ public class TimeLimit extends AbstractTerminationCondition {
 		super(title);
 		this.timeLimit = timeLimit;
 	}
-
+	public TimeLimit(String timeLimit) {
+		super(title);
+		this.timeLimit = Double.parseDouble(timeLimit);
+	}
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
 		try {
@@ -21,10 +24,6 @@ public class TimeLimit extends AbstractTerminationCondition {
 			e.printStackTrace();
 		}
 		return false;
-	}
-
-	public AbstractTerminationCondition getInstance(String parameter) {
-		return new TimeLimit(Double.parseDouble(parameter));
 	}
 
 }

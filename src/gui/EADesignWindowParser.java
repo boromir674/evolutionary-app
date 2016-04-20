@@ -1,7 +1,5 @@
 package gui;
 
-import java.lang.reflect.InvocationTargetException;
-
 import util.Factory;
 import interfaces.EvaluationMethod;
 import interfaces.Mutation;
@@ -12,22 +10,21 @@ import interfaces.SurvivorSelection;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Population;
 import evolutionaryAlgorithmComponents.VarianceOperator;
-import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPProblemFactory;
-import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 
 public class EADesignWindowParser {
-	
-	private EADesignWindow window;
-	
-	public EADesignWindowParser(){
-		
+	// Singleton class
+	private static EADesignWindowParser eaDesignWindowParserInstance = null;
+
+	private EADesignWindowParser() {
 	}
-	public EADesignWindowParser(EADesignWindow anEDesignWindow){
-		window = anEDesignWindow;
+	// Singleton pattern
+	public static EADesignWindowParser getInstance() {
+		if (eaDesignWindowParserInstance == null)
+			eaDesignWindowParserInstance = new EADesignWindowParser();
+		return eaDesignWindowParserInstance;
 	}
-	
-	@SuppressWarnings("unused")
-	public EvolutionaryAlgorithm parse() throws Exception{ 
+
+	public static EvolutionaryAlgorithm parse(EADesignWindow window) throws Exception{ 
 		EvaluationMethod evaluation = Factory.getEvaluationMethod(window.lblProblemInstance.getText());
 		Population population = new Population(Integer.parseInt(window.muJTextField.getText()), Integer.parseInt(window.lambdaJTextField.getText()));
 		Recombination recombination = Factory.getCrossoverOperator(window.recombinationJComboBox.getSelectedItem().toString());  

@@ -8,7 +8,7 @@ public class MultipleSigmasWithAlphasRepresentation extends	RealValueRepresentat
 	private double initAlpha;
 	
 	public MultipleSigmasWithAlphasRepresentation(double low, double high, double sigma, double alpha, int dim) {
-		super(title, low, high, sigma, dim);
+		super(low, high, sigma, dim);
 		initAlpha = alpha;
 	}
 	

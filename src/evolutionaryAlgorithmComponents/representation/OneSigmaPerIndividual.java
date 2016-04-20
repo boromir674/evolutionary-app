@@ -7,7 +7,7 @@ public class OneSigmaPerIndividual extends RealValueRepresentation {
 	private final static String title = " with one σ per chromosome";
 	
 	public OneSigmaPerIndividual(double low, double high, double sigma, int dim){
-		super(title, low, high, sigma, dim);
+		super(low, high, sigma, dim);
 	}
 
 	@Override

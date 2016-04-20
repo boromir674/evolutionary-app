@@ -12,8 +12,8 @@ public class RealValueRepresentation extends AbstractRepresentation {
 	protected double highestValue;
 	private final double initialSigma;	
 	
-	public RealValueRepresentation(String title, double low, double high, double sigma, int dim){
-		super(RealValueRepresentation.title + title, dim);
+	public RealValueRepresentation(double low, double high, double sigma, int dim){
+		super(title, dim);
 		lowestValue = low;
 		highestValue = high;
 		initialSigma = sigma;

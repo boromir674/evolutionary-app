@@ -7,7 +7,7 @@ public class MultipleSigmasRepresentation extends RealValueRepresentation {
 	private final static String title = " with one σ per gene";
 	
 	public MultipleSigmasRepresentation(double low, double high, double sigma, int dim){
-		super(title, low, high, sigma, dim);
+		super(low, high, sigma, dim);
 	}
 
 	@Override

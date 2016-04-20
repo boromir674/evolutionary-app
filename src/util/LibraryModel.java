@@ -12,17 +12,19 @@ import java.nio.file.attribute.BasicFileAttributes;
 @SuppressWarnings("unchecked")
 public final class LibraryModel extends SimpleFileVisitor<Path> {
 	//private final static String EA_COMPONENTS_CLASS_ROOT = "evolutionaryAlgorithmComponents.";
-	public final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/"; 
+	public final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/";
+	public final static String SIMULATION_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/simulationComponents/";
 	// Components parent folders
 	private final static String realValueEvaluationRoot = "evaluation/mathFunctions/";
 	private final static String recombinationSelectionRoot = "variationOperators/recombination/";
 	private final static String mutationSelectionRoot = "variationOperators/mutation/";
 	private final static String parentSelectionRoot = "parentSelectionMechanisms/";
 	private final static String survivorSelectionRoot = "survivorSelectionMechanisms/";
+	private final static String terminationConditionRoot = "terminationConditions/";
 
-	private final static String[] folders = new String[]{realValueEvaluationRoot,recombinationSelectionRoot,
-		mutationSelectionRoot,parentSelectionRoot,survivorSelectionRoot};
-
+	private final static String[] folders = new String[]{EA_COMPONENTS_ROOT+realValueEvaluationRoot,EA_COMPONENTS_ROOT+recombinationSelectionRoot,
+		EA_COMPONENTS_ROOT+mutationSelectionRoot,EA_COMPONENTS_ROOT+parentSelectionRoot,EA_COMPONENTS_ROOT+survivorSelectionRoot,SIMULATION_COMPONENTS_ROOT+terminationConditionRoot};
+	
 	private final static ArrayList<Path>[] models = new ArrayList[folders.length]; // contains Classes implemented
 	private static ArrayList<Path> buffer = new ArrayList<Path>();
 
@@ -34,8 +36,7 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 		//models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {
 			models[i] = new ArrayList<Path>();
-			String path = EA_COMPONENTS_ROOT + folders[i];
-			Path ppath = FileSystems.getDefault().getPath(path);
+			Path ppath = FileSystems.getDefault().getPath(folders[i]);
 			try {
 				Files.walkFileTree(ppath, this);
 			} catch (IOException e) {
@@ -58,6 +59,9 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	}
 	public final static ArrayList<Path> getSurvivorSelectionMethods(){
 		return models[4];
+	}
+	public final static ArrayList<Path> getTerminationConditions(){
+		return models[5];
 	}
 	
 	public final static ArrayList<Path> getRealValueApplicableCrossoverOperators() throws ClassNotFoundException{
@@ -100,7 +104,6 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 		}
 		return (ArrayList<Path>) buffer.clone();
 	}
-
 	private static void updateModel(Path file) {
 		if (accept(null, file.toString()))
 			for (int i=0; i<folders.length; i++)

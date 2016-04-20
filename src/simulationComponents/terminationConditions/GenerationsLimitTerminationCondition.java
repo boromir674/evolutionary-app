@@ -26,4 +26,8 @@ public class GenerationsLimitTerminationCondition extends AbstractTerminationCon
 		return generationsLimit;
 	}
 
+	public AbstractTerminationCondition getInstance(String parameter) {
+		return new GenerationsLimitTerminationCondition(Integer.parseInt(parameter));
+	}
+
 }

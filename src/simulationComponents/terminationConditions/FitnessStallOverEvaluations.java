@@ -30,4 +30,8 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 		return false;
 	}
 
+	public AbstractTerminationCondition getInstance(String parameter) {
+		return new FitnessStallOverEvaluations(Integer.parseInt(parameter));
+	}
+
 }

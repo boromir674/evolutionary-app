@@ -1,5 +1,6 @@
 package simulationComponents.terminationConditions;
 
+import interfaces.TerminationCondition;
 import simulationComponents.Experiment;
 
 public class DiversityBelowThreshold extends AbstractTerminationCondition {
@@ -17,6 +18,10 @@ public class DiversityBelowThreshold extends AbstractTerminationCondition {
 		if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getDiversity() <= threshold)
 			return true;
 		return false;
+	}
+
+	public static TerminationCondition getInstance(String parameter) {
+		return new DiversityBelowThreshold(Double.parseDouble(parameter));
 	}
 
 }

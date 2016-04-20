@@ -30,4 +30,8 @@ public class FitnessStallOverGenerations extends AbstractTerminationCondition {
 		return false;
 	}
 
+	public AbstractTerminationCondition getInstance(String parameter) {
+		return new FitnessStallOverGenerations(Integer.parseInt(parameter));
+	}
+
 }

@@ -23,4 +23,8 @@ public class TimeLimit extends AbstractTerminationCondition {
 		return false;
 	}
 
+	public AbstractTerminationCondition getInstance(String parameter) {
+		return new TimeLimit(Double.parseDouble(parameter));
+	}
+
 }

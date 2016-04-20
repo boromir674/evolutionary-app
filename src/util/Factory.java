@@ -17,6 +17,7 @@ import interfaces.ParentSelection;
 import interfaces.Recombination;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
+import interfaces.TerminationCondition;
 
 /**
  * @author Konstantinos
@@ -85,12 +86,12 @@ public final class Factory {
 	}
 	// SUPPORTED : RealValue and children + Permutation
 	public final static Representation getRepresentation(String aTSPSampleProblem){
-		String s = "evolutionaryAlgorithmComponents.representation.";
+		//String s = "evolutionaryAlgorithmComponents.representation.";
 		int dimensionality = Integer.parseInt(util.Util.parseDimensions(aTSPSampleProblem));
 		return new PermutationRepresentation(dimensionality, 1, dimensionality);
 	}
 	public final static Representation getRepresentation(String dimensions, String aMutation){
-		String s = "evolutionaruAlgorithmComponents.representation.";
+		//String s = "evolutionaruAlgorithmComponents.representation.";
 		Representation representationInstance = null;
 		if (aMutation.startsWith("UncorrelatedWithNStep"))
 			representationInstance = new MultipleSigmasRepresentation(0, 10, 2, Integer.parseInt(dimensions));
@@ -101,6 +102,14 @@ public final class Factory {
 		else
 			representationInstance = new RealValueRepresentation(0, 10, 2, Integer.parseInt(dimensions));
 		return representationInstance;
+	}
+	
+	public final static TerminationCondition getTerminationCondition(String aTerminationCondition, String numericalParameter) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+		int offset = 0;
+		if (aTerminationCondition.endsWith(".java"))
+			offset = 5;
+		String s = "simulationComponents.terminationConditions.";
+		return (TerminationCondition) Class.forName(s+aTerminationCondition.substring(0, aTerminationCondition.length()-offset)).getConstructor().newInstance(numericalParameter);
 	}
 
 }

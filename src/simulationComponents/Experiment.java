@@ -26,6 +26,11 @@ public class Experiment {
 		random = aRandom;
 	}
 
+	public Experiment(Random aRandom) {
+		this.random = aRandom;
+	}
+	
+	
 	public Individual performOptimizationTask() throws Exception {
 		int i = 0; startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);

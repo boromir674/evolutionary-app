@@ -1,5 +1,7 @@
 package gui;
 
+import java.lang.reflect.InvocationTargetException;
+
 import util.Factory;
 import interfaces.EvaluationMethod;
 import interfaces.Mutation;
@@ -7,6 +9,7 @@ import interfaces.ParentSelection;
 import interfaces.Recombination;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
+import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Population;
 import evolutionaryAlgorithmComponents.VarianceOperator;
@@ -37,6 +40,9 @@ public class EADesignWindowParser {
 		else 
 			representation = Factory.getRepresentation(window.dJTextField.getText(), window.mutationJComboBox.getSelectedItem().toString());
 		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);		
+	}
+	public static TerminationCondition getTerminationCondition(EADesignWindow window) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+		return Factory.getTerminationCondition(window.terminationConditionJComboBox.getSelectedItem().toString(), window.terminationParameterJTextField.getText());
 	}
 
 }

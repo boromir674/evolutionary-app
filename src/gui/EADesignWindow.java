@@ -4,7 +4,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,16 +32,23 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
+import simulationComponents.Environment;
 import util.LibraryModel;
 
 import java.awt.Font;
 
 import javax.swing.JButton;
 
-public class EADesignWindow {
+public class EADesignWindow implements ActionListener{
 
-	private JFrame frmEaRunner;
+	private JFrame myFrame;
+	/**
+	 * @return the frmEaRunner
+	 */
+	public JFrame getFrame() {
+		return myFrame;
+	}
+
 	private File file;
 	private String path;
 	ArrayList<String> names1;
@@ -69,7 +75,10 @@ public class EADesignWindow {
 	JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
 	JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
 	final JRadioButton rdbtnElitismOn = new JRadioButton("on");
-	private EADesignWindowParser parser;
+
+	JButton runButton = new JButton("Run");
+	JComboBox<JLabel> terminationConditionJComboBox;
+	JTextField terminationParameterJTextField;
 	/**
 	 * Launch the application.
 	 */
@@ -77,9 +86,9 @@ public class EADesignWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LibraryModel model = new LibraryModel();
+					LibraryModel ld = new LibraryModel();
 					EADesignWindow window = new EADesignWindow();
-					window.frmEaRunner.setVisible(true);
+					window.myFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -100,16 +109,15 @@ public class EADesignWindow {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
-		parser = new EADesignWindowParser(this);
 		setDefaultValues();
-		frmEaRunner = new JFrame();
-		frmEaRunner.setResizable(false);
-		frmEaRunner.setTitle("EA Runner");
-		frmEaRunner.setBounds(100, 100, 554, 562);
-		frmEaRunner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		myFrame = new JFrame();
+		myFrame.setResizable(false);
+		myFrame.setTitle("EA Runner");
+		myFrame.setBounds(100, 100, 554, 562);
+		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JMenuBar menuBar = new JMenuBar();
-		frmEaRunner.setJMenuBar(menuBar);
+		myFrame.setJMenuBar(menuBar);
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
@@ -119,13 +127,13 @@ public class EADesignWindow {
 
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
-		frmEaRunner.getContentPane().setLayout(null);
+		myFrame.getContentPane().setLayout(null);
 
 		JMenuBar flowtingMenuBar = new JMenuBar();
 		flowtingMenuBar.setToolTipText("Select instance ");
 
 		flowtingMenuBar.setBounds(166, 135, 88, 21);
-		frmEaRunner.getContentPane().add(flowtingMenuBar);
+		myFrame.getContentPane().add(flowtingMenuBar);
 
 		final JMenu mnEvaluation = new JMenu("evaluation");
 		mnEvaluation.setHorizontalAlignment(SwingConstants.CENTER);
@@ -156,7 +164,7 @@ public class EADesignWindow {
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBounds(166, 12, 373, 122);
-		frmEaRunner.getContentPane().add(splitPane);
+		myFrame.getContentPane().add(splitPane);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
@@ -197,12 +205,12 @@ public class EADesignWindow {
 		survivorSelectionList.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getSurvivorSelectionMethods())));
 		panel_1.add(survivorSelectionList);
 		lblProblemInstance.setBounds(272, 136, 267, 20);
-		frmEaRunner.getContentPane().add(lblProblemInstance);
+		myFrame.getContentPane().add(lblProblemInstance);
 		final ButtonGroup group = new ButtonGroup();
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(12, 12, 147, 70);
-		frmEaRunner.getContentPane().add(panel_5);
+		myFrame.getContentPane().add(panel_5);
 		panel_5.setLayout(new BorderLayout(0, 1));
 
 		JPanel panel_6 = new JPanel();
@@ -279,7 +287,7 @@ public class EADesignWindow {
 		scrollPane.setViewportBorder(UIManager.getBorder("TextArea.border"));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(9, 168, 530, 147);
-		frmEaRunner.getContentPane().add(scrollPane);
+		myFrame.getContentPane().add(scrollPane);
 
 		JTextArea textArea_1 = new JTextArea();
 		scrollPane.setViewportView(textArea_1);
@@ -288,7 +296,7 @@ public class EADesignWindow {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(UIManager.getBorder("EditorPane.border"));
 		panel_2.setBounds(12, 88, 147, 68);
-		frmEaRunner.getContentPane().add(panel_2);
+		myFrame.getContentPane().add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblRates = new JLabel("Rates");
@@ -319,23 +327,23 @@ public class EADesignWindow {
 
 		recombinationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_10.add(recombinationRateJTextField);
-
-		JButton runButton = new JButton("Run");
-		runButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					@SuppressWarnings("unused")
-					EvolutionaryAlgorithm ea = parser.parse();
-				} catch (
-						Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//ea.
-			}
-		});
-		runButton.setBounds(198, 452, 117, 25);
-		frmEaRunner.getContentPane().add(runButton);
+		
+		runButton.setBounds(12, 362, 117, 25);
+		runButton.addActionListener(this);
+		myFrame.getContentPane().add(runButton);
+		
+		terminationConditionJComboBox = new JComboBox<JLabel>();
+		terminationConditionJComboBox.setBounds(12, 326, 303, 24);
+		terminationConditionJComboBox.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getTerminationConditions())));
+		terminationConditionJComboBox.setSelectedIndex(5);
+		myFrame.getContentPane().add(terminationConditionJComboBox);
+		
+		terminationParameterJTextField = new JTextField();
+		terminationParameterJTextField.setText("1000");
+		terminationParameterJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		terminationParameterJTextField.setBounds(141, 362, 88, 25);
+		myFrame.getContentPane().add(terminationParameterJTextField);
+		terminationParameterJTextField.setColumns(10);
 
 		JTextArea textArea = new JTextArea();
 		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
@@ -455,5 +463,16 @@ public class EADesignWindow {
 			result[i] = aListOfPaths.get(i).toFile().getName().substring(0, l-5);
 		}
 		return result;
+	}
+
+	public Object getRunButton() {
+		return this.runButton;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == runButton) {
+			Environment.runEA();
+		}	
 	}
 }

@@ -22,7 +22,7 @@ import interfaces.SurvivorSelection;
  * @author Konstantinos
  *
  */
-public final class HyperFactory {
+public final class Factory {
 
 	public final static EvaluationMethod getEvaluationMethod(String anEvaluationName) throws Exception{
 		int offset = 0;

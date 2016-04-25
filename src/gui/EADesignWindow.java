@@ -42,6 +42,13 @@ import javax.swing.JButton;
 public class EADesignWindow implements ActionListener{
 
 	/**
+	 * @return the textArea_1
+	 */
+	public JTextArea getTextArea_1() {
+		return textArea_1;
+	}
+
+	/**
 	 * @return the dJTextField
 	 */
 	public JTextField getdJTextField() {
@@ -173,7 +180,8 @@ public class EADesignWindow implements ActionListener{
 	private JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
 	private JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
 	private final JRadioButton rdbtnElitismOn = new JRadioButton("on");
-
+	private JTextArea textArea_1;
+	
 	private JButton runButton = new JButton("Run");
 	private JComboBox<JLabel> terminationConditionJComboBox;
 	private JTextField terminationParameterJTextField;
@@ -387,7 +395,7 @@ public class EADesignWindow implements ActionListener{
 		scrollPane.setBounds(9, 168, 530, 147);
 		myFrame.getContentPane().add(scrollPane);
 
-		JTextArea textArea_1 = new JTextArea();
+		textArea_1 = new JTextArea();
 		scrollPane.setViewportView(textArea_1);
 		textArea_1.setEditable(false);
 

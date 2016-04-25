@@ -4,7 +4,7 @@ import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.Population;
-
+@Deprecated
 public class BestNFromRandomM extends AbstractParentSelection {
 	
 	private final static String title = "Best n from Random m";

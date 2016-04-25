@@ -28,7 +28,7 @@ public class EvolutionaryAlgorithm {
 	boolean maxInFirstPosition;
 	private int[] survivors;
 	private double lowerValue;
-	private AbstractFitnessSharingScheme fitnessSharingScheme = new DynamicNiching(5);
+	//private AbstractFitnessSharingScheme fitnessSharingScheme = new DynamicNiching(5);
 	Random random;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
@@ -53,8 +53,8 @@ public class EvolutionaryAlgorithm {
 	}
 	//if diakoptis at Dynamic Niching then this.scheme = new DynamicNiching;
 	public void parentSelection(Random aRandom) throws Exception{
-		if (this.fitnessSharingScheme instanceof DynamicNiching)
-			((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(population, 10);
+		//if (this.fitnessSharingScheme instanceof DynamicNiching)
+			//((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(population, 10);
 		parents = parentSelectionMethod.select(population, aRandom);
 	}
 

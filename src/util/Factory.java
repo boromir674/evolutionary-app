@@ -40,6 +40,7 @@ public final class Factory {
 	}
 
 	public final static ParentSelection getParentSelection(String aParentSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+		//No fitness sharing scheme supported yet
 		int offset = 0;
 		if (aParentSelectionName.endsWith(".java"))
 			offset = 5;
@@ -114,7 +115,7 @@ public final class Factory {
 		if (aTerminationCondition.endsWith(".java"))
 			offset = 5;
 		String s = "simulationComponents.terminationConditions.";
-		return (TerminationCondition) Class.forName(s+aTerminationCondition.substring(0, aTerminationCondition.length()-offset)).getConstructor().newInstance(numericalParameter);
+		return (TerminationCondition) Class.forName(s+aTerminationCondition.substring(0, aTerminationCondition.length()-offset)).getConstructor(String.class).newInstance(numericalParameter);
 	}
 
 }

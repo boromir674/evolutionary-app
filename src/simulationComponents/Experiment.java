@@ -3,7 +3,10 @@ package simulationComponents;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import javax.swing.JTextArea;
+
 import util.Util;
+import gui.EADesignWindow;
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
@@ -19,6 +22,7 @@ public class Experiment {
 	public boolean debug;
 	public int visuals;
 	public int precision = 2;
+	private JTextArea textOutput;
 
 	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition){
 		evolutionaryAlgorithm = EA;
@@ -30,7 +34,8 @@ public class Experiment {
 	}
 	
 	public Individual performOptimizationTask() throws Exception {
-		int i = 0; startingTime = System.nanoTime();
+		int i = 0;
+		startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
 		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
@@ -39,8 +44,6 @@ public class Experiment {
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
 			i++;
-			if (debug)
-				this.compareToPreviousPopulation(previousPopulation);
 			if (visuals != 0 && i%visuals == 0)
 				this.visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		}
@@ -129,17 +132,21 @@ public class Experiment {
 		return max;
 	}
 	private void visualize(int precision, int limit) {
-		Population pop = this.evolutionaryAlgorithm.getPopulation();
 		double[] fitArray = new double[limit];
 		for (int i=0; i<limit; i++)
-			fitArray[i] = pop.getPool()[i].getFitness();
+			fitArray[i] = this.evolutionaryAlgorithm.getPopulation().getPool()[i].getFitness();
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);
 		try {
 			this.evolutionaryAlgorithm.printPerformance();}
 		catch (Exception e) {
 		}		
 		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
-		System.out.format(visual, pop.getGenerationCounter(), pop.getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
+		visual = String.format(visual, this.evolutionaryAlgorithm.getPopulation().getGenerationCounter(), this.evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
+		textOutput.setText(visual);
+	}
+
+	public void directeOutput(JTextArea jTextArea) {
+		this.textOutput = jTextArea;
 	}
 
 }

@@ -1,7 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -13,11 +12,9 @@ public class OrderCrossover extends AbstractPermutationRecombination {
 	// L. Davis, editor. Handbook of Genetic Algorithms. Van Nostrand Reinhold, 1991.
 
 	private final static String title = "Order Crossover";
-	private Random random;
 
-	public OrderCrossover(Random aRandom) {
+	public OrderCrossover() {
 		super(title);
-		this.random = aRandom;
 	}
 
 	@Override

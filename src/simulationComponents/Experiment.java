@@ -14,22 +14,20 @@ public class Experiment {
 	private EvolutionaryAlgorithm evolutionaryAlgorithm;
 	private TerminationCondition terminationCondition;
 	private long startingTime = 0;
-	private Random random;
+	private final Random random = new Random();
 	
 	public boolean debug;
 	public int visuals;
 	public int precision = 2;
 
-	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition, Random aRandom){
+	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition){
 		evolutionaryAlgorithm = EA;
+		evolutionaryAlgorithm.setRandom(random);
 		terminationCondition = aTerminationCondition;
-		random = aRandom;
 	}
 
-	public Experiment(Random aRandom) {
-		this.random = aRandom;
+	public Experiment() {
 	}
-	
 	
 	public Individual performOptimizationTask() throws Exception {
 		int i = 0; startingTime = System.nanoTime();
@@ -99,6 +97,7 @@ public class Experiment {
 	}
 	public void setEvolutionaryAlgorithm(EvolutionaryAlgorithm evolutionaryAlgorithm) {
 		this.evolutionaryAlgorithm = evolutionaryAlgorithm;
+		this.evolutionaryAlgorithm.setRandom(this.random);
 	}
 	public TerminationCondition getTerminationCondition() {
 		return terminationCondition;

@@ -1,7 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -15,11 +14,9 @@ public class PartiallyMappedCrossover extends AbstractPermutationRecombination {
 	// 27. T. Back, D.B. Fogel, and Z. Michalewicz, editors. Evolutionary Computation 1:
 	// Basic Algorithms and Operators. Institute of Physics Publishing, Bristol, 2000
 	private final static String title = "Partially Mapped Crossover";
-	private Random random;
 
-	public PartiallyMappedCrossover(Random aRandom) {
+	public PartiallyMappedCrossover() {
 		super(title);
-		this.random = aRandom;
 	}
 
 	@Override

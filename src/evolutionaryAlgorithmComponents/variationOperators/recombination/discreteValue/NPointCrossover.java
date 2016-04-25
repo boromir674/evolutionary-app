@@ -1,7 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
 
@@ -9,12 +8,10 @@ public class NPointCrossover extends AbstractDiscreteRecombination {
 	
 	private final static String title = "-Point Crossover";
 	private int numberOfPoints;
-	private Random random;
 
-	public NPointCrossover(int n, Random aRandom) {
+	public NPointCrossover(int n) {
 		super(Integer.toString(n)+title);
 		numberOfPoints = n;
-		this.random = aRandom;
 	}
 
 	@Override

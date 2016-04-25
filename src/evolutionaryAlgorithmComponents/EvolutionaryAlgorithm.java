@@ -29,6 +29,7 @@ public class EvolutionaryAlgorithm {
 	private int[] survivors;
 	private double lowerValue;
 	private AbstractFitnessSharingScheme fitnessSharingScheme = new DynamicNiching(5);
+	Random random;
 
 	public EvolutionaryAlgorithm(Representation aRepresentation, EvaluationMethod anEvaluationMethod, Population aPopulation, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
@@ -37,6 +38,7 @@ public class EvolutionaryAlgorithm {
 		population = aPopulation;
 		population.evo = this;
 		variationOperator = aVarianceOperator;
+		//variationOperator.feedRandom();
 		variationOperator.evo = this;
 		parentSelectionMethod = aParentSelection;
 		survivorSelectionMethod = aSurvivorSelection;
@@ -188,6 +190,11 @@ public class EvolutionaryAlgorithm {
 	 */
 	public void setSurvivorSelectionMethod(SurvivorSelection survivorSelectionMethod) {
 		this.survivorSelectionMethod = survivorSelectionMethod;
+	}
+
+	public void setRandom(Random aRandom) {
+		this.random = aRandom;
+		((AbstractRecombination) this.variationOperator.getRecombination()).random = this.random;
 	}
 
 }

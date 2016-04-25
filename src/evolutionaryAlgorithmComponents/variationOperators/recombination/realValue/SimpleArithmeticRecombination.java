@@ -1,17 +1,13 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.realValue;
 
-import java.util.Random;
-
 import evolutionaryAlgorithmComponents.Individual;
 
 public class SimpleArithmeticRecombination extends AbstractRealValueRecombination {
 	
-	private Random rand;
 	private static final String title = "Simple Arithmetic Recombination";
 	
-	public SimpleArithmeticRecombination(Random aRandom) {
+	public SimpleArithmeticRecombination() {
 		super(title);
-		this.rand = aRandom;
 	}
 
 	@Override
@@ -19,7 +15,7 @@ public class SimpleArithmeticRecombination extends AbstractRealValueRecombinatio
 		
 		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
 		int length = mom.getChromosome().length;
-		int point = rand.nextInt(mom.getRepresentation().getDimensions());
+		int point = random.nextInt(mom.getRepresentation().getDimensions());
 		
 		for (int i=0; i<point; i++){
 			children[0].getChromosome()[i] = mom.getChromosome()[i];

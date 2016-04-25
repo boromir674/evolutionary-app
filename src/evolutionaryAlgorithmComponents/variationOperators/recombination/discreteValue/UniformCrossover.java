@@ -1,24 +1,19 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
-import java.util.Random;
-
 import evolutionaryAlgorithmComponents.Individual;
 
 public class UniformCrossover extends AbstractDiscreteRecombination {
 
 	private static String title = "Uniform Crossover";
 	private double alpha = 0.5;
-	private Random random;
 	
-	public UniformCrossover(Random aRandom, double alpha) {
+	public UniformCrossover(double alpha) {
 		super(title);
-		this.random = aRandom;
 		this.alpha = alpha;
 	}
 	
-	public UniformCrossover(Random aRandom) {
+	public UniformCrossover() {
 		super(title);
-		this.random = aRandom;
 	}
 
 	@Override

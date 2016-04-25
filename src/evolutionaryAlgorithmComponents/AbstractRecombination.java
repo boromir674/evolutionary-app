@@ -1,12 +1,15 @@
 package evolutionaryAlgorithmComponents;
 
+import java.util.Random;
+
 import interfaces.Recombination;
 import interfaces.Representation;
 
 public abstract class AbstractRecombination implements Recombination {
 
 	private final String title;
-
+	protected Random random;
+	
 	public AbstractRecombination(String title) {
 		this.title = title;
 	}
@@ -24,4 +27,5 @@ public abstract class AbstractRecombination implements Recombination {
 	}
 	
 	public abstract boolean applicableToPermutation();
+	
 }

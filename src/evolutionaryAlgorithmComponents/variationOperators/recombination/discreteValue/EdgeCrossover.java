@@ -1,7 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -10,12 +9,9 @@ import evolutionaryAlgorithmComponents.Individual;
 public class EdgeCrossover extends AbstractPermutationRecombination {
 
 	private final static String title = "Edge Crossover";
-	private Random random;
 	
-	public EdgeCrossover(Random aRandom) {
+	public EdgeCrossover() {
 		super(title);
-		this.random = aRandom;
-
 	}
 
 	@Override

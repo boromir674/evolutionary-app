@@ -12,12 +12,10 @@ import evolutionaryAlgorithmComponents.Population;
 public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 
 	private final static String title = "Stochastic Fitness-based with Elitism";
-	private Random random;
 	private FitnessCalculator fitnessCalculator;
 
-	public FitnessBasedWithElitism(Random aRandom) {
+	public FitnessBasedWithElitism() {
 		super(title);
-		random = aRandom;
 		this.fitnessCalculator = new FitnessCalculator() {
 			@Override
 			public double computeFitness(Individual anIndividual) {
@@ -27,7 +25,6 @@ public class FitnessBasedWithElitism extends AbstractSurvivorSelection {
 	}
 	public FitnessBasedWithElitism(Random aRandom, FitnessCalculator aFitnessCalculator) {
 		super(title);
-		random = aRandom;
 		this.fitnessCalculator = aFitnessCalculator;
 	}
 

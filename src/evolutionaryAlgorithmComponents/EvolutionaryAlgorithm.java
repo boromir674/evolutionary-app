@@ -195,6 +195,7 @@ public class EvolutionaryAlgorithm {
 	public void setRandom(Random aRandom) {
 		this.random = aRandom;
 		((AbstractRecombination) this.variationOperator.getRecombination()).random = this.random;
+		((AbstractSurvivorSelection) this.survivorSelectionMethod).random = this.random;
 	}
 
 }

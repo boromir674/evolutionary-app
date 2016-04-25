@@ -12,8 +12,8 @@ public class RoundRobinTournamentSelectionWithElitism extends RoundRobinTourname
 		return true;
 	}
 
-	public RoundRobinTournamentSelectionWithElitism(Random aRandom) {
-		super(aRandom);
+	public RoundRobinTournamentSelectionWithElitism() {
+		super();
 	}
 	
 	/* (non-Javadoc)

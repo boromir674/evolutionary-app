@@ -1,11 +1,14 @@
 package evolutionaryAlgorithmComponents;
 
+import java.util.Random;
+
 import interfaces.SurvivorSelection;
 
 public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 
 	private final String title;
-
+	protected Random random;
+	
 	public AbstractSurvivorSelection(String title) {
 		this.title = title;
 	}

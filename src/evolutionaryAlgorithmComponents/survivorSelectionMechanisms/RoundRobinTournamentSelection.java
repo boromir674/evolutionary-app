@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
-import java.util.Random;
-
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
 import util.Util;
@@ -10,11 +8,9 @@ public class RoundRobinTournamentSelection extends AbstractSurvivorSelection {
 
 	private int q = 10;
 	private final static String title = "Round-robin tournament";
-	private Random random;
 
-	public RoundRobinTournamentSelection(Random aRandom) {
+	public RoundRobinTournamentSelection() {
 		super(title);
-		random = aRandom;
 	}
 
 	@Override

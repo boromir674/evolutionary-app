@@ -39,21 +39,22 @@ public final class Factory {
 		}
 	}
 
-	public final static ParentSelection getParentSelection(String aParentSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public final static ParentSelection getParentSelection(String aParentSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		int offset = 0;
 		if (aParentSelectionName.endsWith(".java"))
 			offset = 5;
 		String s = "evolutionaryAlgorithmComponents.parentSelectionMechanisms.";
-		return (ParentSelection) Class.forName(s+aParentSelectionName.substring(0, aParentSelectionName.length()-offset)).newInstance();
+		return (ParentSelection) Class.forName(s+aParentSelectionName.substring(0, aParentSelectionName.length()-offset)).getConstructor().newInstance();
 	}
 
-	public final static SurvivorSelection getSurvivorSelection(String aSurvivorSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public final static SurvivorSelection getSurvivorSelection(String aSurvivorSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		int offset = 0;
 		if (aSurvivorSelectionName.endsWith(".java"))
 			offset = 5;
 		String s = "evolutionaryAlgorithmComponents.survivorSelectionMechanisms.";
-		return (SurvivorSelection) Class.forName(s+aSurvivorSelectionName.substring(0, aSurvivorSelectionName.length()-offset)).newInstance();
+		return (SurvivorSelection) Class.forName(s+aSurvivorSelectionName.substring(0, aSurvivorSelectionName.length()-offset)).getConstructor().newInstance();
 	}
+	
 	// ------------ CROSSOVER FACTORY --------------------------
 	public final static Recombination getCrossoverOperator(String aRecombinationName) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
 		int offset = 0;
@@ -64,36 +65,29 @@ public final class Factory {
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
 		return (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor().newInstance();
 	}
-	public final static Recombination getCrossoverOperator(String aRecombinationName, Random aRandom) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
+	public final static Recombination getCrossoverOperator(String aRecombinationName, int n) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
 		int offset = 0;
 		if (aRecombinationName.endsWith(".java"))
 			offset = 5;
 		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
 		if (aRecombinationName.startsWith("Simple") || aRecombinationName.startsWith("Single") || aRecombinationName.startsWith("Whole"))
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
-		return (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor(Random.class).newInstance(aRandom);
+		return (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor(int.class).newInstance(n);
 	}
-	public final static Recombination getCrossoverOperator(String aRecombinationName, int n, Random aRandom) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
-		int offset = 0;
-		if (aRecombinationName.endsWith(".java"))
-			offset = 5;
-		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
-		if (aRecombinationName.startsWith("Simple") || aRecombinationName.startsWith("Single") || aRecombinationName.startsWith("Whole"))
-			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
-		return (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor(int.class, Random.class).newInstance(n, aRandom);
-	}
+	
 	// ------------ MUTATION FACTORY --------------------------	
 	public final static Mutation getMutationOperator(String aMutationName, double prob) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
 		int offset = 0;
 		if (aMutationName.endsWith(".java"))
 			offset = 5;
-		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
+		String s1 = "evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.";
 		if (aMutationName.startsWith("Bitwise"))
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.";
 		else if (aMutationName.startsWith("CorrelatedM") || aMutationName.startsWith("NonuniformM") || aMutationName.startsWith("UncorrelatedW") || aMutationName.startsWith("UniformM"))
-			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";	
+			s1 = "evolutionaryAlgorithmComponents.variationOperators.mutation.realValue.";	
 		return (Mutation) Class.forName(s1+aMutationName.substring(0, aMutationName.length()-offset)).getConstructor(double.class).newInstance(prob);
 	}
+	
 	// SUPPORTED : RealValue and children + Permutation
 	public final static Representation getRepresentation(String aTSPSampleProblem){
 		//String s = "evolutionaryAlgorithmComponents.representation.";

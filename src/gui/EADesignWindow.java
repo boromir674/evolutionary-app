@@ -41,6 +41,104 @@ import javax.swing.JButton;
 
 public class EADesignWindow implements ActionListener{
 
+	/**
+	 * @return the dJTextField
+	 */
+	public JTextField getdJTextField() {
+		return dJTextField;
+	}
+
+	/**
+	 * @return the lblProblemInstance
+	 */
+	public JLabel getLblProblemInstance() {
+		return lblProblemInstance;
+	}
+
+	/**
+	 * @return the lblDimensionality
+	 */
+	public JLabel getLblDimensionality() {
+		return lblDimensionality;
+	}
+
+	/**
+	 * @return the lblRepresentation
+	 */
+	public JLabel getLblRepresentation() {
+		return lblRepresentation;
+	}
+
+	/**
+	 * @return the lambdaJTextField
+	 */
+	public JTextField getLambdaJTextField() {
+		return lambdaJTextField;
+	}
+
+	/**
+	 * @return the muJTextField
+	 */
+	public JTextField getMuJTextField() {
+		return muJTextField;
+	}
+
+	/**
+	 * @return the recombinationRateJTextField
+	 */
+	public JTextField getRecombinationRateJTextField() {
+		return recombinationRateJTextField;
+	}
+
+	/**
+	 * @return the mutationRateJTextField
+	 */
+	public JTextField getMutationRateJTextField() {
+		return mutationRateJTextField;
+	}
+
+	/**
+	 * @return the recombinationJComboBox
+	 */
+	public JComboBox<JLabel> getRecombinationJComboBox() {
+		return recombinationJComboBox;
+	}
+
+	/**
+	 * @return the mutationJComboBox
+	 */
+	public JComboBox<JLabel> getMutationJComboBox() {
+		return mutationJComboBox;
+	}
+
+	/**
+	 * @return the parentSelectionList
+	 */
+	public JComboBox<JLabel> getParentSelectionList() {
+		return parentSelectionList;
+	}
+
+	/**
+	 * @return the survivorSelectionList
+	 */
+	public JComboBox<JLabel> getSurvivorSelectionList() {
+		return survivorSelectionList;
+	}
+
+	/**
+	 * @return the terminationConditionJComboBox
+	 */
+	public JComboBox<JLabel> getTerminationConditionJComboBox() {
+		return terminationConditionJComboBox;
+	}
+
+	/**
+	 * @return the terminationParameterJTextField
+	 */
+	public JTextField getTerminationParameterJTextField() {
+		return terminationParameterJTextField;
+	}
+
 	private JFrame myFrame;
 	/**
 	 * @return the frmEaRunner
@@ -65,20 +163,20 @@ public class EADesignWindow implements ActionListener{
 	private JLabel lblRepresentationDescription = new JLabel("                                 "
 			+ "                                  ");
 	// package visibility
-	JTextField lambdaJTextField = new JTextField();
-	JTextField muJTextField = new JTextField();
-	final JTextField dJTextField = new JTextField();
-	JTextField recombinationRateJTextField = new JTextField();
-	JTextField mutationRateJTextField = new JTextField();
-	JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();
-	JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();	
-	JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
-	JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
-	final JRadioButton rdbtnElitismOn = new JRadioButton("on");
+	private JTextField lambdaJTextField = new JTextField();
+	private JTextField muJTextField = new JTextField();
+	private JTextField dJTextField = new JTextField();
+	private JTextField recombinationRateJTextField = new JTextField();
+	private JTextField mutationRateJTextField = new JTextField();
+	private JComboBox<JLabel> recombinationJComboBox = new JComboBox<JLabel>();
+	private JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();	
+	private JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
+	private JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
+	private final JRadioButton rdbtnElitismOn = new JRadioButton("on");
 
-	JButton runButton = new JButton("Run");
-	JComboBox<JLabel> terminationConditionJComboBox;
-	JTextField terminationParameterJTextField;
+	private JButton runButton = new JButton("Run");
+	private JComboBox<JLabel> terminationConditionJComboBox;
+	private JTextField terminationParameterJTextField;
 	/**
 	 * Launch the application.
 	 */
@@ -475,4 +573,5 @@ public class EADesignWindow implements ActionListener{
 			Environment.runEA();
 		}	
 	}
+
 }

@@ -18,25 +18,6 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 	}
 
 	@Override
-	public double computeFitness(Individual anIndividual) {
-		int d = anIndividual.getRepresentation().getDimensions();
-		double fitness = 0;
-		for (int i=0; i<d; i++){
-			try {
-				if (!connected((int)anIndividual.getChromosome()[i], (int)anIndividual.getChromosome()[(i+1)%d]))
-					fitness -= 1; // penalty for non-connectivity
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.exit(0);
-			}
-		}
-		super.evaluationsUsed ++;
-		if (super.bestScoreEncountered < fitness)
-			super.bestScoreEncountered = fitness;
-		return fitness;
-	}
-
-	@Override
 	public boolean connected(int node1, int node2) throws Exception {
 		super.checkNodes(node1, node2);		
 		for (int i=0; i<edgeList.length; i++) {
@@ -67,4 +48,21 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 		return -fitness;
 	}
 
+	@Override
+	protected double calculateFitness(Individual anIndividual) {
+		int d = anIndividual.getRepresentation().getDimensions();
+		double fitness = 0;
+		for (int i=0; i<d; i++){
+			try {
+				if (!connected((int)anIndividual.getChromosome()[i], (int)anIndividual.getChromosome()[(i+1)%d]))
+					fitness -= 1; // penalty for non-connectivity
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		return fitness;
+	}
+
 }
+

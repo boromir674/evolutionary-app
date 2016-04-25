@@ -7,6 +7,21 @@ import interfaces.MathFunction;
 public abstract class AbstractMathFunction extends AbstractEvaluationMethod implements MathFunction {
 
 	/* (non-Javadoc)
+	 * @see evolutionaryAlgorithmComponents.AbstractEvaluationMethod#calculateFitness(evolutionaryAlgorithmComponents.Individual)
+	 */
+	@Override
+	protected double calculateFitness(Individual anIndividual) {
+		double[] values = new double[anIndividual.getRepresentation().getDimensions()];
+		for (int i=0; i<values.length; i++)
+			values[i] = (double) anIndividual.getChromosome()[i];
+		double fitness;
+		if (this.hasMin())
+			fitness = -this.f(values);
+		else
+			fitness = this.f(values);
+		return fitness;
+	}
+	/* (non-Javadoc)
 	 * @see evolutionaryAlgorithmComponents.AbstractEvaluationMethod#getSolutionFitness()
 	 */
 	@Override
@@ -25,19 +40,4 @@ public abstract class AbstractMathFunction extends AbstractEvaluationMethod impl
 		super(title);
 	}
 
-	@Override
-	public double computeFitness(Individual anIndividual) {
-		double[] values = new double[anIndividual.getRepresentation().getDimensions()];
-		for (int i=0; i<values.length; i++)
-			values[i] = (double) anIndividual.getChromosome()[i];
-		double fitness;
-		if (this.hasMin())
-			fitness = -this.f(values);
-		else
-			fitness = this.f(values);
-		super.evaluationsUsed ++;
-		if (super.bestScoreEncountered < fitness)
-			super.bestScoreEncountered = fitness;
-		return fitness;
-	}
 }

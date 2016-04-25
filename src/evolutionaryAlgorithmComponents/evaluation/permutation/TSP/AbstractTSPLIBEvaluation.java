@@ -5,7 +5,7 @@ import interfaces.DistanceCalculator;
 import interfaces.TSPLIBProblem;
 import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
 
-abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod	implements TSPLIBProblem {
+abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod implements TSPLIBProblem {
 	
 	private String name;
 	protected int dimension;

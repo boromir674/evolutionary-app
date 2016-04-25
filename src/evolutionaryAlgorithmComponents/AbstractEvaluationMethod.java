@@ -4,6 +4,20 @@ import interfaces.EvaluationMethod;
 
 public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	
+	/* (non-Javadoc)
+	 * @see interfaces.FitnessCalculator#computeFitness(evolutionaryAlgorithmComponents.Individual)
+	 */
+	@Override
+	public double computeFitness(Individual anIndividual) {
+		this.evaluationsUsed ++;
+		double fitness = calculateFitness(anIndividual);
+		if (fitness > this.bestScoreEncountered)
+			this.bestScoreEncountered = fitness;
+		return fitness;
+	}
+
+	protected abstract double calculateFitness(Individual anIndividual);
+
 	EvolutionaryAlgorithm myEvolutionaryAlgorithm;
 
 	private final String title;

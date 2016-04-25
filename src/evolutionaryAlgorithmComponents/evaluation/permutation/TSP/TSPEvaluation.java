@@ -17,18 +17,6 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	}
 
 	@Override
-	public double computeFitness(Individual in) {
-		int d = in.getRepresentation().getDimensions();
-		double fitness = 0;
-		for (int i=0; i<d; i++)
-			fitness -= this.distance((int)in.getChromosome()[i], (int)in.getChromosome()[(i+1)%d]);
-		super.evaluationsUsed ++;
-		if (super.bestScoreEncountered < fitness)
-			super.bestScoreEncountered = fitness;
-		return fitness;
-	}
-
-	@Override
 	public int distance(int node1, int node2){
 		//super.checkNodes(node1, node2);
 		if (super.myDistanceCalculator == null) {
@@ -48,6 +36,15 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 		for (int i=0; i<vector.length; i++)
 			fitness += this.distance(vector[i], vector[(i+1)%vector.length]);
 		return -fitness;
+	}
+
+	@Override
+	protected double calculateFitness(Individual anIndividual) {
+		int d = anIndividual.getRepresentation().getDimensions();
+		double fitness = 0;
+		for (int i=0; i<d; i++)
+			fitness -= this.distance((int)anIndividual.getChromosome()[i], (int)anIndividual.getChromosome()[(i+1)%d]);
+		return fitness;
 	}
 
 }

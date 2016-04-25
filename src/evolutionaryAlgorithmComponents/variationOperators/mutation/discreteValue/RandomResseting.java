@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue;
 
-import interfaces.Representation;
-
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
@@ -10,11 +8,9 @@ import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentat
 public class RandomResseting extends AbstractDiscreteMutation {
 	
 	private static String title = "Random Resseting";
-	private Representation rep;
 	
-	public RandomResseting(Representation aRep, double probabilityOfMutation) {
+	public RandomResseting(double probabilityOfMutation) {
 		super(title, probabilityOfMutation);
-		rep = aRep;
 	}
 
 	@Override
@@ -22,7 +18,7 @@ public class RandomResseting extends AbstractDiscreteMutation {
 		
 		double rand;
 		int d = in.getRepresentation().getDimensions();
-		int[] lowHigh = ((AbstractIntegerRepresentation) rep).getLowAndHigh();
+		int[] lowHigh = ((AbstractIntegerRepresentation) in.getRepresentation()).getLowAndHigh();
 				
 		for (int i=0; i<d; i++){
 			rand = aRandom.nextDouble();

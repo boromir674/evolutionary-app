@@ -11,7 +11,7 @@ public class CycleCrossoverTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testPerform() {
-		AbstractRepresentation arep = new PermutationRepresentation(9, 1, 9);
+		AbstractRepresentation arep = new PermutationRepresentation(9);
 		//Recombination tester = new CycleCrossover(arep);
 		//CycleCrossover tester = new CycleCrossover(arep);
 		Individual i1 = new Individual();

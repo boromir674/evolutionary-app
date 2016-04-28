@@ -6,8 +6,9 @@ import interfaces.ParentSelection;
 import interfaces.Recombination;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
-import interfaces.TerminationCondition;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
@@ -18,20 +19,21 @@ import util.Factory;
 import util.LibraryModel;
 import gui.EADesignWindow;
 
-public final class Environment implements Runnable{
+public class Environment implements Runnable, ActionListener{
 
-	final static LibraryModel model = new LibraryModel();
-	final static Random rand1 = new Random(); 
-	final static Experiment exp1 = new Experiment();
-	static EADesignWindow eaWindow = new EADesignWindow();
-
+	@SuppressWarnings("unused")
+	private final static LibraryModel model = new LibraryModel();
+	private Random rand1 = new Random();
+	private Experiment exp1 = new Experiment(rand1);
+	private final EADesignWindow eaWindow = new EADesignWindow();
+	
 	@Override
 	public void run() {
 		eaWindow.getFrame().setVisible(true);
-		exp1.directeOutput(eaWindow.getTextArea_1());
 	}
 
-	public static void runEA() {
+	public void runEA() {
+		
 		try {
 			exp1.setEvolutionaryAlgorithm(parse(eaWindow));
 		} catch (Exception e) {
@@ -39,23 +41,21 @@ public final class Environment implements Runnable{
 			e.printStackTrace();
 		}
 		try {
-			exp1.setTerminationCondition(getTerminationCondition(eaWindow));
+			exp1.setTerminationCondition(Factory.getTerminationCondition(eaWindow.getTerminationConditionJComboBox().getSelectedItem().toString(), eaWindow.getTerminationParameterJTextField().getText()));
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException
 				| ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			exp1.performOptimizationTask();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}
 
-	public static EvolutionaryAlgorithm parse(EADesignWindow window) throws Exception{ 
+	public EvolutionaryAlgorithm parse(EADesignWindow window) throws Exception{ 
 		EvaluationMethod evaluation = Factory.getEvaluationMethod(window.getLblProblemInstance().getText());
 		Population population = new Population(Integer.parseInt(window.getMuJTextField().getText()), Integer.parseInt(window.getLambdaJTextField().getText()));
 		Recombination recombination = Factory.getCrossoverOperator(window.getRecombinationJComboBox().getSelectedItem().toString());  
@@ -64,13 +64,17 @@ public final class Environment implements Runnable{
 		SurvivorSelection survivorSelection = Factory.getSurvivorSelection(window.getSurvivorSelectionList().getSelectedItem().toString());
 		Representation representation;
 		if (window.getLblProblemInstance().getText().contains(".java"))
-			representation = Factory.getRepresentation(window.getLblProblemInstance().getText(), window.getdJTextField().getText());
+			representation = Factory.getRepresentation(window.getMutationJComboBox().getSelectedItem().toString(), window.getdJTextField().getText());
 		else 
 			representation = Factory.getRepresentation(window.getLblProblemInstance().getText());
 		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);		
 	}
-	public static TerminationCondition getTerminationCondition(EADesignWindow window) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
-		return Factory.getTerminationCondition(window.getTerminationConditionJComboBox().getSelectedItem().toString(), window.getTerminationParameterJTextField().getText());
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == this.eaWindow.getRunButton()) {
+			this.runEA();
+		}	
 	}
 
 }

@@ -6,7 +6,7 @@ import evolutionaryAlgorithmComponents.AbstractRepresentation;
 
 public abstract class BinaryRepresentation extends AbstractRepresentation {
 	
-	private final static String title = "Bit-string";
+	public final static String title = "Bit-string";
 	
 	public BinaryRepresentation(int dim) {
 		super(title, dim);

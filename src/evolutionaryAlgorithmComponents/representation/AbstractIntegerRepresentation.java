@@ -7,10 +7,10 @@ public abstract class AbstractIntegerRepresentation extends AbstractRepresentati
 	protected int lowerBound;
 	protected int upperBound;
 
-	public AbstractIntegerRepresentation(String title, int dim, int low, int up) {
+	public AbstractIntegerRepresentation(String title, int dim) {
 		super(title, dim);
-		lowerBound = low;
-		upperBound = up;
+		//lowerBound = low;
+		//upperBound = up;
 	}
 
 	@Override

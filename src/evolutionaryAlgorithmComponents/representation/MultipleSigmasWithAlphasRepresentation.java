@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class MultipleSigmasWithAlphasRepresentation extends	RealValueRepresentation {
 	
-	private final static String title = " with multiple σ's and a's";
+	public final static String title = "(x1, ., xn, σ1, ., σn, a1, ., a_{n(n-1)/2})";
 	private double initAlpha;
 	
-	public MultipleSigmasWithAlphasRepresentation(double low, double high, double sigma, double alpha, int dim) {
-		super(low, high, sigma, dim);
+	public MultipleSigmasWithAlphasRepresentation(double low, double high, double initialSigma, double alpha, int dim) {
+		super(low, high, initialSigma, dim);
 		initAlpha = alpha;
 	}
 	

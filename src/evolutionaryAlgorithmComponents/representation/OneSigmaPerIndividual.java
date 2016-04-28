@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class OneSigmaPerIndividual extends RealValueRepresentation {
 	
-	private final static String title = " with one σ per chromosome";
+	public final static String title = "(x1, ., xn, σ1)";
 	
 	public OneSigmaPerIndividual(double low, double high, double sigma, int dim){
 		super(low, high, sigma, dim);

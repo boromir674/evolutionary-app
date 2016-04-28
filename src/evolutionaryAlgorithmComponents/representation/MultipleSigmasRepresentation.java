@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class MultipleSigmasRepresentation extends RealValueRepresentation {
 	
-	private final static String title = " with one σ per gene";
+	public final static String title = "(x1, ., xn, σ1, ., σn)";
 	
 	public MultipleSigmasRepresentation(double low, double high, double sigma, int dim){
 		super(low, high, sigma, dim);

@@ -2,7 +2,6 @@ package evolutionaryAlgorithmComponents;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.fitnessCalculators.DynamicNiching;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;

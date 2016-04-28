@@ -8,32 +8,29 @@ import evolutionaryAlgorithmComponents.Individual;
 
 public class PermutationRepresentation extends AbstractIntegerRepresentation {
 
-	private final static String title = "Permutation";
+	public final static String title = "Permutation";
 
-	public PermutationRepresentation(int dim, int low, int high) {
-		super(title, dim, low, high);
+	public PermutationRepresentation(int dim) {
+		super(title, dim);
 	}
 
 	@Override
 	public Object[] generateRandomChromosome(Random aRandom) throws Exception {
 
-		int[] indices = new int[super.dimensions];
-		for (int i=0; i<indices.length; i++)
-			indices[i] = i;
-		util.Util.shuffleArray(indices, aRandom);
 		Integer[] chromosome = new Integer[super.dimensions];
-		for (int i=0; i< chromosome.length; i++)
-			chromosome[indices[i]] = super.lowerBound + i;
+		for (int i=0; i<chromosome.length; i++)
+			chromosome[i] = i + 1;
+		util.Util.shuffleArray(chromosome, aRandom);
 		if (!chromosomeOK(chromosome))
 			throw new Exception("random chromosome is invalid");
 		return chromosome;
 	}
 
 	/**
-	 * @param in the chromosome to being evaluated
+	 * @param in the chromosome being evaluated
 	 * @return true if the chromosome encodes a valid permutation of integers, false otherwise
 	 */
-	public static boolean chromosomeOK(Object[] in) {
+	public static boolean chromosomeOK(Integer[] in) {
 		boolean[] flags = new boolean[in.length];
 		for (int i=0; i<in.length; i++) {
 			if (flags[(int)(in[i])-1])

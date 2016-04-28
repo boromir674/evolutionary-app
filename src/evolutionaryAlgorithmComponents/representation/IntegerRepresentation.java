@@ -6,10 +6,10 @@ import evolutionaryAlgorithmComponents.Individual;
 
 public class IntegerRepresentation extends AbstractIntegerRepresentation {
 	
-	private final static String title = "Integer";
+	public final static String title = "Vector of integers";
 	
-	public IntegerRepresentation(int dim, int low, int up) {
-		super(title, dim, low, up);
+	public IntegerRepresentation(int dim) {
+		super(title, dim);
 	}
 
 	@Override

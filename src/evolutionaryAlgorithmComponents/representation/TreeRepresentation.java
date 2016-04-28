@@ -4,7 +4,7 @@ import java.util.Random;
 
 import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
-
+@Deprecated
 public class TreeRepresentation extends AbstractRepresentation {
 	
 	private final static String title ="Tree";

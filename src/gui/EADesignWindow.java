@@ -39,14 +39,7 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
-public class EADesignWindow implements ActionListener{
-
-	/**
-	 * @return the textArea_1
-	 */
-	public JTextArea getTextArea_1() {
-		return textArea_1;
-	}
+public class EADesignWindow {
 
 	/**
 	 * @return the dJTextField
@@ -180,7 +173,7 @@ public class EADesignWindow implements ActionListener{
 	private JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
 	private JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
 	private final JRadioButton rdbtnElitismOn = new JRadioButton("on");
-	private JTextArea textArea_1;
+	private static JTextArea outPutJTextArea;
 	
 	private JButton runButton = new JButton("Run");
 	private JComboBox<JLabel> terminationConditionJComboBox;
@@ -192,6 +185,7 @@ public class EADesignWindow implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					@SuppressWarnings("unused")
 					LibraryModel ld = new LibraryModel();
 					EADesignWindow window = new EADesignWindow();
 					window.myFrame.setVisible(true);
@@ -395,9 +389,9 @@ public class EADesignWindow implements ActionListener{
 		scrollPane.setBounds(9, 168, 530, 147);
 		myFrame.getContentPane().add(scrollPane);
 
-		textArea_1 = new JTextArea();
-		scrollPane.setViewportView(textArea_1);
-		textArea_1.setEditable(false);
+		outPutJTextArea = new JTextArea();
+		scrollPane.setViewportView(outPutJTextArea);
+		outPutJTextArea.setEditable(false);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(UIManager.getBorder("EditorPane.border"));
@@ -426,16 +420,17 @@ public class EADesignWindow implements ActionListener{
 		JPanel panel_10 = new JPanel();
 		panel_2.add(panel_10, BorderLayout.EAST);
 		panel_10.setLayout(new GridLayout(2, 1, 5, 0));
+				panel_10.add(recombinationRateJTextField);
+		
+				recombinationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		recombinationRateJTextField.setEditable(false);
 
 		mutationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		mutationRateJTextField.setColumns(4);
 		panel_10.add(mutationRateJTextField);
-
-		recombinationRateJTextField.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_10.add(recombinationRateJTextField);
 		
 		runButton.setBounds(12, 362, 117, 25);
-		runButton.addActionListener(this);
+		//runButton.addActionListener(this);
 		myFrame.getContentPane().add(runButton);
 		
 		terminationConditionJComboBox = new JComboBox<JLabel>();
@@ -487,13 +482,13 @@ public class EADesignWindow implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						parseEvaLuationMenuChoice(e.getActionCommand());
+						lblRepresentationDescription.setText(parseEvaLuationMenuChoice(e.getActionCommand()));
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					lblProblemInstance.setText(e.getActionCommand());
-					lblRepresentationDescription.setText(e.getActionCommand());
+					
 					String dim = util.Util.parseDimensions(e.getActionCommand());
 					dJTextField.setText(dim);
 					if (!dim.isEmpty())
@@ -505,6 +500,10 @@ public class EADesignWindow implements ActionListener{
 			anEvaluationSubmenu.add(temp);
 		}
 	}
+	
+	public static void appendText(String aString){
+		outPutJTextArea.append(aString);
+	}
 	//TODO unify methods
 	private void populateMenu2(JMenu anEvaluationSubmenu, ArrayList<String> contents){
 		// anEvaluationSubmenu: parent of a leaf node in the evaluation tree
@@ -515,13 +514,12 @@ public class EADesignWindow implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						parseEvaLuationMenuChoice(e.getActionCommand());
+						lblRepresentationDescription.setText(parseEvaLuationMenuChoice(e.getActionCommand()));
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					lblProblemInstance.setText(e.getActionCommand());
-					lblRepresentationDescription.setText(e.getActionCommand());
 					String dim = util.Util.parseDimensions(e.getActionCommand());
 					dJTextField.setText(dim);
 					if (!dim.isEmpty())
@@ -555,7 +553,7 @@ public class EADesignWindow implements ActionListener{
 		muJTextField.setText("10");
 		dJTextField.setText("10");
 		recombinationRateJTextField.setText("1.0");
-		mutationRateJTextField.setText("0.9");
+		mutationRateJTextField.setText("1.0");
 		/*recombinationJComboBox.setSelectedItem(arg0);
 		JComboBox<JLabel> mutationJComboBox = new JComboBox<JLabel>();	
 		JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
@@ -571,15 +569,8 @@ public class EADesignWindow implements ActionListener{
 		return result;
 	}
 
-	public Object getRunButton() {
+	public JButton getRunButton() {
 		return this.runButton;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == runButton) {
-			Environment.runEA();
-		}	
 	}
 
 }

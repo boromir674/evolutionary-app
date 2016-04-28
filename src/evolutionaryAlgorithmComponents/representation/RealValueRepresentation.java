@@ -7,7 +7,7 @@ import evolutionaryAlgorithmComponents.Individual;
 
 public class RealValueRepresentation extends AbstractRepresentation {
 	
-	private final static String title = "Real-Value";
+	public final static String title = "(x1, ., xn)";
 	protected double lowestValue;
 	protected double highestValue;
 	private final double initialSigma;	

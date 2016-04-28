@@ -4,7 +4,6 @@
 package util;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
 
 import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPProblemFactory;
 import evolutionaryAlgorithmComponents.representation.MultipleSigmasRepresentation;
@@ -30,7 +29,7 @@ public final class Factory {
 		int offset = 0;
 		if (anEvaluationName.endsWith(".java"))
 			offset = 5;
-		String s = "evolutionaryAlgorithmComponents.evaluation.realValueFunction.";
+		String s = "evolutionaryAlgorithmComponents.evaluation.mathFunctions.";
 		if (anEvaluationName.endsWith(".java"))
 			return (EvaluationMethod) Class.forName(s+anEvaluationName.substring(0, anEvaluationName.length()-offset)).newInstance();
 		else {
@@ -89,11 +88,11 @@ public final class Factory {
 		return (Mutation) Class.forName(s1+aMutationName.substring(0, aMutationName.length()-offset)).getConstructor(double.class).newInstance(prob);
 	}
 	
-	// SUPPORTED : RealValue and children + Permutation
+	// SUPPORTED : RealValue and its subclasses, Permutation
 	public final static Representation getRepresentation(String aTSPSampleProblem){
 		//String s = "evolutionaryAlgorithmComponents.representation.";
 		int dimensionality = Integer.parseInt(util.Util.parseDimensions(aTSPSampleProblem));
-		return new PermutationRepresentation(dimensionality, 1, dimensionality);
+		return new PermutationRepresentation(dimensionality);
 	}
 	public final static Representation getRepresentation(String aMutation, String dimensions){
 		//TODO enable more user input through the interface

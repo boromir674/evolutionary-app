@@ -34,7 +34,7 @@ public class ScrambleMutation extends AbstractPermutationMutation {
 			util.Util.shuffleArray(slice, aRandom);
 			for (int i=0; i<length; i++)
 				in.getChromosome()[start+i] = slice[i];
-			PermutationRepresentation.chromosomeOK(in.getChromosome());
+			PermutationRepresentation.chromosomeOK((Integer[]) in.getChromosome());
 		}
 	}
 }

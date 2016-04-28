@@ -157,7 +157,7 @@ public abstract class Util {
 			array[i] = temp;
 		}
 	}
-	
+
 	public static String parseDimensions(String aFileName){
 		int i = 1;
 		int start = 0;
@@ -174,6 +174,19 @@ public abstract class Util {
 		if (end == 0)
 			return ""; // fileName contains no 'dimension'
 		return aFileName.substring(start, end);
+	}
+
+	public static void shuffleArray(Integer[] array, Random aRandom) {
+		int temp;
+		for (int i = array.length - 1; i > 0; i--)
+		{
+			int index = aRandom.nextInt(i + 1);
+			// Simple swap
+			temp = array[index];
+			array[index] = array[i];
+			array[i] = temp;
+		}
+
 	}
 
 }

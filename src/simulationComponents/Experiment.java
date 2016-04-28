@@ -3,8 +3,6 @@ package simulationComponents;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-import javax.swing.JTextArea;
-
 import util.Util;
 import gui.EADesignWindow;
 import interfaces.TerminationCondition;
@@ -17,33 +15,33 @@ public class Experiment {
 	private EvolutionaryAlgorithm evolutionaryAlgorithm;
 	private TerminationCondition terminationCondition;
 	private long startingTime = 0;
-	private final Random random = new Random();
-	
+	private Random random;
 	public boolean debug;
-	public int visuals;
+	private int visuals = 100;
 	public int precision = 2;
-	private JTextArea textOutput;
 
-	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition){
-		evolutionaryAlgorithm = EA;
-		evolutionaryAlgorithm.setRandom(random);
-		terminationCondition = aTerminationCondition;
+	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition, Random aRandom){
+		this.evolutionaryAlgorithm = EA;
+		this.terminationCondition = aTerminationCondition;
+		this.random = aRandom;
+		evolutionaryAlgorithm.setRandom(aRandom);
 	}
 
-	public Experiment() {
+	public Experiment(Random aRandom) {
+		this.random = aRandom;
+		//evolutionaryAlgorithm.setRandom(new Random());
 	}
 	
 	public Individual performOptimizationTask() throws Exception {
 		int i = 0;
 		startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
-		Population previousPopulation;
+		EADesignWindow.appendText("gen -- best -- mean - stds\n");
 		while (!terminationCondition.satisfied(this)){
-			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
+			i++;
 			evolutionaryAlgorithm.parentSelection(random);
 			evolutionaryAlgorithm.applyOperator(random);
 			evolutionaryAlgorithm.survivorSelection();
-			i++;
 			if (visuals != 0 && i%visuals == 0)
 				this.visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		}
@@ -108,6 +106,7 @@ public class Experiment {
 	public void setTerminationCondition(TerminationCondition terminationCondition) {
 		this.terminationCondition = terminationCondition;
 	}
+	@SuppressWarnings("unused")
 	private void compareToPreviousPopulation(Population previousPopulationInstance) throws Exception {
 		Individual best = this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 		Individual newBest = findMax(evolutionaryAlgorithm.getPopulation());
@@ -142,11 +141,7 @@ public class Experiment {
 		}		
 		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
 		visual = String.format(visual, this.evolutionaryAlgorithm.getPopulation().getGenerationCounter(), this.evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
-		textOutput.setText(visual);
-	}
-
-	public void directeOutput(JTextArea jTextArea) {
-		this.textOutput = jTextArea;
+		EADesignWindow.appendText(visual);
 	}
 
 }

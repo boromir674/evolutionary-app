@@ -201,6 +201,18 @@ public class EADesignWindow implements ActionListener{
 			}
 		});
 	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == runButton) {
+			try {
+				System.out.println(this.lblProblemInstance.getText());
+				Environment.runEA();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}	
+	}
 
 	/**
 	 * Create the application.
@@ -573,13 +585,6 @@ public class EADesignWindow implements ActionListener{
 
 	public Object getRunButton() {
 		return this.runButton;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == runButton) {
-			Environment.runEA();
-		}	
 	}
 
 }

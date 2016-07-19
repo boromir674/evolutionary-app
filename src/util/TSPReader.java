@@ -343,17 +343,22 @@ public class TSPReader {
 		else return "CVRP";
 	}
 
-	private static String decideOnFolder(String name){
-		if (name.substring(name.length()-4, name.length()).equals(".tsp"))
-			return "/TSP/"+name;
-		else if (name.substring(name.length()-4, name.length()).equals(".hcp"))
-			return "/HCP/"+name;
-		else if (name.substring(name.length()-5, name.length()).equals(".atsp"))
-			return "/ATSP/"+name;
-		else if (name.substring(name.length()-4, name.length()).equals(".sop"))
-			return "/SOP/"+name;
-		else if (name.substring(name.length()-4, name.length()).equals(".cvrp"))
-			return "/CVRP/"+name;
+	/**
+	 * @param fileName a string (eg "gr17.tsp")
+	 * @return the path from root (eg "/TSP/gr17.tsp")  
+	 */
+	public static String decideOnFolder(String fileName) {
+		System.out.println(fileName);
+		if (fileName.substring(fileName.length()-4, fileName.length()).equals(".tsp"))
+			return "/TSP/"+fileName;
+		else if (fileName.substring(fileName.length()-4, fileName.length()).equals(".hcp"))
+			return "/HCP/"+fileName;
+		else if (fileName.substring(fileName.length()-5, fileName.length()).equals(".atsp"))
+			return "/ATSP/"+fileName;
+		else if (fileName.substring(fileName.length()-4, fileName.length()).equals(".sop"))
+			return "/SOP/"+fileName;
+		else if (fileName.substring(fileName.length()-4, fileName.length()).equals(".cvrp"))
+			return "/CVRP/"+fileName;
 		else
 			return "";
 	}

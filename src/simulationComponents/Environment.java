@@ -14,6 +14,8 @@ import java.util.Random;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Population;
 import evolutionaryAlgorithmComponents.VarianceOperator;
+import exceptions.FailedToParseException;
+import exceptions.IncompatibleComponentsException;
 import util.Factory;
 import util.LibraryModel;
 import gui.EADesignWindow;
@@ -21,32 +23,24 @@ import gui.EADesignWindow;
 public final class Environment implements Runnable{
 
 	final static LibraryModel model = new LibraryModel();
-	final static Random rand1 = new Random(); 
+	//final static Random rand1 = new Random(); 
 	final static Experiment exp1 = new Experiment();
 	static EADesignWindow eaWindow = new EADesignWindow();
-
+	
+	public static void main(String[] args){
+		Environment field = new Environment();
+		field.run();
+	}
+	
 	@Override
 	public void run() {
 		eaWindow.getFrame().setVisible(true);
 		exp1.directeOutput(eaWindow.getTextArea_1());
 	}
 
-	public static void runEA() {
-		try {
-			exp1.setEvolutionaryAlgorithm(parse(eaWindow));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			exp1.setTerminationCondition(getTerminationCondition(eaWindow));
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException
-				| ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void runEA() throws Exception {
+		exp1.setEvolutionaryAlgorithm(parse(eaWindow));
+		exp1.setTerminationCondition(getTerminationCondition(eaWindow));
 		try {
 			exp1.performOptimizationTask();
 		} catch (Exception e) {
@@ -55,7 +49,8 @@ public final class Environment implements Runnable{
 		}	
 	}
 
-	public static EvolutionaryAlgorithm parse(EADesignWindow window) throws Exception{ 
+	public static EvolutionaryAlgorithm parse(EADesignWindow window) throws FailedToParseException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IncompatibleComponentsException{
+		System.out.println(window.getLblProblemInstance().getText());
 		EvaluationMethod evaluation = Factory.getEvaluationMethod(window.getLblProblemInstance().getText());
 		Population population = new Population(Integer.parseInt(window.getMuJTextField().getText()), Integer.parseInt(window.getLambdaJTextField().getText()));
 		Recombination recombination = Factory.getCrossoverOperator(window.getRecombinationJComboBox().getSelectedItem().toString());  

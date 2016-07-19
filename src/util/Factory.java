@@ -12,6 +12,7 @@ import evolutionaryAlgorithmComponents.representation.MultipleSigmasWithAlphasRe
 import evolutionaryAlgorithmComponents.representation.OneSigmaPerIndividual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import exceptions.FailedToParseException;
 import interfaces.EvaluationMethod;
 import interfaces.Mutation;
 import interfaces.ParentSelection;
@@ -26,17 +27,38 @@ import interfaces.TerminationCondition;
  */
 public final class Factory {
 
-	public final static EvaluationMethod getEvaluationMethod(String anEvaluationName) throws Exception{
+	public final static EvaluationMethod getEvaluationMethod(String anEvaluationName) throws FailedToParseException{
+		System.out.println(anEvaluationName);
+		EvaluationMethod evalMethod = null;
 		int offset = 0;
-		if (anEvaluationName.endsWith(".java"))
-			offset = 5;
 		String s = "evolutionaryAlgorithmComponents.evaluation.realValueFunction.";
-		if (anEvaluationName.endsWith(".java"))
-			return (EvaluationMethod) Class.forName(s+anEvaluationName.substring(0, anEvaluationName.length()-offset)).newInstance();
-		else {
+		if (anEvaluationName.endsWith(".java")) {
+			offset = 5;
+			try {
+				evalMethod = (EvaluationMethod) Class.forName(s+anEvaluationName.substring(0, anEvaluationName.length()-offset)).newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		} else {
 			TSPProblemFactory fac = new TSPProblemFactory();
-			return fac.produceTSPProblem(anEvaluationName);
+			try {
+				evalMethod = fac.produceTSPProblem("TSP_samples"+TSPReader.decideOnFolder(anEvaluationName));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		if (evalMethod == null) {
+			throw new FailedToParseException(anEvaluationName);
+		}
+		return evalMethod;
 	}
 
 	public final static ParentSelection getParentSelection(String aParentSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
@@ -55,7 +77,7 @@ public final class Factory {
 		String s = "evolutionaryAlgorithmComponents.survivorSelectionMechanisms.";
 		return (SurvivorSelection) Class.forName(s+aSurvivorSelectionName.substring(0, aSurvivorSelectionName.length()-offset)).getConstructor().newInstance();
 	}
-	
+
 	// ------------ CROSSOVER FACTORY --------------------------
 	public final static Recombination getCrossoverOperator(String aRecombinationName) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
 		int offset = 0;
@@ -75,7 +97,7 @@ public final class Factory {
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
 		return (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor(int.class).newInstance(n);
 	}
-	
+
 	// ------------ MUTATION FACTORY --------------------------	
 	public final static Mutation getMutationOperator(String aMutationName, double prob) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
 		int offset = 0;
@@ -88,8 +110,8 @@ public final class Factory {
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.mutation.realValue.";	
 		return (Mutation) Class.forName(s1+aMutationName.substring(0, aMutationName.length()-offset)).getConstructor(double.class).newInstance(prob);
 	}
-	
-	// SUPPORTED : RealValue and children + Permutation
+
+	// SUPPORTED : RealValue (and its sub-variants)and Permutation
 	public final static Representation getRepresentation(String aTSPSampleProblem){
 		//String s = "evolutionaryAlgorithmComponents.representation.";
 		int dimensionality = Integer.parseInt(util.Util.parseDimensions(aTSPSampleProblem));

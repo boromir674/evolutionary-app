@@ -5,7 +5,7 @@ import java.util.Random;
 import evolutionaryAlgorithmComponents.fitnessCalculators.DynamicNiching;
 import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
-import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.DeterministicCrowding;
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
@@ -105,7 +105,7 @@ public class EvolutionaryAlgorithm {
 			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
 		if (representation instanceof AbstractIntegerRepresentation && !variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
-		if (representation instanceof RealValueRepresentation && variationOperator.applicableToDiscrete)
+		if (representation instanceof AbstractRealValueRepresentation && variationOperator.applicableToDiscrete)
 			throw new IncompatibleComponentsException("real value representation, but discrete operator");
 		if (survivorSelectionMethod instanceof DeterministicCrowding && population.getMu() != population.getLambda())
 			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands: μ=λ");

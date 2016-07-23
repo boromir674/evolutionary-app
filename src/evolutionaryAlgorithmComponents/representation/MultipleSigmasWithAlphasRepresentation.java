@@ -2,7 +2,7 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
-public class MultipleSigmasWithAlphasRepresentation extends	RealValueRepresentation {
+public class MultipleSigmasWithAlphasRepresentation extends	AbstractRealValueRepresentation {
 	
 	private final static String title = " with multiple σ's and a's";
 	private double initAlpha;

@@ -10,11 +10,13 @@ import interfaces.SurvivorSelection;
 import interfaces.TerminationCondition;
 
 import java.lang.reflect.InvocationTargetException;
+
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Population;
 import evolutionaryAlgorithmComponents.VarianceOperator;
 import exceptions.FailedToParseException;
 import exceptions.IncompatibleComponentsException;
+import util.EAPrinter;
 import util.Factory;
 import util.LibraryModel;
 
@@ -23,7 +25,8 @@ public final class Environment extends Thread{
 	final static LibraryModel model = new LibraryModel();
 	final static Experiment exp1 = new Experiment();
 	static EADesignWindow eaWindow = new EADesignWindow();
-
+	Thread printer = new EAPrinter();
+	
 	@Override
 	public void run() {
 		eaWindow.getFrame().setVisible(true);
@@ -47,7 +50,7 @@ public final class Environment extends Thread{
 		SurvivorSelection survivorSelection = Factory.getSurvivorSelection(eaWindow.getSurvivorSelectionList().getSelectedItem().toString());
 		Representation representation;
 		if (eaWindow.getLblProblemInstance().getText().contains(".java"))
-			representation = Factory.getRepresentation(eaWindow.getLblProblemInstance().getText(), eaWindow.getdJTextField().getText());
+			representation = Factory.getRepresentation(eaWindow.getMutationJComboBox().getSelectedItem().toString(), eaWindow.getdJTextField().getText());
 		else 
 			representation = Factory.getRepresentation(eaWindow.getLblProblemInstance().getText());
 		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);		

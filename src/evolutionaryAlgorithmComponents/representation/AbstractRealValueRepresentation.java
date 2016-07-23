@@ -5,14 +5,14 @@ import java.util.Random;
 import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 
-public class RealValueRepresentation extends AbstractRepresentation {
+public abstract class AbstractRealValueRepresentation extends AbstractRepresentation {
 	
 	private final static String title = "Real-Value";
 	protected double lowestValue;
 	protected double highestValue;
 	private final double initialSigma;	
 	
-	public RealValueRepresentation(double low, double high, double sigma, int dim){
+	public AbstractRealValueRepresentation(double low, double high, double sigma, int dim){
 		super(title, dim);
 		lowestValue = low;
 		highestValue = high;
@@ -39,19 +39,6 @@ public class RealValueRepresentation extends AbstractRepresentation {
 	
 	public double getInitialSigma() {
 		return initialSigma;
-	}
-
-	@Override
-	public Object[] generateRandomChromosome(Random aRandom) {
-		Double[] chromosome = new Double[dimensions];
-		for (int i=0; i<dimensions; i++)
-			chromosome[i] = aRandom.nextDouble() * 2*highestValue + lowestValue;
-		return chromosome;
-	}
-
-	@Override
-	public Object[] createEmptyChromosome() {
-		return new Double[dimensions];
 	}
 
 	/**

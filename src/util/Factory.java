@@ -11,7 +11,7 @@ import evolutionaryAlgorithmComponents.representation.MultipleSigmasRepresentati
 import evolutionaryAlgorithmComponents.representation.MultipleSigmasWithAlphasRepresentation;
 import evolutionaryAlgorithmComponents.representation.OneSigmaPerIndividual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
-import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 import exceptions.FailedToParseException;
 import interfaces.EvaluationMethod;
 import interfaces.Mutation;
@@ -30,7 +30,7 @@ public final class Factory {
 	public final static EvaluationMethod getEvaluationMethod(String anEvaluationName) throws FailedToParseException{
 		EvaluationMethod evalMethod = null;
 		int offset = 0;
-		String s = "evolutionaryAlgorithmComponents.evaluation.realValueFunction.";
+		String s = "evolutionaryAlgorithmComponents.evaluation.mathFunctions.";
 		if (anEvaluationName.endsWith(".java")) {
 			offset = 5;
 			try {
@@ -118,14 +118,14 @@ public final class Factory {
 		//TODO enable more user input through the interface
 		//String s = "evolutionaruAlgorithmComponents.representation.";
 		Representation representationInstance = null;
-		if (aMutation.startsWith("UncorrelatedWithNStep"))
+		if (aMutation.startsWith("UncorrelatedWithNStepSizes"))
 			representationInstance = new MultipleSigmasRepresentation(0, 10, 2, Integer.parseInt(dimensions));
-		else if (aMutation.startsWith("UncorrelatedWithOneStep"))
+		else if (aMutation.startsWith("UncorrelatedWithOneStepSize"))
 			representationInstance = new OneSigmaPerIndividual(0, 10, 2, Integer.parseInt(dimensions));
 		else if (aMutation.startsWith("Correlated"))
 			representationInstance = new MultipleSigmasWithAlphasRepresentation(0, 10, 2, 0.5, Integer.parseInt(dimensions));
-		else
-			representationInstance = new RealValueRepresentation(0, 10, 2, Integer.parseInt(dimensions));
+		//else
+			//representationInstance = new AbstractRealValueRepresentation(0, 10, 2, Integer.parseInt(dimensions));
 		return representationInstance;
 	}
 

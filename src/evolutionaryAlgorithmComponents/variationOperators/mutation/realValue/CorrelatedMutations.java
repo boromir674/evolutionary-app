@@ -6,7 +6,7 @@ import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.linear.SingularMatrixException;
 
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 
 public class CorrelatedMutations extends AbstractRealValueMutation {
 
@@ -59,20 +59,20 @@ public class CorrelatedMutations extends AbstractRealValueMutation {
 				double[] sample = g.sample();
 				for (int i=0; i<d; i++){
 					newXI = (double) in.getChromosome()[i] + sample[i];
-					in.getChromosome()[i] = ((RealValueRepresentation)in.getRepresentation()).ensureValueRange(newXI);
+					in.getChromosome()[i] = ((AbstractRealValueRepresentation)in.getRepresentation()).ensureValueRange(newXI);
 				}
 			} catch (SingularMatrixException e) {
 				for (int i=0; i<d; i++){
 					double sum = 0;
 					for (int j=0; j<d; j++)
 						sum += covariances[i][j]*(double)in.getChromosome()[j];
-					in.getChromosome()[i] = ((RealValueRepresentation)in.getRepresentation()).ensureValueRange(sum);
+					in.getChromosome()[i] = ((AbstractRealValueRepresentation)in.getRepresentation()).ensureValueRange(sum);
 				}
 			}
 		}
 
-		double low = ((RealValueRepresentation) in.getRepresentation()).getLowestValue();
-		double high = ((RealValueRepresentation) in.getRepresentation()).getHighestValue();
+		double low = ((AbstractRealValueRepresentation) in.getRepresentation()).getLowestValue();
+		double high = ((AbstractRealValueRepresentation) in.getRepresentation()).getHighestValue();
 		for (int i=0; i<in.getRepresentation().getDimensions(); i++){
 			if ((Double)in.getChromosome()[i] < low || (Double)in.getChromosome()[i] > high){
 				throw new Exception("Value out of range");

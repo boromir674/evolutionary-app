@@ -2,7 +2,7 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
-public class OneSigmaPerIndividual extends RealValueRepresentation {
+public class OneSigmaPerIndividual extends AbstractRealValueRepresentation {
 	
 	private final static String title = " with one σ per chromosome";
 	

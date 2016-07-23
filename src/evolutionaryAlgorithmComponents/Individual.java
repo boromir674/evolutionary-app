@@ -37,11 +37,6 @@ public class Individual implements Comparable<Individual>{
 		return fitness;
 	}
 
-	public void initializeEmpty(Representation representation){
-		chromosome = representation.createEmptyChromosome();
-		this.representation = representation;
-	}
-
 	public void initializeRandomly(Representation representation, Random aRandom) throws Exception{
 		chromosome = representation.generateRandomChromosome(aRandom);
 		this.representation = representation;
@@ -52,8 +47,7 @@ public class Individual implements Comparable<Individual>{
 		for (int i=0; i< chromosome.length; i++) 
 			if (chromosome instanceof Double[])
 				System.out.format("%.2f ", chromosome[i]);
-			else //if (chromosome instanceof Integer[])
-			{
+			else { //if (chromosome instanceof Integer[])
 				try {
 					Integer[] vector = (Integer[])(this.pop.evo.getEvaluator()).getSolutionVector();
 					offset = ArrayUtils.indexOf(chromosome, vector[0]);
@@ -86,10 +80,18 @@ public class Individual implements Comparable<Individual>{
 		a.age = this.age;
 		a.fitness = this.fitness;
 		a.pop = this.pop;
-		a.initializeEmpty(representation);
+		a.setChromosome(representation.createEmptyChromosome());
 		for (int i=0; i<a.chromosome.length; i++)
 			a.chromosome[i] = this.chromosome[i];
 		return a;
+	}
+
+	void setChromosome(Object[] aChromosome) {
+		this.chromosome = aChromosome;
+	}
+	
+	void setRepresentation(Representation aRepresentation) {
+		this.representation = aRepresentation;
 	}
 	
 }

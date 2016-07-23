@@ -2,7 +2,7 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
-public class MultipleSigmasRepresentation extends RealValueRepresentation {
+public class MultipleSigmasRepresentation extends AbstractRealValueRepresentation {
 	
 	private final static String title = " with one σ per gene";
 	

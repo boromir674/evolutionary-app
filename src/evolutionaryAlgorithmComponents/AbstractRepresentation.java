@@ -16,7 +16,7 @@ public abstract class AbstractRepresentation implements Representation{
 	public int getDimensions() {
 		return dimensions;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see interfaces.EvolutionaryAlgorithmComponent#getTitle()
 	 */

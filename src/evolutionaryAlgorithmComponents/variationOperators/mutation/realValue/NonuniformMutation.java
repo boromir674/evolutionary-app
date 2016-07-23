@@ -3,8 +3,8 @@ package evolutionaryAlgorithmComponents.variationOperators.mutation.realValue;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.representation.OneSigma;
-import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.representation.OneSigmaPerPopulation;
+import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 
 public class NonuniformMutation extends AbstractRealValueMutation {
 	//TODO check implementation
@@ -23,13 +23,13 @@ public class NonuniformMutation extends AbstractRealValueMutation {
 			int d = in.getRepresentation().getDimensions();
 			if (t == 0) {
 				t = 1/Math.sqrt(d);
-				sigma = ((OneSigma) in.getRepresentation()).getInitialSigma();
+				sigma = ((OneSigmaPerPopulation) in.getRepresentation()).getInitialSigma();
 			}
 			sigma *= Math.exp(t*N); // compute s'
 			if (sigma < epsilon) // check if s' < epsilon
 				sigma = epsilon;
 			for (int i=0; i<d; i++) // update x_i
-				in.getChromosome()[i] = (double) in.getChromosome()[i] + ((RealValueRepresentation) in.getRepresentation()).ensureValueRange(sigma * aRandom.nextGaussian());
+				in.getChromosome()[i] = (double) in.getChromosome()[i] + ((AbstractRealValueRepresentation) in.getRepresentation()).ensureValueRange(sigma * aRandom.nextGaussian());
 		}
 	}
 }

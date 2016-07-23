@@ -3,7 +3,7 @@ package evolutionaryAlgorithmComponents.variationOperators.mutation.realValue;
 import java.util.Random;
 
 import evolutionaryAlgorithmComponents.Individual;
-import evolutionaryAlgorithmComponents.representation.RealValueRepresentation;
+import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 
 public class UncorrelatedWithNStepSizes extends AbstractRealValueMutation {	
 
@@ -40,7 +40,7 @@ public class UncorrelatedWithNStepSizes extends AbstractRealValueMutation {
 				in.getChromosome()[d+i] = s_i; // update s_i
 
 				x_i = (double) in.getChromosome()[i] + s_i * N_i; // compute x_i'
-				x_i = ((RealValueRepresentation) in.getRepresentation()).ensureValueRange(x_i); // check x for out of bounds
+				x_i = ((AbstractRealValueRepresentation) in.getRepresentation()).ensureValueRange(x_i); // check x for out of bounds
 				in.getChromosome()[i] = x_i; // update x_i
 			}
 		}

@@ -28,7 +28,6 @@ import interfaces.TerminationCondition;
 public final class Factory {
 
 	public final static EvaluationMethod getEvaluationMethod(String anEvaluationName) throws FailedToParseException{
-		System.out.println(anEvaluationName);
 		EvaluationMethod evalMethod = null;
 		int offset = 0;
 		String s = "evolutionaryAlgorithmComponents.evaluation.realValueFunction.";
@@ -49,14 +48,11 @@ public final class Factory {
 		} else {
 			TSPProblemFactory fac = new TSPProblemFactory();
 			try {
-				evalMethod = fac.produceTSPProblem("TSP_samples"+TSPReader.decideOnFolder(anEvaluationName));
+				evalMethod = fac.produceTSPProblem(anEvaluationName);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		if (evalMethod == null) {
-			throw new FailedToParseException(anEvaluationName);
 		}
 		return evalMethod;
 	}
@@ -105,7 +101,7 @@ public final class Factory {
 			offset = 5;
 		String s1 = "evolutionaryAlgorithmComponents.variationOperators.mutation.discreteValue.";
 		if (aMutationName.startsWith("Bitwise"))
-			s1 = "evolutionaryAlgorithmComponents.variationOperators.";
+			s1 = "evolutionaryAlgorithmComponents.variationOperators.mutation.";
 		else if (aMutationName.startsWith("CorrelatedM") || aMutationName.startsWith("NonuniformM") || aMutationName.startsWith("UncorrelatedW") || aMutationName.startsWith("UniformM"))
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.mutation.realValue.";	
 		return (Mutation) Class.forName(s1+aMutationName.substring(0, aMutationName.length()-offset)).getConstructor(double.class).newInstance(prob);
@@ -114,7 +110,8 @@ public final class Factory {
 	// SUPPORTED : RealValue (and its sub-variants)and Permutation
 	public final static Representation getRepresentation(String aTSPSampleProblem){
 		//String s = "evolutionaryAlgorithmComponents.representation.";
-		int dimensionality = Integer.parseInt(util.Util.parseDimensions(aTSPSampleProblem));
+		String s = util.Util.parseDimensions(aTSPSampleProblem);
+		int dimensionality = Integer.parseInt(s);
 		return new PermutationRepresentation(dimensionality, 1, dimensionality);
 	}
 	public final static Representation getRepresentation(String aMutation, String dimensions){

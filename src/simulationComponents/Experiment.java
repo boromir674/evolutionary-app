@@ -6,7 +6,6 @@ import java.util.Random;
 import javax.swing.JTextArea;
 
 import util.Util;
-import gui.EADesignWindow;
 import interfaces.TerminationCondition;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
@@ -18,9 +17,9 @@ public class Experiment {
 	private TerminationCondition terminationCondition;
 	private long startingTime = 0;
 	private final Random random = new Random();
-	
+
 	public boolean debug;
-	public int visuals;
+	public int visuals = 5;
 	public int precision = 2;
 	private JTextArea textOutput;
 
@@ -32,17 +31,13 @@ public class Experiment {
 
 	public Experiment() {
 	}
-	
+
 	public Individual performOptimizationTask() throws Exception {
 		int i = 0;
 		startingTime = System.nanoTime();
 		evolutionaryAlgorithm.randomInitialization(random);
-		Population previousPopulation;
 		while (!terminationCondition.satisfied(this)){
-			previousPopulation = (Population) this.evolutionaryAlgorithm.getPopulation().clone();
-			evolutionaryAlgorithm.parentSelection(random);
-			evolutionaryAlgorithm.applyOperator(random);
-			evolutionaryAlgorithm.survivorSelection();
+			performCycle();
 			i++;
 			if (visuals != 0 && i%visuals == 0)
 				this.visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
@@ -52,18 +47,19 @@ public class Experiment {
 		return evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
 
+	private void performCycle() throws Exception {
+		evolutionaryAlgorithm.parentSelection(random);
+		evolutionaryAlgorithm.applyOperator(random);
+		evolutionaryAlgorithm.survivorSelection();
+	}
 	// needs fixing.....
 	public double[] runBatches(int replicates) throws Exception {
 		if (replicates < 100)
 			throw new Exception("Should produce at least 100 data points.");
 		int i = 1;
 		random.setSeed(i-1);
-		while (!terminationCondition.satisfied(this)){
+		while (!terminationCondition.satisfied(this))
 			evolutionaryAlgorithm.randomInitialization(random);
-			evolutionaryAlgorithm.parentSelection(random);
-			evolutionaryAlgorithm.applyOperator(random);
-			evolutionaryAlgorithm.survivorSelection();
-		}
 		double x = evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness();
 		double[] result = new double[]{x, 0};
 		while (i<replicates){
@@ -71,13 +67,10 @@ public class Experiment {
 			random.setSeed(i);
 			while (!terminationCondition.satisfied(this)){
 				evolutionaryAlgorithm.randomInitialization(random);
-				evolutionaryAlgorithm.parentSelection(random);
-				evolutionaryAlgorithm.applyOperator(random);
-				evolutionaryAlgorithm.survivorSelection();
+				performCycle();
 			}
 			x = evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness();
 			i++;
-			// calculations
 			result[0] += (x - result[0])/(i+1);
 			result[1] = (1-1/i)*result[1] - (i+1)*(result[0]-x);
 			x = result[0];
@@ -108,6 +101,7 @@ public class Experiment {
 	public void setTerminationCondition(TerminationCondition terminationCondition) {
 		this.terminationCondition = terminationCondition;
 	}
+	@SuppressWarnings("unused")
 	private void compareToPreviousPopulation(Population previousPopulationInstance) throws Exception {
 		Individual best = this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 		Individual newBest = findMax(evolutionaryAlgorithm.getPopulation());
@@ -142,10 +136,10 @@ public class Experiment {
 		}		
 		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
 		visual = String.format(visual, this.evolutionaryAlgorithm.getPopulation().getGenerationCounter(), this.evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
-		textOutput.setText(visual);
+		textOutput.append(visual);
 	}
 
-	public void directeOutput(JTextArea jTextArea) {
+	public void directOutput(JTextArea jTextArea) {
 		this.textOutput = jTextArea;
 	}
 

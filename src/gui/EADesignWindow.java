@@ -45,7 +45,7 @@ public class EADesignWindow implements ActionListener{
 	 * @return the textArea_1
 	 */
 	public JTextArea getTextArea_1() {
-		return textArea_1;
+		return outputTextArea;
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class EADesignWindow implements ActionListener{
 	private JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
 	private JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
 	private final JRadioButton rdbtnElitismOn = new JRadioButton("on");
-	private JTextArea textArea_1;
+	private JTextArea outputTextArea;
 	
 	private JButton runButton = new JButton("Run");
 	private JComboBox<JLabel> terminationConditionJComboBox;
@@ -206,7 +206,7 @@ public class EADesignWindow implements ActionListener{
 		if (e.getSource() == runButton) {
 			try {
 				System.out.println(this.lblProblemInstance.getText());
-				Environment.runEA();
+				Environment.evolvePopulation();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -407,9 +407,11 @@ public class EADesignWindow implements ActionListener{
 		scrollPane.setBounds(9, 168, 530, 147);
 		myFrame.getContentPane().add(scrollPane);
 
-		textArea_1 = new JTextArea();
-		scrollPane.setViewportView(textArea_1);
-		textArea_1.setEditable(false);
+		outputTextArea = new JTextArea();
+		DefaultCaret caret = (DefaultCaret) outputTextArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		scrollPane.setViewportView(outputTextArea);
+		outputTextArea.setEditable(false);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(UIManager.getBorder("EditorPane.border"));
@@ -462,10 +464,6 @@ public class EADesignWindow implements ActionListener{
 		terminationParameterJTextField.setBounds(141, 362, 88, 25);
 		myFrame.getContentPane().add(terminationParameterJTextField);
 		terminationParameterJTextField.setColumns(10);
-
-		JTextArea textArea = new JTextArea();
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
 		survivorSelectionList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -585,6 +583,10 @@ public class EADesignWindow implements ActionListener{
 
 	public Object getRunButton() {
 		return this.runButton;
+	}
+
+	public JTextArea getOutputTextArea() {
+		return this.outputTextArea;
 	}
 
 }

@@ -54,22 +54,16 @@ public class EvolutionaryAlgorithm {
 	//if diakoptis at Dynamic Niching then this.scheme = new DynamicNiching;
 	public void parentSelection(Random aRandom) throws Exception{
 		//if (this.fitnessSharingScheme instanceof DynamicNiching)
-			//((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(population, 10);
+		//((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(population, 10);
 		parents = parentSelectionMethod.select(population, aRandom);
 	}
 
 	public void applyOperator(Random aRandom) throws Exception { //each pair gives two children
-		population.fitterTillEnd = population.fitterTillMu;
 		for (int i=0; i<population.getLambda(); i=i+2){
 			Individual[] children = variationOperator.operate(population.getPool()[parents[i]], population.getPool()[parents[i+1]], aRandom);
 			population.addOffspring(children[0], evaluator);
-			if (children[0].getFitness() > population.fitterTillEnd.getFitness())
-				population.fitterTillEnd = children[0];
-			if (children.length == 2) {
+			if (children.length == 2)
 				population.addOffspring(children[1], evaluator);
-				if (children[1].getFitness() > population.fitterTillEnd.getFitness())
-					population.fitterTillEnd = children[1];
-			}
 			else
 				population.addOffspring((Individual) children[0].clone(), evaluator);
 		}

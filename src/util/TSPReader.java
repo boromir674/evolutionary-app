@@ -348,7 +348,6 @@ public class TSPReader {
 	 * @return the path from root (eg "/TSP/gr17.tsp")  
 	 */
 	public static String decideOnFolder(String fileName) {
-		System.out.println(fileName);
 		if (fileName.substring(fileName.length()-4, fileName.length()).equals(".tsp"))
 			return "/TSP/"+fileName;
 		else if (fileName.substring(fileName.length()-4, fileName.length()).equals(".hcp"))

@@ -16,7 +16,6 @@ public class VarianceOperator {
 	// flags
 	boolean applicableToPermutation = false;
 	boolean applicableToDiscrete = false;
-	EvolutionaryAlgorithm evo;
 
 	public VarianceOperator(Recombination recombinationType, Mutation mutationType){
 		this.recombination = recombinationType;
@@ -55,18 +54,6 @@ public class VarianceOperator {
 				if (someChildren[i].getChromosome()[j] == null)
 					return true;
 		return false;
-	}
-	/**
-	 * @return the recombination
-	 */
-	public Recombination getRecombination() {
-		return recombination;
-	}
-	/**
-	 * @return the mutation
-	 */
-	public Mutation getMutation() {
-		return mutation;
 	}
 
 	private void setFlags(Object[] array){

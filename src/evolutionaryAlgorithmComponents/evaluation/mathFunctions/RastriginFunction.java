@@ -3,6 +3,7 @@ package evolutionaryAlgorithmComponents.evaluation.mathFunctions;
 import java.util.Properties;
 
 import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
+import exceptions.UnknownSolutionException;
 import interfaces.HasProperties;
 
 // This is an example evaluation. It is based on the Rastrigin. It is a maximization problem with a maximum of 10 for 
@@ -13,8 +14,6 @@ import interfaces.HasProperties;
 //	according to this base, thus Fitness = 10 - 10*(f-fbest)/Base
 
 public class RastriginFunction extends AbstractMathFunction implements HasProperties{
-	
-	private int cheatD;
 	
 	private final static String title = "Rastrigin Function";
 	// Evaluations budget
@@ -40,7 +39,6 @@ public class RastriginFunction extends AbstractMathFunction implements HasProper
 	// The Rastrigin function. The global minimum is 0.
 	@Override
 	public double f(double[] x) {
-		cheatD = x.length;
 		double sum = 0;
 		for(int i=0; i<x.length; i++)
 			sum += x[i]*x[i] - ALPHA*Math.cos(2*Math.PI*x[i]);
@@ -63,10 +61,7 @@ public class RastriginFunction extends AbstractMathFunction implements HasProper
 	}
 
 	@Override
-	public Object[] getSolutionVector(){
-		Double[] solution = new Double[cheatD];
-		for (int i=0; i<solution.length; i++)
-			solution[i] = 0.0;
-		return solution;
+	public Object[] getSolutionVector(int dimensionality) throws UnknownSolutionException {
+		return new Double[dimensionality];
 	}
 }

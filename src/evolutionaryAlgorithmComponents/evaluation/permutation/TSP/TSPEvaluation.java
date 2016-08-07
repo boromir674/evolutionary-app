@@ -1,7 +1,7 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
-import util.TSPReader;
 import evolutionaryAlgorithmComponents.Individual;
+import exceptions.UnknownSolutionException;
 import interfaces.DistanceCalculator;
 import interfaces.TSP;
 
@@ -30,8 +30,8 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 	}
 
 	@Override
-	public double getSolutionFitness() {
-		Integer[] vector = (Integer[])super.getSolutionVector();
+	public double getSolutionFitness(int dimensionality) throws UnknownSolutionException{
+		Integer[] vector = (Integer[])super.getSolutionVector(dimensionality);
 		double fitness = 0;
 		for (int i=0; i<vector.length; i++)
 			fitness += this.distance(vector[i], vector[(i+1)%vector.length]);

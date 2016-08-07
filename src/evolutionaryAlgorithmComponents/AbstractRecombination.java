@@ -10,6 +10,14 @@ public abstract class AbstractRecombination implements Recombination {
 	private final String title;
 	protected Random random;
 	
+	public Random getRandom() {
+		return random;
+	}
+
+	public void setRandom(Random random) {
+		this.random = random;
+	}
+
 	public AbstractRecombination(String title) {
 		this.title = title;
 	}

@@ -8,8 +8,6 @@ import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
 
 public class SphereFunction extends AbstractMathFunction implements HasProperties{
 	
-	private int cheatD;
-	
 	private final static String title = "Sphere Function";
 	// Evaluations budget
 	private final static int EVALS_LIMIT = 10000;
@@ -33,7 +31,6 @@ public class SphereFunction extends AbstractMathFunction implements HasPropertie
 
 	@Override
 	public double f(double[] x) {
-		cheatD = x.length;
 		// The standard sphere function. It has one minimum at 0.
 		double sum = 0;
 		for(int i=0; i<x.length; i++)
@@ -57,8 +54,8 @@ public class SphereFunction extends AbstractMathFunction implements HasPropertie
 	}
 
 	@Override
-	public Object[] getSolutionVector(){
-		Double[] solution = new Double[cheatD];
+	public Object[] getSolutionVector(int dimensionality){
+		Double[] solution = new Double[dimensionality];
 		for (int i=0; i<solution.length; i++)
 			solution[i] = 0.0;
 		return solution;

@@ -1,9 +1,9 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
-import util.TSPReader;
 import interfaces.ATSP;
 import interfaces.DistanceCalculator;
 import evolutionaryAlgorithmComponents.Individual;
+import exceptions.UnknownSolutionException;
 
 /**
  * Asymmetric traveling salesman problem (TSP)
@@ -12,7 +12,7 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 
 	private final static String title = "Asymmetric traveling salesman problem";
 
-	ATSPEvaluation(TSPReader aTSPReader,	DistanceCalculator aDistanceCalculator) {
+	public ATSPEvaluation(TSPReader aTSPReader,	DistanceCalculator aDistanceCalculator) {
 		super(aTSPReader, aDistanceCalculator, title);
 	}
 
@@ -21,7 +21,7 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 /*		if (super.myDistanceCalculator == null) {
 			if (super.fullMatrixFlag)
 				return super.fullMatrixDistance(node1, node2);
-			else
+			else		// TODO Auto-generated method stub
 				return (int) super.vector[this.linearIndex(node1-1, node2-1)];
 		}
 		else 
@@ -30,8 +30,8 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 	}
 
 	@Override
-	public double getSolutionFitness() {
-		Integer[] vector = (Integer[])super.getSolutionVector();
+	public double getSolutionFitness(int dimensionality) throws UnknownSolutionException {
+		Integer[] vector = (Integer[])super.getSolutionVector(dimensionality);
 		double fitness = 0;
 		for (int i=0; i<vector.length; i++)
 			fitness += this.distance(vector[i], vector[(i+1)%vector.length]);
@@ -46,5 +46,6 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 			fitness -= this.distance((int)anIndividual.getChromosome()[i], (int)anIndividual.getChromosome()[(i+1)%d]);
 		return fitness;
 	}
+
 
 }

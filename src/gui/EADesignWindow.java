@@ -41,118 +41,7 @@ import javax.swing.JButton;
 
 public class EADesignWindow implements ActionListener{
 
-	/**
-	 * @return the textArea_1
-	 */
-	public JTextArea getTextArea_1() {
-		return outputTextArea;
-	}
-
-	/**
-	 * @return the dJTextField
-	 */
-	public JTextField getdJTextField() {
-		return dJTextField;
-	}
-
-	/**
-	 * @return the lblProblemInstance
-	 */
-	public JLabel getLblProblemInstance() {
-		return lblProblemInstance;
-	}
-
-	/**
-	 * @return the lblDimensionality
-	 */
-	public JLabel getLblDimensionality() {
-		return lblDimensionality;
-	}
-
-	/**
-	 * @return the lblRepresentation
-	 */
-	public JLabel getLblRepresentation() {
-		return lblRepresentation;
-	}
-
-	/**
-	 * @return the lambdaJTextField
-	 */
-	public JTextField getLambdaJTextField() {
-		return lambdaJTextField;
-	}
-
-	/**
-	 * @return the muJTextField
-	 */
-	public JTextField getMuJTextField() {
-		return muJTextField;
-	}
-
-	/**
-	 * @return the recombinationRateJTextField
-	 */
-	public JTextField getRecombinationRateJTextField() {
-		return recombinationRateJTextField;
-	}
-
-	/**
-	 * @return the mutationRateJTextField
-	 */
-	public JTextField getMutationRateJTextField() {
-		return mutationRateJTextField;
-	}
-
-	/**
-	 * @return the recombinationJComboBox
-	 */
-	public JComboBox<JLabel> getRecombinationJComboBox() {
-		return recombinationJComboBox;
-	}
-
-	/**
-	 * @return the mutationJComboBox
-	 */
-	public JComboBox<JLabel> getMutationJComboBox() {
-		return mutationJComboBox;
-	}
-
-	/**
-	 * @return the parentSelectionList
-	 */
-	public JComboBox<JLabel> getParentSelectionList() {
-		return parentSelectionList;
-	}
-
-	/**
-	 * @return the survivorSelectionList
-	 */
-	public JComboBox<JLabel> getSurvivorSelectionList() {
-		return survivorSelectionList;
-	}
-
-	/**
-	 * @return the terminationConditionJComboBox
-	 */
-	public JComboBox<JLabel> getTerminationConditionJComboBox() {
-		return terminationConditionJComboBox;
-	}
-
-	/**
-	 * @return the terminationParameterJTextField
-	 */
-	public JTextField getTerminationParameterJTextField() {
-		return terminationParameterJTextField;
-	}
-
 	private JFrame myFrame;
-	/**
-	 * @return the frmEaRunner
-	 */
-	public JFrame getFrame() {
-		return myFrame;
-	}
 
 	private File file;
 	private String path;
@@ -161,8 +50,9 @@ public class EADesignWindow implements ActionListener{
 
 	private final static String[] elitistSelectionSet = new String[]{"MuPlusLambda", "DeterministicCrowding"};
 
-	final JLabel lblProblemInstance = new JLabel("");
-	private final JLabel lblDimensionality = new JLabel("d: ");
+	final JLabel problemInstanceLabel = new JLabel("");
+	private final JLabel dimensionalityLabel = new JLabel("d: ");
+	private JLabel bestFitnessJLabel = new JLabel("");
 
 	private JMenu mnRealValue = new JMenu("Real Value");
 	private JMenu mnPermutation = new JMenu("Permutation");
@@ -205,7 +95,7 @@ public class EADesignWindow implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == runButton) {
 			try {
-				System.out.println(this.lblProblemInstance.getText());
+				System.out.println("Evaluation: " + this.problemInstanceLabel.getText());
 				Environment.evolvePopulation();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -322,8 +212,8 @@ public class EADesignWindow implements ActionListener{
 
 		survivorSelectionList.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getSurvivorSelectionMethods())));
 		panel_1.add(survivorSelectionList);
-		lblProblemInstance.setBounds(272, 136, 267, 20);
-		myFrame.getContentPane().add(lblProblemInstance);
+		problemInstanceLabel.setBounds(272, 136, 267, 20);
+		myFrame.getContentPane().add(problemInstanceLabel);
 		final ButtonGroup group = new ButtonGroup();
 
 		JPanel panel_5 = new JPanel();
@@ -347,7 +237,6 @@ public class EADesignWindow implements ActionListener{
 		panel_5.add(panel_6, BorderLayout.EAST);
 
 		panel_4.setLayout(new GridLayout(2, 1, 0, 0));
-
 
 		rdbtnElitismOn.setFont(UIManager.getFont("RadioButton.font"));
 		rdbtnElitismOn.setToolTipText("Satisfied either by natural selection or by force");
@@ -380,9 +269,9 @@ public class EADesignWindow implements ActionListener{
 		panel_3.add(label_1);
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setToolTipText("number of children to produce per generation (should be even number)");
-		panel_3.add(lblDimensionality);
-		lblDimensionality.setToolTipText("Dimensionality");
-		lblDimensionality.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_3.add(dimensionalityLabel);
+		dimensionalityLabel.setToolTipText("Dimensionality");
+		dimensionalityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(UIManager.getBorder("TextArea.border"));
@@ -464,6 +353,9 @@ public class EADesignWindow implements ActionListener{
 		terminationParameterJTextField.setBounds(141, 362, 88, 25);
 		myFrame.getContentPane().add(terminationParameterJTextField);
 		terminationParameterJTextField.setColumns(10);
+		
+		bestFitnessJLabel.setBounds(333, 327, 207, 21);
+		myFrame.getContentPane().add(bestFitnessJLabel);
 
 		survivorSelectionList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -502,7 +394,7 @@ public class EADesignWindow implements ActionListener{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					lblProblemInstance.setText(e.getActionCommand());
+					problemInstanceLabel.setText(e.getActionCommand());
 					lblRepresentationDescription.setText(e.getActionCommand());
 					String dim = util.Util.parseDimensions(e.getActionCommand());
 					dJTextField.setText(dim);
@@ -530,14 +422,16 @@ public class EADesignWindow implements ActionListener{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					lblProblemInstance.setText(e.getActionCommand());
+					problemInstanceLabel.setText(e.getActionCommand());
 					lblRepresentationDescription.setText(e.getActionCommand());
 					String dim = util.Util.parseDimensions(e.getActionCommand());
 					dJTextField.setText(dim);
 					if (!dim.isEmpty())
 						dJTextField.setEnabled(false);
 					else
-						dJTextField.setEnabled(true);						
+						dJTextField.setEnabled(true);
+					//String text = this.
+					//bestFitnessJLabel.setText(text);
 				}
 			});
 			anEvaluationSubmenu.add(temp);
@@ -587,6 +481,116 @@ public class EADesignWindow implements ActionListener{
 
 	public JTextArea getOutputTextArea() {
 		return this.outputTextArea;
+	}
+	/**
+	 * @return the textArea_1
+	 */
+	public JTextArea getTextArea_1() {
+		return outputTextArea;
+	}
+
+	/**
+	 * @return the dJTextField
+	 */
+	public JTextField getdJTextField() {
+		return dJTextField;
+	}
+
+	/**
+	 * @return the lblProblemInstance
+	 */
+	public JLabel getLblProblemInstance() {
+		return problemInstanceLabel;
+	}
+
+	/**
+	 * @return the lblDimensionality
+	 */
+	public JLabel getLblDimensionality() {
+		return dimensionalityLabel;
+	}
+
+	/**
+	 * @return the lblRepresentation
+	 */
+	public JLabel getLblRepresentation() {
+		return lblRepresentation;
+	}
+
+	/**
+	 * @return the lambdaJTextField
+	 */
+	public JTextField getLambdaJTextField() {
+		return lambdaJTextField;
+	}
+
+	/**
+	 * @return the muJTextField
+	 */
+	public JTextField getMuJTextField() {
+		return muJTextField;
+	}
+
+	/**
+	 * @return the recombinationRateJTextField
+	 */
+	public JTextField getRecombinationRateJTextField() {
+		return recombinationRateJTextField;
+	}
+
+	/**
+	 * @return the mutationRateJTextField
+	 */
+	public JTextField getMutationRateJTextField() {
+		return mutationRateJTextField;
+	}
+
+	/**
+	 * @return the recombinationJComboBox
+	 */
+	public JComboBox<JLabel> getRecombinationJComboBox() {
+		return recombinationJComboBox;
+	}
+
+	/**
+	 * @return the mutationJComboBox
+	 */
+	public JComboBox<JLabel> getMutationJComboBox() {
+		return mutationJComboBox;
+	}
+
+	/**
+	 * @return the parentSelectionList
+	 */
+	public JComboBox<JLabel> getParentSelectionList() {
+		return parentSelectionList;
+	}
+
+	/**
+	 * @return the survivorSelectionList
+	 */
+	public JComboBox<JLabel> getSurvivorSelectionList() {
+		return survivorSelectionList;
+	}
+
+	/**
+	 * @return the terminationConditionJComboBox
+	 */
+	public JComboBox<JLabel> getTerminationConditionJComboBox() {
+		return terminationConditionJComboBox;
+	}
+
+	/**
+	 * @return the terminationParameterJTextField
+	 */
+	public JTextField getTerminationParameterJTextField() {
+		return terminationParameterJTextField;
+	}
+	/**
+	 * @return the frmEaRunner
+	 */
+	public JFrame getFrame() {
+		return myFrame;
 	}
 
 }

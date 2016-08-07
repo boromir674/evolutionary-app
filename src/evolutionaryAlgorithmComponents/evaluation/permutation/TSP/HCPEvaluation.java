@@ -1,9 +1,9 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
-import util.TSPReader;
 import interfaces.DistanceCalculator;
 import interfaces.HCP;
 import evolutionaryAlgorithmComponents.Individual;
+import exceptions.UnknownSolutionException;
 
 /**
  * Hamiltonian cycle problem (HCP).
@@ -12,7 +12,7 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 
 	private final static String title = "Hamiltonian cycle problem";
 	private double[][] edgeList;
-	HCPEvaluation(TSPReader aTSPReader, DistanceCalculator aDistanceCalculator) {
+	public HCPEvaluation(TSPReader aTSPReader, DistanceCalculator aDistanceCalculator) {
 		super(aTSPReader, aDistanceCalculator, title);
 		edgeList = aTSPReader.get2DDataArray();
 	}
@@ -33,8 +33,8 @@ public class HCPEvaluation extends AbstractTSPLIBEvaluation implements HCP{
 	}
 
 	@Override
-	public double getSolutionFitness() {
-		Integer[] vector = (Integer[])super.getSolutionVector();
+	public double getSolutionFitness(int dimensionality) throws UnknownSolutionException{
+		Integer[] vector = (Integer[])super.getSolutionVector(dimensionality);
 		double fitness = 0;
 		for (int i=0; i<vector.length; i++){
 			try {

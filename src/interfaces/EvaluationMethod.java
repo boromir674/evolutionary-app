@@ -1,5 +1,7 @@
 package interfaces;
 
+import exceptions.UnknownSolutionException;
+
 public interface EvaluationMethod extends EvolutionaryAlgorithmComponent, FitnessCalculator {
 	/**
 	 * Returns the maximum fitness value that has been encountered so far.
@@ -20,7 +22,7 @@ public interface EvaluationMethod extends EvolutionaryAlgorithmComponent, Fitnes
 	/**
 	 * This method should return an array which represents the vector containing the solution to the 
 	 * original problem. This vector will naturally correspond also to the best fitness value.  
-	 * @return the solution vector if it known, null otherwise.
+	 * @return the solution vector if it is known, null otherwise.
 	 */
-	public Object[] getSolutionVector();
+	public Object[] getSolutionVector(int dimensionality) throws UnknownSolutionException;
 }

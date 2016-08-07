@@ -24,7 +24,7 @@ public final class Environment extends Thread{
 
 	final static LibraryModel model = new LibraryModel();
 	final static Experiment exp1 = new Experiment();
-	static EADesignWindow eaWindow = new EADesignWindow();
+	
 	Thread printer = new EAPrinter();
 	
 	@Override
@@ -37,7 +37,7 @@ public final class Environment extends Thread{
 		TerminationCondition cond = Factory.getTerminationCondition(eaWindow.getTerminationConditionJComboBox().getSelectedItem().toString(), eaWindow.getTerminationParameterJTextField().getText());
 		exp1.setEvolutionaryAlgorithm(parse());
 		exp1.setTerminationCondition(cond);
-		try {exp1.performOptimizationTask();}
+		try {exp1.optimize();}
 		catch (Exception e) {e.printStackTrace();}
 	}
 

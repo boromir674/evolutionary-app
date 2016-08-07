@@ -6,13 +6,23 @@ package util;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPProblemFactory;
+import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.ATSPEvaluation;
+import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.HCPEvaluation;
+import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPEvaluation;
+import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPReader;
+import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.CeilingEuclidean;
+import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.Euclidean;
+import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.GeographicalDistance;
+import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.ManhattanDistance;
+import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.Maximum;
+import evolutionaryAlgorithmComponents.evaluation.permutation.distanceCalculators.PseudoEuclidean;
 import evolutionaryAlgorithmComponents.representation.MultipleSigmasRepresentation;
 import evolutionaryAlgorithmComponents.representation.MultipleSigmasWithAlphasRepresentation;
 import evolutionaryAlgorithmComponents.representation.OneSigmaPerIndividual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
 import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 import exceptions.FailedToParseException;
+import interfaces.DistanceCalculator;
 import interfaces.EvaluationMethod;
 import interfaces.Mutation;
 import interfaces.ParentSelection;
@@ -46,11 +56,9 @@ public final class Factory {
 				e.printStackTrace();
 			} 
 		} else {
-			TSPProblemFactory fac = new TSPProblemFactory();
 			try {
-				evalMethod = fac.produceTSPProblem(anEvaluationName);
+				evalMethod = produceTSPProblem(anEvaluationName);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -107,7 +115,7 @@ public final class Factory {
 		return (Mutation) Class.forName(s1+aMutationName.substring(0, aMutationName.length()-offset)).getConstructor(double.class).newInstance(prob);
 	}
 
-	// SUPPORTED : RealValue (and its sub-variants)and Permutation
+	// SUPPORTED : RealValue (1σ, n-σ,..) and Permutation
 	public final static Representation getRepresentation(String aTSPSampleProblem){
 		//String s = "evolutionaryAlgorithmComponents.representation.";
 		String s = util.Util.parseDimensions(aTSPSampleProblem);
@@ -135,6 +143,40 @@ public final class Factory {
 			offset = 5;
 		String s = "simulationComponents.terminationConditions.";
 		return (TerminationCondition) Class.forName(s+aTerminationCondition.substring(0, aTerminationCondition.length()-offset)).getConstructor(String.class).newInstance(numericalParameter);
+	}
+	
+	private static EvaluationMethod produceTSPProblem(String path) throws Exception {
+		TSPReader reader = new TSPReader();
+		reader.parseFile(path);
+		EvaluationMethod problem = null;
+		DistanceCalculator calculator = null;
+
+		if (reader.getEdgeWeightType().equals("EUC_2D") || reader.getEdgeWeightType().equals("EUC_3D"))
+			calculator = new Euclidean();
+		else if (reader.getEdgeWeightType().equals("MAX_2D") || reader.getEdgeWeightType().equals("MAX_3D"))
+			calculator = new Maximum();
+		else if (reader.getEdgeWeightType().equals("MAN_2D") || reader.getEdgeWeightType().equals("MAN_3D"))
+			calculator = new ManhattanDistance();
+		else if (reader.getEdgeWeightType().equals("GEO"))
+			calculator = new GeographicalDistance();
+		else if (reader.getEdgeWeightType().equals("ATT"))
+			calculator = new PseudoEuclidean();
+		else if (reader.getEdgeWeightType().equals("CEIL_2D"))
+			calculator = new CeilingEuclidean();
+
+		if (reader.getType().equals("TSP"))
+			problem = new TSPEvaluation(reader, calculator);
+		else if (reader.getType().equals("HCP"))
+			problem = new HCPEvaluation(reader, calculator);
+		else if (reader.getType().equals("ATSP"))
+			problem = new ATSPEvaluation(reader, calculator);
+		else if (reader.getEdgeWeightType().equals("SOP")){
+			//TODO problem = new SOPEvaluation(reader, calculator);
+		}
+		else if (reader.getEdgeWeightType().equals("CVRP")) {
+			//TODO problem = new CVRPEvaluation(reader, calculator);
+		}
+		return problem;
 	}
 
 }

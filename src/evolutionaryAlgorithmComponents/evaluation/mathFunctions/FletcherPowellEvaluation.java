@@ -12,8 +12,8 @@ import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
 // Base performance is calculated as the distance of the expected fitness of a random search (with the same amount of available
 //	evaluations) on the F&P function to the function minimum, thus Base = E[f_best_random] - ftarget. Fitness is scaled
 //	according to this base, thus Fitness = 10 - 10*(f-fbest)/Base
-@Deprecated
-public class FletcherPowellEvaluation extends AbstractMathFunction implements HasProperties{
+
+public class FletcherPowellEvaluation extends AbstractMathFunction implements HasProperties {
 
 	private final static String title = "Fletcher Powel Function";
 	// Evaluations budget
@@ -142,14 +142,14 @@ public class FletcherPowellEvaluation extends AbstractMathFunction implements Ha
 	}
 
 	@Override
-	public Object[] getSolutionVector() throws NullPointerException {
+	public Object[] getSolutionVector(int dimensionality) throws NullPointerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	/* (non-Javadoc)
 	 * @see evolutionaryAlgorithmComponents.evaluation.realValueEvaluations.AbstractMathFunction#getSolutionFitness()
 	 */
-	@Override
+	//@Override
 	public double getSolutionFitness() {
 		return ftarget;
 	}

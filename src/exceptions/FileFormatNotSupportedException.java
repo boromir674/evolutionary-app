@@ -1,6 +1,6 @@
 package exceptions;
 
-import util.TSPReader;
+import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPReader;
 
 /**
  * This exception should be thrown whenever the input file has an extension that is not

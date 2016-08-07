@@ -7,6 +7,8 @@ import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import exceptions.UnknownSolutionException;
+
 public class Individual implements Comparable<Individual>{
 
 	protected double fitness; // the fitness value of the Individual's chromosome
@@ -17,7 +19,7 @@ public class Individual implements Comparable<Individual>{
 
 	public Individual() {
 	}
-	
+
 	@Override
 	public int compareTo(Individual ind1) {
 		double fit1 = this.getFitness();
@@ -40,23 +42,6 @@ public class Individual implements Comparable<Individual>{
 	public void initializeRandomly(Representation representation, Random aRandom) throws Exception{
 		chromosome = representation.generateRandomChromosome(aRandom);
 		this.representation = representation;
-	}
-	//TODO generalize..
-	public void printChromosome(){
-		int offset;
-		for (int i=0; i< chromosome.length; i++) 
-			if (chromosome instanceof Double[])
-				System.out.format("%.2f ", chromosome[i]);
-			else { //if (chromosome instanceof Integer[])
-				try {
-					Integer[] vector = (Integer[])(this.pop.evo.getEvaluator()).getSolutionVector();
-					offset = ArrayUtils.indexOf(chromosome, vector[0]);
-				} catch (NullPointerException e) {
-					offset = ArrayUtils.indexOf(chromosome, 1);
-				}
-				System.out.format("%d ", chromosome[(i+offset) % chromosome.length]);
-			}
-		System.out.println();
 	}
 
 	void incrementAge(){
@@ -89,9 +74,9 @@ public class Individual implements Comparable<Individual>{
 	void setChromosome(Object[] aChromosome) {
 		this.chromosome = aChromosome;
 	}
-	
+
 	void setRepresentation(Representation aRepresentation) {
 		this.representation = aRepresentation;
 	}
-	
+
 }

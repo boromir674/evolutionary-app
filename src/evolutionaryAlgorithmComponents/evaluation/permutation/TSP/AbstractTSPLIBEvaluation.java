@@ -1,12 +1,21 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
-import util.TSPReader;
 import interfaces.DistanceCalculator;
 import interfaces.TSPLIBProblem;
 import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
+import exceptions.UnknownSolutionException;
 
 abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod implements TSPLIBProblem {
 	
+	/* (non-Javadoc)
+	 * @see interfaces.EvaluationMethod#getSolutionVector(int)
+	 */
+	@Override
+	public Object[] getSolutionVector(int dimensionality) throws UnknownSolutionException {
+		if (solution == null)
+			throw new UnknownSolutionException();
+		return this.solution;
+	}
 	private String name;
 	protected int dimension;
 	protected DistanceCalculator myDistanceCalculator;
@@ -27,15 +36,11 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod impleme
 			triangular = aTSPReader.getEdgeWeightFormat();
 		matrix = aTSPReader.get2DDataArray();
 		vector = aTSPReader.getVector();
-		solution = aTSPReader.getSolutionTour();
-	}
-
-	/* (non-Javadoc)
-	 * @see interfaces.EvaluationMethod#getSolutionVector()
-	 */
-	@Override
-	public Object[] getSolutionVector() throws NullPointerException{
-		return solution;
+		try {
+			solution = aTSPReader.getSolutionTour();
+		} catch (UnknownSolutionException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

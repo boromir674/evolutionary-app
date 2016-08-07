@@ -4,7 +4,7 @@ import simulationComponents.Experiment;
 
 public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 
-	private final static String title = "Fitness improvement over evaluations";
+	private final static String title = "Fitness stall over evaluations";
 	private int evaluationsSpan;
 	private int evaluationsCounter = 0;
 	private double currentBest = Double.NEGATIVE_INFINITY;

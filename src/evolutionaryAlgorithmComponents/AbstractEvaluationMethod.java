@@ -1,5 +1,6 @@
 package evolutionaryAlgorithmComponents;
 
+import exceptions.UnknownSolutionException;
 import interfaces.EvaluationMethod;
 
 public abstract class AbstractEvaluationMethod implements EvaluationMethod {
@@ -18,8 +19,6 @@ public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 
 	protected abstract double calculateFitness(Individual anIndividual);
 
-	EvolutionaryAlgorithm myEvolutionaryAlgorithm;
-
 	private final String title;
 	protected double bestScoreEncountered = Double.NEGATIVE_INFINITY;
 	protected int evaluationsUsed = 0;
@@ -27,16 +26,12 @@ public abstract class AbstractEvaluationMethod implements EvaluationMethod {
 	public AbstractEvaluationMethod(String title) {
 		this.title = title;
 	}
-	//TODO computeFitness {
-	//update evaluations used
-	//update ebstScoreEncountered
-	//	}
 	
 	/**
 	 * @return the fitness value of the chromosome that contains the optimum solution
 	 * @throws Exception 
 	 */
-	public abstract double getSolutionFitness();
+	public abstract double getSolutionFitness(int dimensionality) throws UnknownSolutionException;
 	
 	/* (non-Javadoc)
 	 * @see interfaces.EvolutionaryAlgorithmComponent#getTitle()

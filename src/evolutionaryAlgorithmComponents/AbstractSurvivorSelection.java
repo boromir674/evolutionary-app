@@ -9,6 +9,14 @@ public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 	private final String title;
 	protected Random random;
 	
+	public Random getRandom() {
+		return random;
+	}
+
+	public void setRandom(Random random) {
+		this.random = random;
+	}
+
 	public AbstractSurvivorSelection(String title) {
 		this.title = title;
 	}
@@ -25,4 +33,5 @@ public abstract class AbstractSurvivorSelection implements SurvivorSelection{
 	 * @return true if the answer is yes, false if the answer is no.
 	 */
 	protected abstract boolean forceElitism();
+
 }

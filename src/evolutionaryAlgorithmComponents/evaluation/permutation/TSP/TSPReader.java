@@ -1,12 +1,14 @@
-package util;
+package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import exceptions.FileFormatNotSupportedException;
+import exceptions.UnknownSolutionException;
 
 /**
  * An utility class that is used to parse .tsp files.
@@ -96,23 +98,32 @@ public class TSPReader {
 			this.parseInfoUntilSection();}
 		this.parseAllData();
 		bf.close();
-		try {
-			parseOptimumTour();
-		} catch (IOException e){
-			System.out.println(this.name + " has no opt");
-		}
 	}
 
-	private void parseOptimumTour() throws Exception{
+	private Integer[] parseOptimumTour() throws UnknownSolutionException {
+		String line;
 		String path1 = this.path.substring(0, this.path.indexOf('.')) + ".opt.tour";
-		reader = new FileReader(path1);
-		bf = new BufferedReader(reader);
-		solutionTour = new Integer[dimension];
-		String line = bf.readLine();
-		while (!line.equals("TOUR_SECTION")) {
+		try {
+			reader = new FileReader(path1);
+			bf = new BufferedReader(reader);
 			line = bf.readLine();
+		} catch (Exception e) {
+			throw new UnknownSolutionException();
 		}
-		line = bf.readLine().trim();
+		solutionTour = new Integer[dimension];
+		while (!line.equals("TOUR_SECTION")) {
+			try {
+				line = bf.readLine();
+			} catch (IOException e) {
+
+			}
+		}
+		try {
+			line = bf.readLine().trim();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String[] pLine;
 		int i = 0;
 		while (!(line.equals("-1") || line == null || line.equals("EOF") || line.trim().equals(""))) {;
@@ -121,9 +132,20 @@ public class TSPReader {
 			for (j=0; j<pLine.length; j++)
 				solutionTour[i+j] = Integer.parseInt(pLine[j].trim());
 			i += j;
-			line = bf.readLine().trim();
+			try {
+				line = bf.readLine().trim();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		bf.close();
+		try {
+			bf.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return solutionTour;
 	}
 
 	private void parseFixedEdgeSection() throws Exception {
@@ -279,7 +301,7 @@ public class TSPReader {
 		vCounter += i;
 	}
 
-	private static String[] prepareForParsing(String aString) throws Exception{
+	private static String[] prepareForParsing(String aString) {
 		char[] s = aString.toCharArray();
 		int l = s.length;
 		int i = -1;
@@ -304,8 +326,6 @@ public class TSPReader {
 		String temp = new String(s);
 		temp = temp.trim();
 		String[] pLine = temp.split("w");
-		if (pLine.length == 0)
-			throw new Exception("Zero length after splitting");
 		return pLine;
 	}
 
@@ -452,8 +472,9 @@ public class TSPReader {
 
 	/**
 	 * @return the solutionTour
+	 * @throws UnknownSolutionException 
 	 */
-	public Integer[] getSolutionTour() {
-		return solutionTour;
+	public Integer[] getSolutionTour() throws UnknownSolutionException {
+		return parseOptimumTour();
 	}
 }

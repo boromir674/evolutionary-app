@@ -32,7 +32,6 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import simulationComponents.Environment;
 import util.LibraryModel;
 
 import java.awt.Font;
@@ -96,7 +95,7 @@ public class EADesignWindow implements ActionListener{
 		if (e.getSource() == runButton) {
 			try {
 				System.out.println("Evaluation: " + this.problemInstanceLabel.getText());
-				Environment.evolvePopulation();
+				//Environment.evolvePopulation();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

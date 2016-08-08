@@ -6,11 +6,11 @@ import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
  * @author kostas
  *
  */
-public class Rosenbrock extends AbstractMathFunction {
+public class RosenbrockFunction extends AbstractMathFunction {
 	
 	final static String title = "Rosenbrock Fuction";
 	
-	public Rosenbrock() {
+	public RosenbrockFunction() {
 		super(title);
 	}
 

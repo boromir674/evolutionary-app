@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents;
 
-import java.util.Random;
-
 import interfaces.ParentSelection;
 
 public abstract class AbstractParentSelection implements ParentSelection {

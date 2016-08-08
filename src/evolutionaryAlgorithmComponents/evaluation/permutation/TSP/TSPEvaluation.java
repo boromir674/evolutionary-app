@@ -3,12 +3,11 @@ package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 import evolutionaryAlgorithmComponents.Individual;
 import exceptions.UnknownSolutionException;
 import interfaces.DistanceCalculator;
-import interfaces.TSP;
 
 /**
  * Symmetric traveling salesman problem (TSP)
  */
-public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
+public class TSPEvaluation extends AbstractTSPLIBEvaluation {
 
 	private final static String title = "Symmetric traveling salesman problem";
 
@@ -16,7 +15,6 @@ public class TSPEvaluation extends AbstractTSPLIBEvaluation implements TSP{
 		super(aTSPReader, aDistanceCalculator, title);
 	}
 
-	@Override
 	public int distance(int node1, int node2){
 		//super.checkNodes(node1, node2);
 		if (super.myDistanceCalculator == null) {

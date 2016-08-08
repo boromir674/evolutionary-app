@@ -1,6 +1,5 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
-import interfaces.ATSP;
 import interfaces.DistanceCalculator;
 import evolutionaryAlgorithmComponents.Individual;
 import exceptions.UnknownSolutionException;
@@ -8,7 +7,7 @@ import exceptions.UnknownSolutionException;
 /**
  * Asymmetric traveling salesman problem (TSP)
  */
-public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
+public class ATSPEvaluation extends AbstractTSPLIBEvaluation {
 
 	private final static String title = "Asymmetric traveling salesman problem";
 
@@ -16,7 +15,6 @@ public class ATSPEvaluation extends AbstractTSPLIBEvaluation implements ATSP{
 		super(aTSPReader, aDistanceCalculator, title);
 	}
 
-	@Override
 	public int distance(int node1, int node2){
 /*		if (super.myDistanceCalculator == null) {
 			if (super.fullMatrixFlag)

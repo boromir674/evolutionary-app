@@ -3,10 +3,10 @@ package evolutionaryAlgorithmComponents.evaluation.mathFunctions;
 import evolutionaryAlgorithmComponents.evaluation.AbstractMathFunction;
 import exceptions.UnknownSolutionException;
 
-public class Step extends AbstractMathFunction {
+public class StepFunction extends AbstractMathFunction {
 	
 	private final static String title = "Step Function";
-	public Step() {
+	public StepFunction() {
 		super(title);
 	}
 

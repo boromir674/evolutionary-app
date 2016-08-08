@@ -1,7 +1,6 @@
 package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -121,7 +120,6 @@ public class TSPReader {
 		try {
 			line = bf.readLine().trim();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String[] pLine;
@@ -135,14 +133,12 @@ public class TSPReader {
 			try {
 				line = bf.readLine().trim();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		try {
 			bf.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return solutionTour;

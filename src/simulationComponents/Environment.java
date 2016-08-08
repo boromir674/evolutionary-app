@@ -29,10 +29,9 @@ public final class Environment extends Thread{
 	
 	@Override
 	public void run() {
-		eaWindow.getFrame().setVisible(true);
-		exp1.directOutput(eaWindow.getOutputTextArea());
+		//exp1.directOutput(eaWindow.getOutputTextArea());
 	}
-
+/*
 	public static void evolvePopulation() throws Exception {
 		TerminationCondition cond = Factory.getTerminationCondition(eaWindow.getTerminationConditionJComboBox().getSelectedItem().toString(), eaWindow.getTerminationParameterJTextField().getText());
 		exp1.setEvolutionaryAlgorithm(parse());
@@ -40,7 +39,8 @@ public final class Environment extends Thread{
 		try {exp1.optimize();}
 		catch (Exception e) {e.printStackTrace();}
 	}
-
+*/
+/*
 	private static EvolutionaryAlgorithm parse() throws FailedToParseException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IncompatibleComponentsException{
 		EvaluationMethod evaluation = Factory.getEvaluationMethod(eaWindow.getLblProblemInstance().getText());
 		Population population = new Population(Integer.parseInt(eaWindow.getMuJTextField().getText()), Integer.parseInt(eaWindow.getLambdaJTextField().getText()));
@@ -54,6 +54,6 @@ public final class Environment extends Thread{
 		else 
 			representation = Factory.getRepresentation(eaWindow.getLblProblemInstance().getText());
 		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);		
-	}
+	}*/
 
 }

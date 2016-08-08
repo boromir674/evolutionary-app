@@ -1,7 +1,5 @@
 package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 
-import java.util.Random;
-
 public class RoundRobinTournamentSelectionWithElitism extends RoundRobinTournamentSelection {
 	
 	/* (non-Javadoc)

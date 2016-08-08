@@ -2,17 +2,23 @@ package evolutionaryAlgorithmComponents;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
+import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
+import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
+import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.DeterministicCrowding;
+import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
+import exceptions.IncompatibleComponentsException;
 import exceptions.SortsInPlaceThePopulationException;
 
 public class EARunner {
-
+	
 	private Random random;
 	private EvolutionaryAlgorithm ea;
 
 	private int[] _parents;
 	private VarianceOperator varOp;
 	private int[] _survivors;
-
+	
 	public EARunner(Random random) {
 		this.random = random;
 	}
@@ -20,17 +26,24 @@ public class EARunner {
 	public void setRandom(Random aRandom) {
 		this.random = aRandom;
 		if (ea != null) {
-			((AbstractRecombination) this.ea.getRecombination()).setRandom(this.random);
-			((AbstractSurvivorSelection) this.ea.getSurvivorSelectionMethod()).setRandom(this.random);
+			ea.random = aRandom;
+			ea.updateRandomReferences();
 		}
 	}
 
 	public void setEA(EvolutionaryAlgorithm ea) {
-		this.ea = ea;
-		((AbstractRecombination) this.ea.getRecombination()).setRandom(this.random);
-		((AbstractSurvivorSelection) this.ea.getSurvivorSelectionMethod()).setRandom(this.random);
+		try {
+			this.ea = ea;
+			checkComponentsCompatibility();
+			ea.getPop().eaRunnerRef = this;
+			ea.random = this.random;
+			ea.updateRandomReferences();
+		} catch (IncompatibleComponentsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
+// -------- TYPICAL STEPS OF AN EVOLUTIONARY PROCEDURE -------------------
 	public void randomInitialization() throws Exception{
 		ea.getEval().reInitialize();
 		ea.getPop().initializeRandom(ea.getRepresentation(), random, ea.getEval());
@@ -41,7 +54,6 @@ public class EARunner {
 		//((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(pop, 10);
 		_parents = ea.getParentSelectionMethod().select(ea.getPop(), random);
 	}
-
 	public void applyOperator() throws Exception { //each pair gives two children
 		for (int i=0; i<ea.getPop().getLambda(); i=i+2){
 			Individual[] children = varOp.operate(ea.getPop().getPool()[_parents[i]], ea.getPop().getPool()[_parents[i+1]], random);
@@ -52,7 +64,6 @@ public class EARunner {
 				ea.getPop().addOffspring((Individual) children[0].clone(), ea.getEval());
 		}
 	}
-
 	public void survivorSelection() throws Exception {
 		this.ea.getPop().generationCount ++;
 		try {
@@ -65,7 +76,7 @@ public class EARunner {
 			if (ea.getPop().fitterTillMu.getFitness() < ea.getPop().fitterTillEnd.getFitness())
 				ea.getPop().forceFitter();
 	}
-
+// --------------------------------------------------------------------------
 	public void printInfo(){
 		System.out.println("\nEvolutionary Algorithm deployed with components:");
 		System.out.println("Evaluation: " + ea.getEval().getTitle());
@@ -80,5 +91,21 @@ public class EARunner {
 	
 	public int[] getParents(){
 		return this._parents;
+	}
+	public EvolutionaryAlgorithm getEA() {
+		return this.ea;
+	}
+	
+	private void checkComponentsCompatibility() throws IncompatibleComponentsException {
+		if (ea.getPop().getLambda() < ea.getPop().getMu() && ea.getSurvivorSelectionMethod() instanceof MuCommaLambda)
+			throw new IncompatibleComponentsException("children less than parents");
+		if (ea.getRepresentation() instanceof PermutationRepresentation && !varOp.applicableToPermutation)
+			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
+		if (ea.getRepresentation() instanceof AbstractIntegerRepresentation && !varOp.applicableToDiscrete)
+			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
+		if (ea.getRepresentation() instanceof AbstractRealValueRepresentation && varOp.applicableToDiscrete)
+			throw new IncompatibleComponentsException("real value representation, but discrete operator");
+		if (ea.getSurvivorSelectionMethod() instanceof DeterministicCrowding && ea.getPop().getMu() != ea.getPop().getLambda())
+			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands: μ=λ");
 	}
 }

@@ -18,12 +18,12 @@ public class Population implements Cloneable{
 	private int lambda; // number of offsprings to create on every generation
 	private Individual[] pool; // parents and children (offsprings)
 	int generationCount;
-	EvolutionaryAlgorithm evo;
 	private int offspringStoreIndex;
 	private int parentStoreIndex;
 	Individual fitterTillMu;
 	Individual fitterTillEnd;
 	private Random cheatRandom;
+	EARunner eaRunnerRef;
 	
 	public Population(int mu, int lambda){
 		this.mu = mu;
@@ -64,9 +64,6 @@ public class Population implements Cloneable{
 	}
 	public int getGenerationCounter(){
 		return generationCount;
-	}
-	public EvolutionaryAlgorithm getEvolutionaryAlgorithm(){
-		return evo;
 	}
 	public int getMu() {
 		return mu;
@@ -109,6 +106,10 @@ public class Population implements Cloneable{
 		parentStoreIndex = (parentStoreIndex + 1) % mu;
 		if (in.getFitness() > fitterTillMu.getFitness())
 			fitterTillMu = in;
+	}
+
+	public int[] getParents() {
+		return eaRunnerRef.getParents();
 	}
 	
 }

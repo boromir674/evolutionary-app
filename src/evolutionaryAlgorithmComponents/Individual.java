@@ -5,10 +5,6 @@ import interfaces.EvaluationMethod;
 
 import java.util.Random;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import exceptions.UnknownSolutionException;
-
 public class Individual implements Comparable<Individual>{
 
 	protected double fitness; // the fitness value of the Individual's chromosome

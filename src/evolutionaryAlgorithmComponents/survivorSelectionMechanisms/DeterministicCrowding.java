@@ -3,10 +3,9 @@ package evolutionaryAlgorithmComponents.survivorSelectionMechanisms;
 import java.util.Random;
 
 import util.Util;
-import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.AbstractSurvivorSelection;
 import evolutionaryAlgorithmComponents.Population;
-
+@Deprecated
 public class DeterministicCrowding extends AbstractSurvivorSelection {
 	
 	// S.W. Mahfoud. Crowding and preselection revisited. In Manner and Manderick, pages 27-36
@@ -20,13 +19,13 @@ public class DeterministicCrowding extends AbstractSurvivorSelection {
 		super(title);
 		this.rand = aRandom;
 	}
-
+	
 	@Override
 	public int[] select(Population pop) throws Exception {
-		int[] parents = pop.getEvolutionaryAlgorithm().getParents();
+		int[] parents = pop.getParents();
 		Util.shuffleArray(parents, rand);
 		int[] survivors = new int[pop.getMu()];
-		for (int i=0; i<survivors.length; i++)
+		/*for (int i=0; i<survivors.length; i++)
 			survivors[i] = parents[i];
 		for (int i=0; i<pop.getLambda(); i=i+2) {
 			double distanceOf11Plus22 = ((AbstractRepresentation)pop.getEvolutionaryAlgorithm().getRepresentation()).genotypicDistance(pop.getPool()[i+pop.getMu()], pop.getPool()[parents[i]]) +
@@ -44,7 +43,7 @@ public class DeterministicCrowding extends AbstractSurvivorSelection {
 				if (pop.getPool()[i+1+pop.getMu()].getFitness() > pop.getPool()[parents[i]].getFitness())
 					survivors[parents[i]] = i+1+pop.getMu();
 			}
-		}
+		}*/
 		return survivors;
 	}
 

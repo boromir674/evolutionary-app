@@ -27,12 +27,12 @@ public class HopedFitness extends AbstractTerminationCondition {
 	public boolean satisfied(Experiment anExperiment) {
 		if (flag)
 			try {
-				hopedFitness = ((AbstractEvaluationMethod) anExperiment.getEvolutionaryAlgorithm().getEvaluator()).getSolutionFitness(0);
+				hopedFitness = ((AbstractEvaluationMethod) anExperiment.getEvolutionaryAlgorithm().getEval()).getSolutionFitness(0);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(0);
 			}
-		if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().
+		if (anExperiment.getEvolutionaryAlgorithm().getPop().getFittestIndividual().
 				getFitness() >= hopedFitness - threshold){
 			return true;
 		}

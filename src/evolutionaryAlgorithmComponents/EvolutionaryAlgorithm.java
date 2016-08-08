@@ -2,55 +2,36 @@ package evolutionaryAlgorithmComponents;
 
 import java.util.Random;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import evolutionaryAlgorithmComponents.fitnessCalculators.DynamicNiching;
-import evolutionaryAlgorithmComponents.representation.AbstractIntegerRepresentation;
-import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
-import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
-import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.DeterministicCrowding;
-import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
-import exceptions.SortsInPlaceThePopulationException;
-import exceptions.UnknownSolutionException;
 import interfaces.EvaluationMethod;
 import interfaces.Mutation;
 import interfaces.ParentSelection;
 import interfaces.Recombination;
 import interfaces.Representation;
 import interfaces.SurvivorSelection;
-import simulationComponents.EAParameterVector;
 
 public class EvolutionaryAlgorithm {
 	// fundamental components
+	private EvaluationMethod evaluation;
 	private Representation representation;
-	private Recombination recombination;
-	private Mutation mutation;
-	private ParentSelection parentSelectionMethod;
-	private SurvivorSelection survivorSelectionMethod;
+	private Recombination recombination = null;
+	private Mutation mutation = null;
+	private ParentSelection parentSelection;
+	private SurvivorSelection survivorSelection;
+	private Population population;
 	
-	private EAParameterVector ea;
-	private Population pop;
-	private EvaluationMethod eval;
-	private VarianceOperator varOp;
-
-	protected int[] parents;
-	boolean maxInFirstPosition;
-	//private double lowerValue;
-	//private AbstractFitnessSharingScheme fitnessSharingScheme = new DynamicNiching(5);
 	Random random;
 
-	public void setEvolutionaryAlgorithm(EAParameterVector paramVector){
-		this.ea = paramVector;
-		varOp = new VarianceOperator(ea.rec(), ea.mut());
+	public EvolutionaryAlgorithm(EvaluationMethod eval, Representation rep, Recombination rec, Mutation mut, Population pop, ParentSelection parSel, SurvivorSelection survSel) throws IncompatibleComponentsException {
+		this.evaluation = eval;
+		this.representation = rep;
+		this.recombination = rec;
+		this.mutation = mut;
+		this.parentSelection = parSel;
+		this.survivorSelection = survSel;
+		this.population = pop;
 	}
-	public EvolutionaryAlgorithm(EAParameterVector paramVector){
-		this.ea = paramVector;
-		varOp = new VarianceOperator(ea.rec(), ea.mut());
-	}
-	public EvolutionaryAlgorithm(){
-		
-	}
+	
 	/*
 	public EARunner(Representation aRepresentation, EvaluationMethod anEvaluationMethod, pop apop, ParentSelection aParentSelection, 
 			VarianceOperator aVarianceOperator, SurvivorSelection aSurvivorSelection) throws IncompatibleComponentsException{
@@ -85,19 +66,7 @@ public class EvolutionaryAlgorithm {
 		System.out.println();
 	}*/
 
-	private void checkComponentsCompatibility() throws IncompatibleComponentsException {
-		if (pop.getLambda() < pop.getMu() && ea.survSel() instanceof MuCommaLambda)
-			throw new IncompatibleComponentsException("children less than parents");
-		if (ea.rep() instanceof PermutationRepresentation && !varOp.applicableToPermutation)
-			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
-		if (ea.rep() instanceof AbstractIntegerRepresentation && !varOp.applicableToDiscrete)
-			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
-		if (ea.rep() instanceof AbstractRealValueRepresentation && varOp.applicableToDiscrete)
-			throw new IncompatibleComponentsException("real value representation, but discrete operator");
-		if (ea.survSel() instanceof DeterministicCrowding && pop.getMu() != pop.getLambda())
-			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands: μ=λ");
-	}
-	
+
 	public Representation getRepresentation() {
 		return representation;
 	}
@@ -111,34 +80,40 @@ public class EvolutionaryAlgorithm {
 		this.mutation = mutation;
 	}
 	public ParentSelection getParentSelectionMethod() {
-		return parentSelectionMethod;
+		return parentSelection;
 	}
 	public void setParentSelectionMethod(ParentSelection parentSelectionMethod) {
-		this.parentSelectionMethod = parentSelectionMethod;
+		this.parentSelection = parentSelectionMethod;
 	}
 	public SurvivorSelection getSurvivorSelectionMethod() {
-		return survivorSelectionMethod;
+		return survivorSelection;
 	}
 	public void setSurvivorSelectionMethod(SurvivorSelection survivorSelectionMethod) {
-		this.survivorSelectionMethod = survivorSelectionMethod;
+		this.survivorSelection = survivorSelectionMethod;
+		((AbstractSurvivorSelection) this.survivorSelection).setRandom(this.random);
 	}
 	public Population getPop() {
-		return pop;
+		return population;
 	}
 	public void setPop(Population pop) {
-		this.pop = pop;
+		this.population = pop;
 	}
 	public EvaluationMethod getEval() {
-		return eval;
+		return evaluation;
 	}
 	public void setEval(EvaluationMethod eval) {
-		this.eval = eval;
+		this.evaluation = eval;
 	}
 	public Recombination getRecombination() {
 		return recombination;
 	}
 	public void setRecombination(Recombination recombination) {
 		this.recombination = recombination;
+		((AbstractRecombination) this.recombination).setRandom(this.random);
 	}
-
+	//TODO potentially/optimally eliminate the need for such function
+	void updateRandomReferences() {
+		((AbstractSurvivorSelection) this.survivorSelection).setRandom(this.random);
+		((AbstractRecombination) this.recombination).setRandom(this.random);
+	}
 }

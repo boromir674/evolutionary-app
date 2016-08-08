@@ -20,9 +20,9 @@ public class FitnessStallOverEvaluations extends AbstractTerminationCondition {
 	}
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		int counter = anExperiment.getEvolutionaryAlgorithm().getEvaluator().getEvaluationsUsed();
+		int counter = anExperiment.getEvolutionaryAlgorithm().getEval().getEvaluationsUsed();
 		evaluationsCounter = counter - progress;
-		double newBest = anExperiment.getEvolutionaryAlgorithm().getEvaluator().getBestScoreEncountered();
+		double newBest = anExperiment.getEvolutionaryAlgorithm().getEval().getBestScoreEncountered();
 		//System.out.println(newBest);
 		if (newBest > currentBest) {
 			currentBest = newBest;

@@ -20,6 +20,9 @@ public abstract class AbstractRealValueRepresentation extends AbstractRepresenta
 		dimensions = dim;
 	}
 	
+	public void setDimensions(int d){
+		this.dimensions = d;
+	}
 	public double ensureValueRange(double value){
 		double result = value;
 		if (value < lowestValue)

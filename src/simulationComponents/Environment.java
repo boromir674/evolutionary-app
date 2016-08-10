@@ -1,23 +1,7 @@
 package simulationComponents;
 
-import gui.EADesignWindow;
-import interfaces.EvaluationMethod;
-import interfaces.Mutation;
-import interfaces.ParentSelection;
-import interfaces.Recombination;
-import interfaces.Representation;
-import interfaces.SurvivorSelection;
-import interfaces.TerminationCondition;
-
-import java.lang.reflect.InvocationTargetException;
-
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
-import evolutionaryAlgorithmComponents.Population;
-import evolutionaryAlgorithmComponents.VarianceOperator;
-import exceptions.FailedToParseException;
-import exceptions.IncompatibleComponentsException;
 import util.EAPrinter;
-import util.Factory;
 import util.LibraryModel;
 
 public final class Environment extends Thread{
@@ -30,8 +14,8 @@ public final class Environment extends Thread{
 	@Override
 	public void run() {
 		EvolutionaryAlgorithm ea = new EvolutionaryAlgorithm();
+		//exp1.setEvolutionaryAlgorithm(ea);
 		exp1.designEA();
-		//exp1.directOutput(eaWindow.getOutputTextArea());
 	}
 /*
 	public static void evolvePopulation() throws Exception {
@@ -42,20 +26,5 @@ public final class Environment extends Thread{
 		catch (Exception e) {e.printStackTrace();}
 	}
 */
-/*
-	private static EvolutionaryAlgorithm parse() throws FailedToParseException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IncompatibleComponentsException{
-		EvaluationMethod evaluation = Factory.getEvaluationMethod(eaWindow.getLblProblemInstance().getText());
-		Population population = new Population(Integer.parseInt(eaWindow.getMuJTextField().getText()), Integer.parseInt(eaWindow.getLambdaJTextField().getText()));
-		Recombination recombination = Factory.getCrossoverOperator(eaWindow.getRecombinationJComboBox().getSelectedItem().toString());  
-		Mutation mutation = Factory.getMutationOperator(eaWindow.getMutationJComboBox().getSelectedItem().toString(), Double.parseDouble(eaWindow.getMutationRateJTextField().getText()));
-		ParentSelection parentSelection = Factory.getParentSelection(eaWindow.getParentSelectionList().getSelectedItem().toString());
-		SurvivorSelection survivorSelection = Factory.getSurvivorSelection(eaWindow.getSurvivorSelectionList().getSelectedItem().toString());
-		Representation representation;
-		if (eaWindow.getLblProblemInstance().getText().contains(".java"))
-			representation = Factory.getRepresentation(eaWindow.getMutationJComboBox().getSelectedItem().toString(), eaWindow.getdJTextField().getText());
-		else 
-			representation = Factory.getRepresentation(eaWindow.getLblProblemInstance().getText());
-		return new EvolutionaryAlgorithm(representation, evaluation, population, parentSelection, new VarianceOperator(recombination, mutation), survivorSelection);		
-	}*/
 
 }

@@ -35,15 +35,15 @@ public class Experiment {
 	public Experiment() {
 	}
 	
-	public void designEA(){
-		@SuppressWarnings("unused")
-		
-		EADesignWindowListener listener = new EADesignWindowListener(eaWindow, this);
+	public void designEA() {
 		EADesignWindow eaWindow = new EADesignWindow();
-		eaWindow.setListener(listener);
+		eaWindow.getFrame().setVisible(true);
+		this.directOutput(eaWindow.getOutputTextArea());
+		EADesignWindowListener listener = new EADesignWindowListener(eaWindow, this);
 	}
 	
 	public Individual optimize() throws Exception {
+		this.runner.checkComponentsCompatibility();
 		int i = 0;
 		startingTime = System.nanoTime();
 		runner.randomInitialization();
@@ -135,7 +135,7 @@ public class Experiment {
 		textOutput.append(visual);
 	}
 
-	public void directOutput(JTextArea jTextArea) {
+	private void directOutput(JTextArea jTextArea) {
 		this.textOutput = jTextArea;
 	}
 

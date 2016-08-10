@@ -41,16 +41,10 @@ public final class Factory {
 			offset = 5;
 			try {
 				evalMethod = (EvaluationMethod) Class.forName(s+anEvaluationName.substring(0, anEvaluationName.length()-offset)).newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
+			}
+			catch (Exception e){
 				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			}
 		} else {
 			try {
 				evalMethod = produceTSPProblem(anEvaluationName);
@@ -129,7 +123,7 @@ public final class Factory {
 		else if (aMutation.startsWith("Correlated"))
 			representationInstance = new MultipleSigmasWithAlphasRepresentation(0, 10, 2, 0.5, Integer.parseInt(dimensions));
 		//else
-			//representationInstance = new AbstractRealValueRepresentation(0, 10, 2, Integer.parseInt(dimensions));
+		//representationInstance = new AbstractRealValueRepresentation(0, 10, 2, Integer.parseInt(dimensions));
 		return representationInstance;
 	}
 
@@ -140,7 +134,7 @@ public final class Factory {
 		String s = "simulationComponents.terminationConditions.";
 		return (TerminationCondition) Class.forName(s+aTerminationCondition.substring(0, aTerminationCondition.length()-offset)).getConstructor(String.class).newInstance(numericalParameter);
 	}
-	
+
 	private static EvaluationMethod produceTSPProblem(String path) throws Exception {
 		TSPReader reader = new TSPReader();
 		reader.parseFile(path);

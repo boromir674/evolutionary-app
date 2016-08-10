@@ -39,7 +39,6 @@ public class EARunner {
 			ea.random = this.random;
 			ea.updateRandomReferences();
 		} catch (IncompatibleComponentsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,7 +73,7 @@ public class EARunner {
 		}
 		if (((AbstractSurvivorSelection) ea.getSurvivorSelectionMethod()).forceElitism())
 			if (ea.getPop().fitterTillMu.getFitness() < ea.getPop().fitterTillEnd.getFitness())
-				ea.getPop().forceFitter();
+				ea.getPop().forceFitter(this.random);
 	}
 // --------------------------------------------------------------------------
 	public void printInfo(){
@@ -96,7 +95,7 @@ public class EARunner {
 		return this.ea;
 	}
 	
-	private void checkComponentsCompatibility() throws IncompatibleComponentsException {
+	public void checkComponentsCompatibility() throws IncompatibleComponentsException {
 		if (ea.getPop().getLambda() < ea.getPop().getMu() && ea.getSurvivorSelectionMethod() instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");
 		if (ea.getRepresentation() instanceof PermutationRepresentation && !varOp.applicableToPermutation)

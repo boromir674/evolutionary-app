@@ -22,7 +22,7 @@ public class EvolutionaryAlgorithm {
 	
 	Random random;
 
-	public EvolutionaryAlgorithm(EvaluationMethod eval, Representation rep, Recombination rec, Mutation mut, Population pop, ParentSelection parSel, SurvivorSelection survSel) throws IncompatibleComponentsException {
+	public EvolutionaryAlgorithm(EvaluationMethod eval, Representation rep, Recombination rec, Mutation mut, Population pop, ParentSelection parSel, SurvivorSelection survSel) {
 		this.evaluation = eval;
 		this.representation = rep;
 		this.recombination = rec;

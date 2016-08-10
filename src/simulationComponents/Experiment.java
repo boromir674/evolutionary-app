@@ -25,7 +25,7 @@ public class Experiment {
 
 	private long startingTime = 0;
 	private JTextArea textOutput;
-
+	
 	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition){
 		evolutionaryAlgorithm = EA;
 		terminationCondition = aTerminationCondition;
@@ -37,7 +37,10 @@ public class Experiment {
 	
 	public void designEA(){
 		@SuppressWarnings("unused")
+		
+		EADesignWindowListener listener = new EADesignWindowListener(eaWindow, this);
 		EADesignWindow eaWindow = new EADesignWindow();
+		eaWindow.setListener(listener);
 	}
 	
 	public Individual optimize() throws Exception {

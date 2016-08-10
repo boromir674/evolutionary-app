@@ -3,9 +3,6 @@
  */
 package util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
-
 import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.ATSPEvaluation;
 import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.HCPEvaluation;
 import evolutionaryAlgorithmComponents.evaluation.permutation.TSP.TSPEvaluation;
@@ -20,7 +17,6 @@ import evolutionaryAlgorithmComponents.representation.MultipleSigmasRepresentati
 import evolutionaryAlgorithmComponents.representation.MultipleSigmasWithAlphasRepresentation;
 import evolutionaryAlgorithmComponents.representation.OneSigmaPerIndividual;
 import evolutionaryAlgorithmComponents.representation.PermutationRepresentation;
-import evolutionaryAlgorithmComponents.representation.AbstractRealValueRepresentation;
 import exceptions.FailedToParseException;
 import interfaces.DistanceCalculator;
 import interfaces.EvaluationMethod;
@@ -65,7 +61,7 @@ public final class Factory {
 		return evalMethod;
 	}
 
-	public final static ParentSelection getParentSelection(String aParentSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+	public final static ParentSelection getParentSelection(String aParentSelectionName) throws Exception {
 		//No fitness sharing scheme supported yet
 		int offset = 0;
 		if (aParentSelectionName.endsWith(".java"))
@@ -74,7 +70,7 @@ public final class Factory {
 		return (ParentSelection) Class.forName(s+aParentSelectionName.substring(0, aParentSelectionName.length()-offset)).getConstructor().newInstance();
 	}
 
-	public final static SurvivorSelection getSurvivorSelection(String aSurvivorSelectionName) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+	public final static SurvivorSelection getSurvivorSelection(String aSurvivorSelectionName) throws Exception {
 		int offset = 0;
 		if (aSurvivorSelectionName.endsWith(".java"))
 			offset = 5;
@@ -83,7 +79,7 @@ public final class Factory {
 	}
 
 	// ------------ CROSSOVER FACTORY --------------------------
-	public final static Recombination getCrossoverOperator(String aRecombinationName) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
+	public final static Recombination getCrossoverOperator(String aRecombinationName) throws Exception{
 		int offset = 0;
 		if (aRecombinationName.endsWith(".java"))
 			offset = 5;
@@ -92,7 +88,7 @@ public final class Factory {
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
 		return (Recombination) Class.forName(s1+aRecombinationName.substring(0, aRecombinationName.length()-offset)).getConstructor().newInstance();
 	}
-	public final static Recombination getCrossoverOperator(String aRecombinationName, int n) throws ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException{
+	public final static Recombination getCrossoverOperator(String aRecombinationName, int n) throws Exception{
 		int offset = 0;
 		if (aRecombinationName.endsWith(".java"))
 			offset = 5;
@@ -103,7 +99,7 @@ public final class Factory {
 	}
 
 	// ------------ MUTATION FACTORY --------------------------	
-	public final static Mutation getMutationOperator(String aMutationName, double prob) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+	public final static Mutation getMutationOperator(String aMutationName, double prob) throws Exception{
 		int offset = 0;
 		if (aMutationName.endsWith(".java"))
 			offset = 5;
@@ -137,7 +133,7 @@ public final class Factory {
 		return representationInstance;
 	}
 
-	public final static TerminationCondition getTerminationCondition(String aTerminationCondition, String numericalParameter) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+	public final static TerminationCondition getTerminationCondition(String aTerminationCondition, String numericalParameter) throws Exception{
 		int offset = 0;
 		if (aTerminationCondition.endsWith(".java"))
 			offset = 5;

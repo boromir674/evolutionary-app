@@ -7,7 +7,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Observable;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -32,14 +34,15 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import simulationComponents.EADesignWindowListener;
 import util.LibraryModel;
 
 import java.awt.Font;
 
 import javax.swing.JButton;
 
-public class EADesignWindow implements ActionListener{
-
+public class EADesignWindow {
+	
 	private JFrame myFrame;
 
 	private File file;
@@ -47,9 +50,7 @@ public class EADesignWindow implements ActionListener{
 	ArrayList<String> names1;
 	ArrayList<Path> names;
 
-	private final static String[] elitistSelectionSet = new String[]{"MuPlusLambda", "DeterministicCrowding"};
-
-	final JLabel problemInstanceLabel = new JLabel("");
+	private final JLabel problemInstanceLabel = new JLabel("");
 	private final JLabel dimensionalityLabel = new JLabel("d: ");
 	private JLabel bestFitnessJLabel = new JLabel("");
 
@@ -58,7 +59,7 @@ public class EADesignWindow implements ActionListener{
 	private JLabel lblRepresentation = new JLabel("Representation");
 	private JLabel lblRepresentationDescription = new JLabel("                                 "
 			+ "                                  ");
-	// package visibility
+	
 	private JTextField lambdaJTextField = new JTextField();
 	private JTextField muJTextField = new JTextField();
 	private JTextField dJTextField = new JTextField();
@@ -69,11 +70,23 @@ public class EADesignWindow implements ActionListener{
 	private JComboBox<JLabel> parentSelectionList = new JComboBox<JLabel>();
 	private JComboBox<JLabel> survivorSelectionList = new JComboBox<JLabel>();
 	private final JRadioButton rdbtnElitismOn = new JRadioButton("on");
+	private final JRadioButton rdbtnElitismOff = new JRadioButton("off");
+	public JRadioButton getRdbtnElitismOff() {
+		return rdbtnElitismOff;
+	}
+
+	public JRadioButton getRdbtnElitismOn() {
+		return rdbtnElitismOn;
+	}
+
 	private JTextArea outputTextArea;
 	
 	private JButton runButton = new JButton("Run");
 	private JComboBox<JLabel> terminationConditionJComboBox;
 	private JTextField terminationParameterJTextField;
+
+	private EADesignWindowListener listener;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -81,6 +94,7 @@ public class EADesignWindow implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					@SuppressWarnings("unused")
 					LibraryModel ld = new LibraryModel();
 					EADesignWindow window = new EADesignWindow();
 					window.myFrame.setVisible(true);
@@ -90,6 +104,7 @@ public class EADesignWindow implements ActionListener{
 			}
 		});
 	}
+	/*
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == runButton) {
@@ -97,11 +112,10 @@ public class EADesignWindow implements ActionListener{
 				System.out.println("Evaluation: " + this.problemInstanceLabel.getText());
 				//Environment.evolvePopulation();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}	
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -113,16 +127,15 @@ public class EADesignWindow implements ActionListener{
 	/**
 	 * Initialize the contents of the frame.
 	 */
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
 		setDefaultValues();
 		myFrame = new JFrame();
 		myFrame.setResizable(false);
-		myFrame.setTitle("EA Runner");
+		myFrame.setTitle("EA Designer");
 		myFrame.setBounds(100, 100, 554, 562);
-		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		
 		JMenuBar menuBar = new JMenuBar();
 		myFrame.setJMenuBar(menuBar);
 
@@ -148,8 +161,12 @@ public class EADesignWindow implements ActionListener{
 		flowtingMenuBar.add(mnEvaluation);
 		mnRealValue.setName("Vector of real numbers");
 		mnEvaluation.add(mnRealValue);
-		this.populateMenu(mnRealValue, LibraryModel.getRealValueFunctions());
-
+		for (int i=0; i<LibraryModel.getRealValueFunctions().size(); i++) {
+			JMenuItem temp = new JMenuItem(LibraryModel.getRealValueFunctions().get(i).toFile().getName());
+			temp.addActionListener(this.listener);
+			mnRealValue.add(temp);
+		}
+		
 		mnPermutation.setName("Permutation of integers");
 		mnEvaluation.add(mnPermutation);
 
@@ -244,12 +261,12 @@ public class EADesignWindow implements ActionListener{
 		panel_4.add(rdbtnElitismOn);
 		group.add(rdbtnElitismOn);
 
-		final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("off");
-		rdbtnNewRadioButton_1.setFont(UIManager.getFont("RadioButton.font"));
-		rdbtnNewRadioButton_1.setToolTipText("Survival of the fittest is left on the selection process to decide on");
-		rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_4.add(rdbtnNewRadioButton_1);
-		group.add(rdbtnNewRadioButton_1);
+		
+		rdbtnElitismOff.setFont(UIManager.getFont("RadioButton.font"));
+		rdbtnElitismOff.setToolTipText("Survival of the fittest is left on the selection process to decide on");
+		rdbtnElitismOff.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_4.add(rdbtnElitismOff);
+		group.add(rdbtnElitismOff);
 
 		JPanel panel_7 = new JPanel();
 		panel_5.add(panel_7, BorderLayout.WEST);
@@ -337,7 +354,7 @@ public class EADesignWindow implements ActionListener{
 		panel_10.add(recombinationRateJTextField);
 		
 		runButton.setBounds(12, 362, 117, 25);
-		runButton.addActionListener(this);
+		runButton.addActionListener(this.listener);
 		myFrame.getContentPane().add(runButton);
 		
 		terminationConditionJComboBox = new JComboBox<JLabel>();
@@ -356,20 +373,8 @@ public class EADesignWindow implements ActionListener{
 		bestFitnessJLabel.setBounds(333, 327, 207, 21);
 		myFrame.getContentPane().add(bestFitnessJLabel);
 
-		survivorSelectionList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String selection = ((String)((JComboBox<?>)e.getSource()).getSelectedItem());
-				if (ArrayUtils.contains(elitistSelectionSet, selection)) {
-					rdbtnElitismOn.setSelected(true);
-					rdbtnElitismOn.setEnabled(false);
-					rdbtnNewRadioButton_1.setEnabled(false);
-				}
-				else {
-					rdbtnElitismOn.setEnabled(true);
-					rdbtnNewRadioButton_1.setEnabled(true);
-				}
-			}
-		});
+		survivorSelectionList.addActionListener(this.listener);
+			
 	}
 
 	private ArrayList<String> getContents(String aRelativePath){
@@ -379,66 +384,18 @@ public class EADesignWindow implements ActionListener{
 		return names;
 	}
 
-	private void populateMenu(JMenu anEvaluationSubmenu, ArrayList<Path> models){
-		// anEvaluationSubmenu: parent of a leaf node in the evaluation tree
-		// it also stores the references of the menu's items
-		for (int i=0; i<models.size(); i++){
-			JMenuItem temp = new JMenuItem(models.get(i).toFile().getName());
-			temp.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						parseEvaLuationMenuChoice(e.getActionCommand());
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					problemInstanceLabel.setText(e.getActionCommand());
-					lblRepresentationDescription.setText(e.getActionCommand());
-					String dim = util.Util.parseDimensions(e.getActionCommand());
-					dJTextField.setText(dim);
-					if (!dim.isEmpty())
-						dJTextField.setEnabled(false);
-					else
-						dJTextField.setEnabled(true);						
-				}
-			});
-			anEvaluationSubmenu.add(temp);
-		}
-	}
-	//TODO unify methods
 	private void populateMenu2(JMenu anEvaluationSubmenu, ArrayList<String> contents){
 		// anEvaluationSubmenu: parent of a leaf node in the evaluation tree
 		// it also stores the references of the menu's items
 		for (int i=0; i<contents.size(); i++){
 			JMenuItem temp = new JMenuItem(contents.get(i));
-			temp.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						parseEvaLuationMenuChoice(e.getActionCommand());
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					problemInstanceLabel.setText(e.getActionCommand());
-					lblRepresentationDescription.setText(e.getActionCommand());
-					String dim = util.Util.parseDimensions(e.getActionCommand());
-					dJTextField.setText(dim);
-					if (!dim.isEmpty())
-						dJTextField.setEnabled(false);
-					else
-						dJTextField.setEnabled(true);
-					//String text = this.
-					//bestFitnessJLabel.setText(text);
-				}
-			});
+			temp.addActionListener(this.listener);
 			anEvaluationSubmenu.add(temp);
 		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private String parseEvaLuationMenuChoice(String evaluationFileName) throws ClassNotFoundException{
+	public String parseEvaLuationMenuChoice(String evaluationFileName) throws ClassNotFoundException{
 		if (evaluationFileName.contains("Function")) {
 			this.recombinationJComboBox.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getRealValueApplicableCrossoverOperators())));
 			this.mutationJComboBox.setModel(new DefaultComboBoxModel(pathsToStrings(LibraryModel.getRealValueApplicableMutationOperators())));
@@ -590,6 +547,14 @@ public class EADesignWindow implements ActionListener{
 	 */
 	public JFrame getFrame() {
 		return myFrame;
+	}
+
+	public void setListener(EADesignWindowListener listener) {
+		this.listener = listener;
+	}
+
+	public JLabel getProblemInstanceLabel() {
+		return this.problemInstanceLabel;
 	}
 
 }

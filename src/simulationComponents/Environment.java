@@ -29,6 +29,8 @@ public final class Environment extends Thread{
 	
 	@Override
 	public void run() {
+		EvolutionaryAlgorithm ea = new EvolutionaryAlgorithm();
+		exp1.designEA();
 		//exp1.directOutput(eaWindow.getOutputTextArea());
 	}
 /*

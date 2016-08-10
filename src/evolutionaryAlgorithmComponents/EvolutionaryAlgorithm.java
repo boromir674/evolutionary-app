@@ -67,6 +67,10 @@ public class EvolutionaryAlgorithm {
 	}*/
 
 
+	public EvolutionaryAlgorithm() {
+		
+	}
+
 	public Representation getRepresentation() {
 		return representation;
 	}

@@ -2,10 +2,8 @@ package simulationComponents;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JComboBox;
 import javax.swing.JMenu;
-
-import org.apache.commons.lang3.ArrayUtils;
+import javax.swing.JMenuItem;
 
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Population;
@@ -21,22 +19,19 @@ import util.Factory;
 
 public class EADesignWindowListener implements ActionListener{
 
-	private final static String[] elitistSelectionSet = new String[]{"MuPlusLambda", "DeterministicCrowding"};
-
-	EADesignWindow win;
-	Experiment exp;
+	private EADesignWindow win;
+	private Experiment exp;
 
 	public EADesignWindowListener(EADesignWindow eaWindow, Experiment experiment) {
 		this.win = eaWindow;
 		this.exp = experiment;
-		this.win.setListener(this);
+		win.setListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == win.getSurvivorSelectionList()) {
-			this.updateElitismSwitch(e);
-			try {exp.getEvolutionaryAlgorithm().setSurvivorSelectionMethod(Factory.getSurvivorSelection(e.getActionCommand()));}
+			try {exp.getEvolutionaryAlgorithm().setSurvivorSelectionMethod(Factory.getSurvivorSelection(win.getSurvivorSelectionList().getSelectedItem().toString()));}
 			catch (Exception e1) {e1.printStackTrace();}
 		} else if (e.getSource() == win.getParentSelectionList()) {
 			try {exp.getEvolutionaryAlgorithm().setParentSelectionMethod(Factory.getParentSelection(e.getActionCommand()));}
@@ -49,10 +44,10 @@ public class EADesignWindowListener implements ActionListener{
 			catch (Exception e1) {e1.printStackTrace();}
 
 
-		} else if (e.getSource() instanceof JMenu) {
+		} else if (e.getSource() instanceof JMenuItem) {
 			this.readEvaluationChoice(e);
 			try {
-				exp.getEvolutionaryAlgorithm().setEval(Factory.getEvaluationMethod(e.getActionCommand()));}
+				exp.getRunner().setEvaluation(Factory.getEvaluationMethod(e.getActionCommand()));}
 			catch (Exception e1) {
 				e1.printStackTrace();}
 		} else if (e.getSource() == win.getdJTextField()) {
@@ -68,31 +63,26 @@ public class EADesignWindowListener implements ActionListener{
 				exp.optimize();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}	
+			}
 		}
+		else {
+			System.out.println(e.getSource().toString());
+		}
+
 		//else if (e.getSource() == win.getMuJTextField()) {
 		//exp.getEvolutionaryAlgorithm().setPop(new Population());
 		//}
 	}
-	private void updateElitismSwitch(ActionEvent e) {
-		String selection = ((String)((JComboBox<?>)e.getSource()).getSelectedItem());
-		if (ArrayUtils.contains(elitistSelectionSet, selection)) {
-			win.getRdbtnElitismOn().setSelected(true);
-			win.getRdbtnElitismOn().setEnabled(false);
-			win.getRdbtnElitismOff().setEnabled(false);
-		}
-		else {
-			win.getRdbtnElitismOn().setEnabled(true);
-			win.getRdbtnElitismOff().setEnabled(true);
-		}
-	}
+
 	private void readEvaluationChoice(ActionEvent e) {
+		String description = "";
+		System.out.println("here");
 		try {
-			win.parseEvaLuationMenuChoice(e.getActionCommand());
+			description = win.parseEvaLuationMenuChoice(e.getActionCommand());
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();}
-		win.getProblemInstanceLabel().setText(e.getActionCommand());
-		win.getLblRepresentation().setText(e.getActionCommand());
+		win.getlblRepresentationDescription().setText(description);
+		win.getLblProblemInstance().setText(e.getActionCommand());
 		String dim = util.Util.parseDimensions(e.getActionCommand());
 		win.getdJTextField().setText(dim);
 		if (!dim.isEmpty())
@@ -110,9 +100,9 @@ public class EADesignWindowListener implements ActionListener{
 		Representation representation;
 		if (this.win.getLblProblemInstance().getText().contains(".java"))
 			representation = Factory.getRepresentation(this.win.getMutationJComboBox().getSelectedItem().toString(), this.win.getdJTextField().getText());
-		else 
+		else
 			representation = Factory.getRepresentation(this.win.getLblProblemInstance().getText());
-		return new EvolutionaryAlgorithm(evaluation, representation, recombination, mutation, population, parentSelection, survivorSelection);
+		return new EvolutionaryAlgorithm(representation, recombination, mutation, parentSelection, survivorSelection);
 	}
 
 }

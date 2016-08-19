@@ -33,13 +33,17 @@ public class Experiment {
 	}
 
 	public Experiment() {
+		this.evolutionaryAlgorithm = new EvolutionaryAlgorithm();
 	}
 	
 	public void designEA() {
+		
 		EADesignWindow eaWindow = new EADesignWindow();
+		@SuppressWarnings("unused")
+		EADesignWindowListener listener = new EADesignWindowListener(eaWindow, this);
+		eaWindow.initialize();
 		eaWindow.getFrame().setVisible(true);
 		this.directOutput(eaWindow.getOutputTextArea());
-		EADesignWindowListener listener = new EADesignWindowListener(eaWindow, this);
 	}
 	
 	public Individual optimize() throws Exception {
@@ -51,11 +55,11 @@ public class Experiment {
 			performCycle();
 			i++;
 			if (visuals != 0 && i%visuals == 0)
-				this.visualize(precision, evolutionaryAlgorithm.getPop().getMu());
+				this.visualize(precision, this.runner.getPopulation().getMu());
 		}
-		this.visualize(precision, evolutionaryAlgorithm.getPop().getMu());
+		this.visualize(precision, runner.getPopulation().getMu());
 		this.showDuration();
-		return evolutionaryAlgorithm.getPop().getFittestIndividual();
+		return this.runner.getPopulation().getFittestIndividual();
 	}
 
 	private void performCycle() throws Exception {
@@ -64,35 +68,12 @@ public class Experiment {
 		runner.survivorSelection();
 	}
 	
-	/*
-	// needs fixing.....
-	public double[] runBatches(int replicates) throws Exception {
-		if (replicates < 100)
-			throw new Exception("Should produce at least 100 data points.");
-		int i = 1;
-		random.setSeed(i-1);
-		while (!terminationCondition.satisfied(this))
-			evolutionaryAlgorithm.randomInitialization(random);
-		double x = evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness();
-		double[] result = new double[]{x, 0};
-		while (i<replicates){
-			System.out.println(String.format("Batch %d", i));
-			random.setSeed(i);
-			while (!terminationCondition.satisfied(this)){
-				evolutionaryAlgorithm.randomInitialization(random);
-				performCycle();
-			}
-			x = evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness();
-			i++;
-			result[0] += (x - result[0])/(i+1);
-			result[1] = (1-1/i)*result[1] - (i+1)*(result[0]-x);
-			x = result[0];
+		//int i = 1;
+			//i++;
+			//result[0] += (x - result[0])/(i+1);
+			//result[1] = (1-1/i)*result[1] - (i+1)*(result[0]-x);
+			//x = result[0];
 			// setting certain values
-
-		}
-		return result;
-	}
-	*/
 	
 	public void setRandom(Random random) {
 		this.random = random;
@@ -128,15 +109,19 @@ public class Experiment {
 	private void visualize(int precision, int limit) {
 		double[] fitArray = new double[limit];
 		for (int i=0; i<limit; i++)
-			fitArray[i] = this.evolutionaryAlgorithm.getPop().getPool()[i].getFitness();
+			fitArray[i] = this.runner.getPopulation().getPool()[i].getFitness();
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);	
 		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
-		visual = String.format(visual, this.evolutionaryAlgorithm.getPop().getGenerationCounter(), this.evolutionaryAlgorithm.getPop().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
+		visual = String.format(visual, runner.getPopulation().getGenerationCounter(), runner.getPopulation().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
 		textOutput.append(visual);
 	}
 
 	private void directOutput(JTextArea jTextArea) {
 		this.textOutput = jTextArea;
+	}
+
+	public EARunner getRunner() {
+		return this.runner;
 	}
 
 }

@@ -9,11 +9,14 @@ import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.Deterministic
 import evolutionaryAlgorithmComponents.survivorSelectionMechanisms.MuCommaLambda;
 import exceptions.IncompatibleComponentsException;
 import exceptions.SortsInPlaceThePopulationException;
+import interfaces.EvaluationMethod;
 
 public class EARunner {
 	
 	private Random random;
 	private EvolutionaryAlgorithm ea;
+	private EvaluationMethod eval;
+	private Population pop;
 
 	private int[] _parents;
 	private VarianceOperator varOp;
@@ -30,57 +33,57 @@ public class EARunner {
 			ea.updateRandomReferences();
 		}
 	}
-
+	public void setEvaluation(EvaluationMethod eval){
+		this.eval = eval;
+	}
+	public void setPopulation(Population pop){
+		this.pop = pop;
+		this.pop.eaRunnerRef = this;
+	}
 	public void setEA(EvolutionaryAlgorithm ea) {
-		try {
 			this.ea = ea;
-			checkComponentsCompatibility();
-			ea.getPop().eaRunnerRef = this;
 			ea.random = this.random;
 			ea.updateRandomReferences();
-		} catch (IncompatibleComponentsException e) {
-			e.printStackTrace();
-		}
 	}
 // -------- TYPICAL STEPS OF AN EVOLUTIONARY PROCEDURE -------------------
 	public void randomInitialization() throws Exception{
-		ea.getEval().reInitialize();
-		ea.getPop().initializeRandom(ea.getRepresentation(), random, ea.getEval());
+		eval.reInitialize();
+		pop.initializeRandom(ea.getRepresentation(), random, eval);
 	}
 	//if diakoptis at Dynamic Niching then this.scheme = new DynamicNiching;
 	public void parentSelection() throws Exception{
 		//if (this.fitnessSharingScheme instanceof DynamicNiching)
 		//((DynamicNiching)fitnessSharingScheme).greedyDynamicPeakIdentification(pop, 10);
-		_parents = ea.getParentSelectionMethod().select(ea.getPop(), random);
+		_parents = ea.getParentSelectionMethod().select(pop, random);
 	}
 	public void applyOperator() throws Exception { //each pair gives two children
-		for (int i=0; i<ea.getPop().getLambda(); i=i+2){
-			Individual[] children = varOp.operate(ea.getPop().getPool()[_parents[i]], ea.getPop().getPool()[_parents[i+1]], random);
-			ea.getPop().addOffspring(children[0], ea.getEval());
+		for (int i=0; i<pop.getLambda(); i=i+2){
+			Individual[] children = varOp.operate(pop.getPool()[_parents[i]], pop.getPool()[_parents[i+1]], random);
+			pop.addOffspring(children[0], eval);
 			if (children.length == 2)
-				ea.getPop().addOffspring(children[1], ea.getEval());
+				pop.addOffspring(children[1], eval);
 			else
-				ea.getPop().addOffspring((Individual) children[0].clone(), ea.getEval());
+				pop.addOffspring((Individual) children[0].clone(), eval);
 		}
 	}
 	public void survivorSelection() throws Exception {
-		this.ea.getPop().generationCount ++;
+		this.pop.generationCount ++;
 		try {
-			_survivors = ea.getSurvivorSelectionMethod().select(ea.getPop());
-			ea.getPop().updatePoolWithNewGeneration(_survivors);
+			_survivors = ea.getSurvivorSelectionMethod().select(pop);
+			pop.updatePoolWithNewGeneration(_survivors);
 		} catch (SortsInPlaceThePopulationException e) {
-			ea.getPop().fitterTillMu = ea.getPop().getPool()[0];
+			pop.fitterTillMu = pop.getPool()[0];
 		}
 		if (((AbstractSurvivorSelection) ea.getSurvivorSelectionMethod()).forceElitism())
-			if (ea.getPop().fitterTillMu.getFitness() < ea.getPop().fitterTillEnd.getFitness())
-				ea.getPop().forceFitter(this.random);
+			if (pop.fitterTillMu.getFitness() < pop.fitterTillEnd.getFitness())
+				pop.forceFitter(this.random);
 	}
 // --------------------------------------------------------------------------
 	public void printInfo(){
 		System.out.println("\nEvolutionary Algorithm deployed with components:");
-		System.out.println("Evaluation: " + ea.getEval().getTitle());
-		System.out.format("pop size: μ=%d%n", ea.getPop().getMu());
-		System.out.format("Offsprings: λ=%d%n", ea.getPop().getLambda());
+		System.out.println("Evaluation: " + eval.getTitle());
+		System.out.format("pop size: μ=%d%n", pop.getMu());
+		System.out.format("Offsprings: λ=%d%n", pop.getLambda());
 		System.out.println("Representation: " + ea.getRepresentation().getTitle());
 		System.out.println("Parent Selection: " + ea.getParentSelectionMethod().getTitle());
 		System.out.println("Recombination: " + ea.getRecombination().getTitle());
@@ -94,9 +97,9 @@ public class EARunner {
 	public EvolutionaryAlgorithm getEA() {
 		return this.ea;
 	}
-	
+	// serves debugging purposes, to be deleted...
 	public void checkComponentsCompatibility() throws IncompatibleComponentsException {
-		if (ea.getPop().getLambda() < ea.getPop().getMu() && ea.getSurvivorSelectionMethod() instanceof MuCommaLambda)
+		if (pop.getLambda() < pop.getMu() && ea.getSurvivorSelectionMethod() instanceof MuCommaLambda)
 			throw new IncompatibleComponentsException("children less than parents");
 		if (ea.getRepresentation() instanceof PermutationRepresentation && !varOp.applicableToPermutation)
 			throw new IncompatibleComponentsException("operator is incompatible with permutation problems");
@@ -104,7 +107,15 @@ public class EARunner {
 			throw new IncompatibleComponentsException("operator is only compatible with continuous values");
 		if (ea.getRepresentation() instanceof AbstractRealValueRepresentation && varOp.applicableToDiscrete)
 			throw new IncompatibleComponentsException("real value representation, but discrete operator");
-		if (ea.getSurvivorSelectionMethod() instanceof DeterministicCrowding && ea.getPop().getMu() != ea.getPop().getLambda())
+		if (ea.getSurvivorSelectionMethod() instanceof DeterministicCrowding && pop.getMu() != pop.getLambda())
 			throw new IncompatibleComponentsException("Deterministic Crowding scheme demands: μ=λ");
+	}
+
+	public Population getPopulation() {
+		return this.pop;
+	}
+
+	public EvaluationMethod getEvaluation() {
+		return this.eval;
 	}
 }

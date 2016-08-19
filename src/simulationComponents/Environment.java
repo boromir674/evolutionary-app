@@ -6,13 +6,13 @@ import util.LibraryModel;
 
 public final class Environment extends Thread{
 
-	final static LibraryModel model = new LibraryModel();
 	final static Experiment exp1 = new Experiment();
 	
 	Thread printer = new EAPrinter();
 	
 	@Override
 	public void run() {
+		LibraryModel.getInstance().readLibrary();
 		EvolutionaryAlgorithm ea = new EvolutionaryAlgorithm();
 		//exp1.setEvolutionaryAlgorithm(ea);
 		exp1.designEA();

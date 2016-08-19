@@ -23,16 +23,23 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	private final static String terminationConditionRoot = "terminationConditions/";
 
 	private final static String[] folders = new String[]{EA_COMPONENTS_ROOT+realValueEvaluationRoot,EA_COMPONENTS_ROOT+recombinationSelectionRoot,
-		EA_COMPONENTS_ROOT+mutationSelectionRoot,EA_COMPONENTS_ROOT+parentSelectionRoot,EA_COMPONENTS_ROOT+survivorSelectionRoot,SIMULATION_COMPONENTS_ROOT+terminationConditionRoot};
-	
+			EA_COMPONENTS_ROOT+mutationSelectionRoot,EA_COMPONENTS_ROOT+parentSelectionRoot,EA_COMPONENTS_ROOT+survivorSelectionRoot,SIMULATION_COMPONENTS_ROOT+terminationConditionRoot};
+
 	private final static ArrayList<Path>[] models = new ArrayList[folders.length]; // contains Classes implemented
 	private static ArrayList<Path> buffer = new ArrayList<Path>();
 
-	public LibraryModel(){
-		this.readLibrary();
-	}
+	private final static LibraryModel INSTANCE = new LibraryModel();
 
-	private void readLibrary() {
+	private LibraryModel(){
+		if (INSTANCE != null) {
+			throw new IllegalStateException("Already instantiated");
+		}
+	}
+	public static LibraryModel getInstance() {
+		return INSTANCE;
+	}
+	
+	public void readLibrary() {
 		//models = new ArrayList[folders.length];
 		for (int i=0; i<folders.length; i++) {
 			models[i] = new ArrayList<Path>();
@@ -63,7 +70,7 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	public final static ArrayList<Path> getTerminationConditions(){
 		return models[5];
 	}
-	
+
 	public final static ArrayList<Path> getRealValueApplicableCrossoverOperators() throws ClassNotFoundException{
 		buffer.clear();
 		for (int i=0; i<models[1].size(); i++) {

@@ -2,8 +2,6 @@ package evolutionaryAlgorithmComponents;
 
 import java.util.Random;
 
-import exceptions.IncompatibleComponentsException;
-import interfaces.EvaluationMethod;
 import interfaces.Mutation;
 import interfaces.ParentSelection;
 import interfaces.Recombination;
@@ -12,24 +10,20 @@ import interfaces.SurvivorSelection;
 
 public class EvolutionaryAlgorithm {
 	// fundamental components
-	private EvaluationMethod evaluation;
 	private Representation representation;
 	private Recombination recombination = null;
 	private Mutation mutation = null;
 	private ParentSelection parentSelection;
 	private SurvivorSelection survivorSelection;
-	private Population population;
 	
 	Random random;
 
-	public EvolutionaryAlgorithm(EvaluationMethod eval, Representation rep, Recombination rec, Mutation mut, Population pop, ParentSelection parSel, SurvivorSelection survSel) {
-		this.evaluation = eval;
+	public EvolutionaryAlgorithm(Representation rep, Recombination rec, Mutation mut, ParentSelection parSel, SurvivorSelection survSel) {
 		this.representation = rep;
 		this.recombination = rec;
 		this.mutation = mut;
 		this.parentSelection = parSel;
 		this.survivorSelection = survSel;
-		this.population = pop;
 	}
 	
 	/*
@@ -95,18 +89,6 @@ public class EvolutionaryAlgorithm {
 	public void setSurvivorSelectionMethod(SurvivorSelection survivorSelectionMethod) {
 		this.survivorSelection = survivorSelectionMethod;
 		((AbstractSurvivorSelection) this.survivorSelection).setRandom(this.random);
-	}
-	public Population getPop() {
-		return population;
-	}
-	public void setPop(Population pop) {
-		this.population = pop;
-	}
-	public EvaluationMethod getEval() {
-		return evaluation;
-	}
-	public void setEval(EvaluationMethod eval) {
-		this.evaluation = eval;
 	}
 	public Recombination getRecombination() {
 		return recombination;

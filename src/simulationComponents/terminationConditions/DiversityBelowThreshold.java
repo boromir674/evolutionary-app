@@ -19,7 +19,7 @@ public class DiversityBelowThreshold extends AbstractTerminationCondition {
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		if (anExperiment.getEvolutionaryAlgorithm().getPop().getDiversity() <= threshold)
+		if (anExperiment.getRunner().getPopulation().getDiversity() <= threshold)
 			return true;
 		return false;
 	}

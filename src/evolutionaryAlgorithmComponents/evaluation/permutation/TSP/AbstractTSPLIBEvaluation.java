@@ -39,7 +39,7 @@ abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod impleme
 		try {
 			solution = aTSPReader.getSolutionTour();
 		} catch (UnknownSolutionException e) {
-			e.printStackTrace();
+			System.out.println(aTSPReader.getPath());
 		}
 	}
 

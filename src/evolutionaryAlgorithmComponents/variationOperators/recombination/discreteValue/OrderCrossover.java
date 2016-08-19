@@ -20,7 +20,7 @@ public class OrderCrossover extends AbstractPermutationRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) throws Exception {
 
-		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = super.initializeTwoChildrenForRecombination(mom.getRepresentation());
 		int dimensions = mom.getRepresentation().getDimensions();
 		int point1 = random.nextInt(dimensions);
 		int point2 = random.nextInt(dimensions-1);

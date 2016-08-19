@@ -11,7 +11,7 @@ public class OneSigmaPerPopulation extends AbstractRealValueRepresentation {
 	}
 
 	@Override
-	public Object[] generateRandomChromosome(Random aRandom) throws Exception {
+	public Object[] generateRandomChromosome(Random aRandom) {
 		Double[] chromosome = new Double[dimensions];
 		for (int i=0; i<dimensions; i++)
 			chromosome[i] = aRandom.nextDouble() * (highestValue-lowestValue) + lowestValue;

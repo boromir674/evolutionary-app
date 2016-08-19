@@ -11,7 +11,6 @@ public abstract class AbstractFitnessSharingScheme implements FitnessCalculator,
 		this.title = title;
 	}
 
-	@Override
 	public String getTitle() {
 		return title;
 	}

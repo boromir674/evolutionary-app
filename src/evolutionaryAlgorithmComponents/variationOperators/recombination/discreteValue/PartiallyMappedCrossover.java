@@ -40,7 +40,7 @@ public class PartiallyMappedCrossover extends AbstractPermutationRecombination {
 	}
 
 	public Individual[] go(Individual mom, Individual dad) throws Exception {
-		Individual[] children = initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = initializeTwoChildrenForRecombination(mom.getRepresentation());
 		int dimensions = mom.getRepresentation().getDimensions();
 		int point1 = random.nextInt(dimensions);
 		int point2 = random.nextInt(dimensions-1);

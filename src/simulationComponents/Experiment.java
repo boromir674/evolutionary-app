@@ -7,7 +7,6 @@ import javax.swing.JTextArea;
 
 import util.Util;
 import interfaces.TerminationCondition;
-import evolutionaryAlgorithmComponents.EARunner;
 import evolutionaryAlgorithmComponents.EvolutionaryAlgorithm;
 import evolutionaryAlgorithmComponents.Individual;
 import gui.EADesignWindow;
@@ -20,8 +19,8 @@ public class Experiment {
 	
 	private EvolutionaryAlgorithm evolutionaryAlgorithm;
 	private TerminationCondition terminationCondition;
-	private Random random = new Random();
-	private EARunner runner = new EARunner(random);
+	private Random random;
+	//private EARunner runner = new EARunner(random);
 
 	private long startingTime = 0;
 	private JTextArea textOutput;
@@ -29,15 +28,10 @@ public class Experiment {
 	public Experiment(EvolutionaryAlgorithm EA, TerminationCondition aTerminationCondition){
 		evolutionaryAlgorithm = EA;
 		terminationCondition = aTerminationCondition;
-		this.runner.setEA(EA);
-	}
-
-	public Experiment() {
-		this.evolutionaryAlgorithm = new EvolutionaryAlgorithm();
+		this.random = new Random();
 	}
 	
 	public void designEA() {
-		
 		EADesignWindow eaWindow = new EADesignWindow();
 		@SuppressWarnings("unused")
 		EADesignWindowListener listener = new EADesignWindowListener(eaWindow, this);
@@ -47,25 +41,25 @@ public class Experiment {
 	}
 	
 	public Individual optimize() throws Exception {
-		this.runner.checkComponentsCompatibility();
+		this.evolutionaryAlgorithm.checkComponentsCompatibility();
 		int i = 0;
 		startingTime = System.nanoTime();
-		runner.randomInitialization();
+		evolutionaryAlgorithm.randomInitialization();
 		while (!terminationCondition.satisfied(this)){
 			performCycle();
 			i++;
 			if (visuals != 0 && i%visuals == 0)
-				this.visualize(precision, this.runner.getPopulation().getMu());
+				this.visualize(precision, this.evolutionaryAlgorithm.getPopulation().getMu());
 		}
-		this.visualize(precision, runner.getPopulation().getMu());
+		this.visualize(precision, evolutionaryAlgorithm.getPopulation().getMu());
 		this.showDuration();
-		return this.runner.getPopulation().getFittestIndividual();
+		return this.evolutionaryAlgorithm.getPopulation().getFittestIndividual();
 	}
 
 	private void performCycle() throws Exception {
-		runner.parentSelection();
-		runner.applyOperator();
-		runner.survivorSelection();
+		evolutionaryAlgorithm.parentSelection();
+		evolutionaryAlgorithm.applyOperator();
+		evolutionaryAlgorithm.survivorSelection();
 	}
 	
 		//int i = 1;
@@ -77,7 +71,7 @@ public class Experiment {
 	
 	public void setRandom(Random random) {
 		this.random = random;
-		this.runner.setRandom(random);
+		this.evolutionaryAlgorithm.setRandom(random);
 	}
 	
 	/**
@@ -94,7 +88,6 @@ public class Experiment {
 	}
 	public void setEvolutionaryAlgorithm(EvolutionaryAlgorithm evolutionaryAlgorithm) {
 		this.evolutionaryAlgorithm = evolutionaryAlgorithm;
-		this.runner.setEA(evolutionaryAlgorithm);
 	}
 	public TerminationCondition getTerminationCondition() {
 		return terminationCondition;
@@ -109,19 +102,15 @@ public class Experiment {
 	private void visualize(int precision, int limit) {
 		double[] fitArray = new double[limit];
 		for (int i=0; i<limit; i++)
-			fitArray[i] = this.runner.getPopulation().getPool()[i].getFitness();
+			fitArray[i] = this.evolutionaryAlgorithm.getPopulation().getPool()[i].getFitness();
 		double[] meanAndStd = Util.sampleMeanAndVariance(fitArray);	
 		String visual = "%d %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f %."+Integer.toString(precision)+"f%n";
-		visual = String.format(visual, runner.getPopulation().getGenerationCounter(), runner.getPopulation().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
+		visual = String.format(visual, evolutionaryAlgorithm.getPopulation().getGenerationCounter(), evolutionaryAlgorithm.getPopulation().getFittestIndividual().getFitness(), meanAndStd[0], meanAndStd[1]);
 		textOutput.append(visual);
 	}
 
 	private void directOutput(JTextArea jTextArea) {
 		this.textOutput = jTextArea;
-	}
-
-	public EARunner getRunner() {
-		return this.runner;
 	}
 
 }

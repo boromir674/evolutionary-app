@@ -1,6 +1,5 @@
 package evolutionaryAlgorithmComponents.evaluation;
 
-import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
 import evolutionaryAlgorithmComponents.Individual;
 import exceptions.UnknownSolutionException;
 import interfaces.MathFunction;

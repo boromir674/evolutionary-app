@@ -29,7 +29,7 @@ import interfaces.TerminationCondition;
 
 /**
  * @author Konstantinos
- *
+ * Dynamic factory methods forimplementations of EA components
  */
 public final class Factory {
 
@@ -57,26 +57,20 @@ public final class Factory {
 
 	public final static ParentSelection getParentSelection(String aParentSelectionName) throws Exception {
 		//No fitness sharing scheme supported yet
-		int offset = 0;
-		if (aParentSelectionName.endsWith(".java"))
-			offset = 5;
-		String s = "evolutionaryAlgorithmComponents.parentSelectionMechanisms.";
-		return (ParentSelection) Class.forName(s+aParentSelectionName.substring(0, aParentSelectionName.length()-offset)).getConstructor().newInstance();
+		int offset = filter(aParentSelectionName);
+		String className = LibraryModel.PARENT_SELECTION_FOLDER+aParentSelectionName.substring(0, aParentSelectionName.length()-offset);
+		return (ParentSelection) Class.forName(className).getConstructor().newInstance();
 	}
 
 	public final static SurvivorSelection getSurvivorSelection(String aSurvivorSelectionName) throws Exception {
-		int offset = 0;
-		if (aSurvivorSelectionName.endsWith(".java"))
-			offset = 5;
-		String s = "evolutionaryAlgorithmComponents.survivorSelectionMechanisms.";
-		return (SurvivorSelection) Class.forName(s+aSurvivorSelectionName.substring(0, aSurvivorSelectionName.length()-offset)).getConstructor().newInstance();
+		int offset = filter(aSurvivorSelectionName);
+		String className = LibraryModel.SURVIVOR_SELECTION_FOLDER+aSurvivorSelectionName.substring(0, aSurvivorSelectionName.length()-offset);
+		return (SurvivorSelection) Class.forName(className).getConstructor().newInstance();
 	}
 
 	// ------------ CROSSOVER FACTORY --------------------------
 	public final static Recombination getCrossoverOperator(String aRecombinationName) throws Exception{
-		int offset = 0;
-		if (aRecombinationName.endsWith(".java"))
-			offset = 5;
+		int offset = filter(aRecombinationName);
 		String s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
 		if (aRecombinationName.startsWith("Simple") || aRecombinationName.startsWith("Single") || aRecombinationName.startsWith("Whole"))
 			s1 = "evolutionaryAlgorithmComponents.variationOperators.recombination.realValue.";
@@ -167,6 +161,12 @@ public final class Factory {
 			//TODO problem = new CVRPEvaluation(reader, calculator);
 		}
 		return problem;
+	}
+	private static int filter(String s){
+		if (s.endsWith("java"))
+			return 5;
+		else
+			return 0;
 	}
 
 }

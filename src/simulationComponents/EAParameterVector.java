@@ -1,40 +1,27 @@
 package simulationComponents;
 
-import interfaces.Mutation;
-import interfaces.ParentSelection;
-import interfaces.Recombination;
-import interfaces.Representation;
-import interfaces.SurvivorSelection;
+import optimizationComponents.Parameter;
+import optimizationComponents.ParameterVector;
 
-public class EAParameterVector {
+public class EAParameterVector extends ParameterVector{
 
-	public  Representation representation;
-	private Recombination recombination;
-	private Mutation mutation;
-	private ParentSelection parentSelectionMethod;
-	private SurvivorSelection survivorSelectionMethod;
-
-	public EAParameterVector(ParentSelection parSel, Recombination rec, Mutation mut, SurvivorSelection survSel) {
-		parentSelectionMethod = parSel;
-		recombination = rec;
-		mutation = mut;
-		survivorSelectionMethod = survSel;
+	public EAParameterVector(Parameter[] parameters) {
+		super(parameters);
 	}
-	
-	public ParentSelection parSel() {
-		return parentSelectionMethod;
+	public String rep(){
+		return (String) super.parameters[0].getValue();
 	}
-	public SurvivorSelection survSel() {
-		return survivorSelectionMethod;
+	public String rec(){
+		return (String) super.parameters[1].getValue();
 	}
-	public Representation rep(){
-		return representation;
+	public String mut(){
+		return (String) super.parameters[2].getValue();
 	}
-	public Recombination rec(){
-		return recombination;
+	public String parSel() {
+		return (String) super.parameters[3].getValue();
 	}
-	public Mutation mut(){
-		return mutation;
+	public String survSel() {
+		return (String) super.parameters[4].getValue();
 	}
 }
 

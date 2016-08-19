@@ -2,7 +2,6 @@ package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.Population;
 @Deprecated
 public class BestNFromRandomM extends AbstractParentSelection {

@@ -18,7 +18,7 @@ public class EvaluationLimit extends AbstractTerminationCondition {
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		if (anExperiment.getRunner().getEvaluation().getEvaluationsUsed() >= evaluationsLimit)
+		if (anExperiment.getEvolutionaryAlgorithm().getEvaluation().getEvaluationsUsed() >= evaluationsLimit)
 			return true;
 		return false;
 	}

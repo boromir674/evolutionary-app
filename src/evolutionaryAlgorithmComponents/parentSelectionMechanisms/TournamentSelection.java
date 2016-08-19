@@ -3,7 +3,6 @@ package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 import java.util.Random;
 
 import util.Util;
-import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.Population;
 
 public class TournamentSelection extends AbstractParentSelection {

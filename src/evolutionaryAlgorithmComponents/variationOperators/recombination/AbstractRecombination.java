@@ -1,7 +1,8 @@
-package evolutionaryAlgorithmComponents;
+package evolutionaryAlgorithmComponents.variationOperators.recombination;
 
 import java.util.Random;
 
+import evolutionaryAlgorithmComponents.Individual;
 import interfaces.Recombination;
 import interfaces.Representation;
 
@@ -27,12 +28,8 @@ public abstract class AbstractRecombination implements Recombination {
 	}
 
 	@SuppressWarnings("static-method")
-	protected Individual[] initializeChildrenForRecombination(Representation aRepresentation) {
-		Individual[] children = new Individual[]{new Individual(), new Individual()};
-		children[0].setChromosome(aRepresentation.createEmptyChromosome());
-		children[0].setRepresentation(aRepresentation);
-		children[1].setChromosome(aRepresentation.createEmptyChromosome());
-		children[1].setRepresentation(aRepresentation);
+	protected Individual[] initializeTwoChildrenForRecombination(Representation aRepresentation) {
+		Individual[] children = new Individual[]{Individual.getEmptyIndividual(aRepresentation), new Individual()};
 		return children;
 	}
 	

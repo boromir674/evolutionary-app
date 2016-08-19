@@ -24,37 +24,37 @@ public class EADesignWindowListener implements ActionListener{
 
 	public EADesignWindowListener(EADesignWindow eaWindow, Experiment experiment) {
 		this.win = eaWindow;
+		this.win.setListener(this);
 		this.exp = experiment;
-		win.setListener(this);
 	}
-
+	// TODO fix this shit
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == win.getSurvivorSelectionList()) {
-			try {exp.getEvolutionaryAlgorithm().setSurvivorSelectionMethod(Factory.getSurvivorSelection(win.getSurvivorSelectionList().getSelectedItem().toString()));}
+			try {exp.getEvolutionaryAlgorithm().setSurvivorSeletion(Factory.getSurvivorSelection(win.getSurvivorSelectionList().getSelectedItem().toString()));}
 			catch (Exception e1) {e1.printStackTrace();}
 		} else if (e.getSource() == win.getParentSelectionList()) {
-			try {exp.getEvolutionaryAlgorithm().setParentSelectionMethod(Factory.getParentSelection(e.getActionCommand()));}
+			try {exp.getEvolutionaryAlgorithm().getParameters().setParentSelection(Factory.getParentSelection(e.getActionCommand()));}
 			catch (Exception e1) {e1.printStackTrace();}
 		} else if (e.getSource() == win.getRecombinationJComboBox()) {
-			try {exp.getEvolutionaryAlgorithm().setRecombination(Factory.getCrossoverOperator(e.getActionCommand()));}
+			try {exp.getEvolutionaryAlgorithm().getParameters().setRecombination(Factory.getCrossoverOperator(e.getActionCommand()));}
 			catch (Exception e1) {e1.printStackTrace();}
 		} else if (e.getSource() == win.getMutationJComboBox()) {
-			try {exp.getEvolutionaryAlgorithm().setMutation(Factory.getMutationOperator(e.getActionCommand(), Double.parseDouble(win.getMutationRateJTextField().getText())));}
+			try {exp.getEvolutionaryAlgorithm().getParameters().setMutation(Factory.getMutationOperator(e.getActionCommand(), Double.parseDouble(win.getMutationRateJTextField().getText())));}
 			catch (Exception e1) {e1.printStackTrace();}
 
 
 		} else if (e.getSource() instanceof JMenuItem) {
 			this.readEvaluationChoice(e);
 			try {
-				exp.getRunner().setEvaluation(Factory.getEvaluationMethod(e.getActionCommand()));}
+				exp.getEvolutionaryAlgorithm().setEvaluation(Factory.getEvaluationMethod(e.getActionCommand()));}
 			catch (Exception e1) {
 				e1.printStackTrace();}
 		} else if (e.getSource() == win.getdJTextField()) {
 			if (win.getdJTextField().isEnabled()) {
-				((AbstractRealValueRepresentation) this.exp.getEvolutionaryAlgorithm().getRepresentation()).setDimensions(Integer.parseInt(e.getActionCommand()));
+				((AbstractRealValueRepresentation) this.exp.getEvolutionaryAlgorithm().getParameters().getRepresentation()).setDimensions(Integer.parseInt(e.getActionCommand()));
 			}
-			try {exp.getEvolutionaryAlgorithm().setSurvivorSelectionMethod(Factory.getSurvivorSelection(e.getActionCommand()));}
+			try {exp.getEvolutionaryAlgorithm().getParameters().setSurvivorSelection(Factory.getSurvivorSelection(e.getActionCommand()));}
 			catch (Exception e1) {
 				e1.printStackTrace();}
 		} else if (e.getSource() == win.getRunButton()) {

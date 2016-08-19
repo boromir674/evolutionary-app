@@ -9,7 +9,7 @@ public interface Representation extends EvolutionaryAlgorithmComponent{
 	 * @return the Object array representing the chromosome generated. 
 	 * @throws Exception 
 	 */
-	public abstract Object[] generateRandomChromosome(Random aRandom) throws Exception;
+	public abstract Object[] generateRandomChromosome(Random aRandom);
 	/**
 	 * Initializes a new chromosome with empty space so that to receive specific Objects. Basically returns an new array of the user defined type.
 	 * @return the array of Objects.

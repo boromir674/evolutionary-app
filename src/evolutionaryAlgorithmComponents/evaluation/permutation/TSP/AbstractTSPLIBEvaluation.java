@@ -2,7 +2,7 @@ package evolutionaryAlgorithmComponents.evaluation.permutation.TSP;
 
 import interfaces.DistanceCalculator;
 import interfaces.TSPLIBProblem;
-import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
+import evolutionaryAlgorithmComponents.evaluation.AbstractEvaluationMethod;
 import exceptions.UnknownSolutionException;
 
 abstract class AbstractTSPLIBEvaluation extends AbstractEvaluationMethod implements TSPLIBProblem {

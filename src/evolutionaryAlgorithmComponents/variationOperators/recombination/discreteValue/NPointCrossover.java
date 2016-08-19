@@ -17,7 +17,7 @@ public class NPointCrossover extends AbstractDiscreteRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) {
 		
-		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = super.initializeTwoChildrenForRecombination(mom.getRepresentation());
 		int d = mom.getRepresentation().getDimensions();
 		int[] indices = new int[d];
 		for (int i=0; i<indices.length; i++)

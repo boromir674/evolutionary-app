@@ -11,6 +11,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 @SuppressWarnings("unchecked")
 public final class LibraryModel extends SimpleFileVisitor<Path> {
+	
 	//private final static String EA_COMPONENTS_CLASS_ROOT = "evolutionaryAlgorithmComponents.";
 	public final static String EA_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/evolutionaryAlgorithmComponents/";
 	public final static String SIMULATION_COMPONENTS_ROOT = System.getProperty("user.dir")+"/src/simulationComponents/";
@@ -22,8 +23,12 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 	private final static String survivorSelectionRoot = "survivorSelectionMechanisms/";
 	private final static String terminationConditionRoot = "terminationConditions/";
 
-	private final static String[] folders = new String[]{EA_COMPONENTS_ROOT+realValueEvaluationRoot,EA_COMPONENTS_ROOT+recombinationSelectionRoot,
-			EA_COMPONENTS_ROOT+mutationSelectionRoot,EA_COMPONENTS_ROOT+parentSelectionRoot,EA_COMPONENTS_ROOT+survivorSelectionRoot,SIMULATION_COMPONENTS_ROOT+terminationConditionRoot};
+	private final static String[] folders = new String[]{EA_COMPONENTS_ROOT+realValueEvaluationRoot,
+														EA_COMPONENTS_ROOT+recombinationSelectionRoot,
+														EA_COMPONENTS_ROOT+mutationSelectionRoot,
+														EA_COMPONENTS_ROOT+parentSelectionRoot,
+														EA_COMPONENTS_ROOT+survivorSelectionRoot,
+														SIMULATION_COMPONENTS_ROOT+terminationConditionRoot};
 
 	private final static ArrayList<Path>[] models = new ArrayList[folders.length]; // contains Classes implemented
 	private static ArrayList<Path> buffer = new ArrayList<Path>();
@@ -35,6 +40,14 @@ public final class LibraryModel extends SimpleFileVisitor<Path> {
 			throw new IllegalStateException("Already instantiated");
 		}
 	}
+	public final static String PARENT_SELECTION_FOLDER = "evolutionaryAlgorithmComponents.parentSelectionMechanisms.";
+	public final static String SURVIVOR_SELECTION_FOLDER = "evolutionaryAlgorithmComponents.survivorSelectionMechanisms";
+	//public final static String RECOMBINATION_FOLDER = "evolutionaryAlgorithmComponents.variationOperators.recombination.discreteValue.";
+	//public final static String MUTATION_FOLDER = "evolutionaryAlgorithmComponents." + mutationSelectionRoot;
+	//public final static String REPRESENTATION_ROOT_FOLDER = "evolutionaryAlgorithmComponents/" + representationSelectionRoot;
+	//public final static String PARENT_SELECTION_ROOT_FOLDER = "evolutionaryAlgorithmComponents/" + parentSelectionRoot;
+	
+	
 	public static LibraryModel getInstance() {
 		return INSTANCE;
 	}

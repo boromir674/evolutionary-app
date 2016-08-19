@@ -8,7 +8,6 @@ import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
 
 import util.Util;
-import evolutionaryAlgorithmComponents.AbstractParentSelection;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
 

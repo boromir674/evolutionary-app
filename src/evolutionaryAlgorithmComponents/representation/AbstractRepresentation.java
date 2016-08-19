@@ -1,5 +1,6 @@
-package evolutionaryAlgorithmComponents;
+package evolutionaryAlgorithmComponents.representation;
 
+import evolutionaryAlgorithmComponents.Individual;
 import interfaces.Representation;
 
 public abstract class AbstractRepresentation implements Representation{

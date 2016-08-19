@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 import util.MinHeap;
 import evolutionaryAlgorithmComponents.AbstractFitnessSharingScheme;
-import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 import evolutionaryAlgorithmComponents.Population;
+import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 
 public class DynamicNiching extends AbstractFitnessSharingScheme {
 

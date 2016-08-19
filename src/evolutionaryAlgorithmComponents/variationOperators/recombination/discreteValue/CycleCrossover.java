@@ -28,7 +28,7 @@ public class CycleCrossover extends AbstractPermutationRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) {
 		
-		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = super.initializeTwoChildrenForRecombination(mom.getRepresentation());
 
 		int i1, i2, i = 0, first;
 		ArrayList<ArrayList<Integer>> cycles = new ArrayList<ArrayList<Integer>>();

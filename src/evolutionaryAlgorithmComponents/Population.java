@@ -23,14 +23,14 @@ public class Population implements Cloneable{
 	int generationCount;
 	Individual fitterTillMu;
 	Individual fitterTillEnd;
-	EARunner eaRunnerRef;
+	EvolutionaryAlgorithm ea;
 	
 	public Population(int mu, int lambda){
 		this.mu = mu;
 		this.lambda = lambda;
 	}
 
-	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) throws Exception{
+	public void initializeRandom(Representation representation, Random aRandom, EvaluationMethod evaluator) {
 		pool = new Individual[mu+lambda];
 		generationCount = 0;
 		offspringStoreIndex = 0;
@@ -98,7 +98,13 @@ public class Population implements Cloneable{
 		}
 		this.pool = newGeneration;
 	}
-	private void addParent(Individual in, EvaluationMethod eval) throws Exception{
+	
+	/**
+	 * @param in a newly created Individual with initialized chromosome 
+	 * @param eval
+	 * @throws Exception
+	 */
+	private void addParent(Individual in, EvaluationMethod eval) {
 		in.computeMyFitness(eval);
 		pool[parentStoreIndex] = in;
 		in.pop = this;
@@ -108,7 +114,7 @@ public class Population implements Cloneable{
 	}
 
 	public int[] getParents() {
-		return eaRunnerRef.getParents();
+		return ea.getParents();
 	}
 	
 }

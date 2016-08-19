@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents;
+package evolutionaryAlgorithmComponents.variationOperators.mutation;
 
 import interfaces.Mutation;
 

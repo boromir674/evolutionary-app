@@ -23,7 +23,7 @@ public class Individual implements Comparable<Individual>{
 		return Double.compare(fit1, fit2);
 	}
 
-	public void computeMyFitness(EvaluationMethod evaluator) throws Exception{
+	public void computeMyFitness(EvaluationMethod evaluator) {
 		this.fitness = evaluator.computeFitness(this);
 	}
 
@@ -35,7 +35,7 @@ public class Individual implements Comparable<Individual>{
 		return fitness;
 	}
 
-	public void initializeRandomly(Representation representation, Random aRandom) throws Exception{
+	public void initializeRandomly(Representation representation, Random aRandom){
 		chromosome = representation.generateRandomChromosome(aRandom);
 		this.representation = representation;
 	}
@@ -67,12 +67,24 @@ public class Individual implements Comparable<Individual>{
 		return a;
 	}
 
-	void setChromosome(Object[] aChromosome) {
+	private void setChromosome(Object[] aChromosome) {
 		this.chromosome = aChromosome;
 	}
 
-	void setRepresentation(Representation aRepresentation) {
+	private void setRepresentation(Representation aRepresentation) {
 		this.representation = aRepresentation;
+	}
+
+	/**
+	 * Factory method that returns an Individual with a yet empty chromosome 
+	 * @param aRepresentation
+	 * @return 
+	 */
+	public static Individual getEmptyIndividual(Representation aRepresentation) {
+		Individual i = new Individual();
+		i.representation = aRepresentation;
+		i.setChromosome(aRepresentation.createEmptyChromosome());
+		return i;
 	}
 
 }

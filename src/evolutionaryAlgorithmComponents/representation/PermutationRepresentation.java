@@ -15,7 +15,7 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 	}
 
 	@Override
-	public Object[] generateRandomChromosome(Random aRandom) throws Exception {
+	public Object[] generateRandomChromosome(Random aRandom) {
 
 		int[] indices = new int[super.dimensions];
 		for (int i=0; i<indices.length; i++)
@@ -24,8 +24,6 @@ public class PermutationRepresentation extends AbstractIntegerRepresentation {
 		Integer[] chromosome = new Integer[super.dimensions];
 		for (int i=0; i< chromosome.length; i++)
 			chromosome[indices[i]] = super.lowerBound + i;
-		if (!chromosomeOK(chromosome))
-			throw new Exception("random chromosome is invalid");
 		return chromosome;
 	}
 

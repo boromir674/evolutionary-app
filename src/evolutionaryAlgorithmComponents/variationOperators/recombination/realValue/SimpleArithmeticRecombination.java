@@ -13,7 +13,7 @@ public class SimpleArithmeticRecombination extends AbstractRealValueRecombinatio
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) {
 		
-		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = super.initializeTwoChildrenForRecombination(mom.getRepresentation());
 		int length = mom.getChromosome().length;
 		int point = random.nextInt(mom.getRepresentation().getDimensions());
 		

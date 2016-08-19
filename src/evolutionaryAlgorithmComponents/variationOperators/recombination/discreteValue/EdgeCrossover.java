@@ -17,7 +17,7 @@ public class EdgeCrossover extends AbstractPermutationRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) {
 		
-		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = super.initializeTwoChildrenForRecombination(mom.getRepresentation());
 		Individual[] child = new Individual[]{children[0]};
 		int dimensions = mom.getRepresentation().getDimensions();
 		

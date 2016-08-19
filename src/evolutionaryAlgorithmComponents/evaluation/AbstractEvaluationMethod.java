@@ -1,5 +1,6 @@
-package evolutionaryAlgorithmComponents;
+package evolutionaryAlgorithmComponents.evaluation;
 
+import evolutionaryAlgorithmComponents.Individual;
 import exceptions.UnknownSolutionException;
 import interfaces.EvaluationMethod;
 

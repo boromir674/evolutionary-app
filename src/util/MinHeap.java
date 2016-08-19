@@ -67,8 +67,7 @@ public class MinHeap {
 	private static int iRightChild(int i){
 		return 2*i + 2;
 	}
-	@SuppressWarnings("static-method")
-	public void swap(Object[] a, int i, int j){
+	public static void swap(Object[] a, int i, int j){
 		Object temp = a[i];
 		a[i] = a[j];
 		a[j] = temp;

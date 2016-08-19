@@ -1,6 +1,6 @@
 package simulationComponents.terminationConditions;
 
-import evolutionaryAlgorithmComponents.AbstractEvaluationMethod;
+import evolutionaryAlgorithmComponents.evaluation.AbstractEvaluationMethod;
 import simulationComponents.Experiment;
 
 public class HopedFitness extends AbstractTerminationCondition {
@@ -27,12 +27,12 @@ public class HopedFitness extends AbstractTerminationCondition {
 	public boolean satisfied(Experiment anExperiment) {
 		if (flag)
 			try {
-				hopedFitness = ((AbstractEvaluationMethod) anExperiment.getRunner().getEvaluation()).getSolutionFitness(0);
+				hopedFitness = ((AbstractEvaluationMethod) anExperiment.getEvolutionaryAlgorithm().getEvaluation()).getSolutionFitness(0);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(0);
 			}
-		if (anExperiment.getRunner().getPopulation().getFittestIndividual().
+		if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getFittestIndividual().
 				getFitness() >= hopedFitness - threshold){
 			return true;
 		}

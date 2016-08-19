@@ -19,7 +19,7 @@ public class UniformCrossover extends AbstractDiscreteRecombination {
 	@Override
 	public Individual[] perform(Individual mom, Individual dad) {
 
-		Individual[] children = super.initializeChildrenForRecombination(mom.getRepresentation());
+		Individual[] children = super.initializeTwoChildrenForRecombination(mom.getRepresentation());
 
 		for (int i=0; i<mom.getRepresentation().getDimensions(); i++){
 			children[0].getChromosome()[i] = dad.getChromosome()[i];

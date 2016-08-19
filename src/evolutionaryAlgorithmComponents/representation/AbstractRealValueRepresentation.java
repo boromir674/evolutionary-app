@@ -2,7 +2,6 @@ package evolutionaryAlgorithmComponents.representation;
 
 import java.util.Random;
 
-import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
 
 public abstract class AbstractRealValueRepresentation extends AbstractRepresentation {

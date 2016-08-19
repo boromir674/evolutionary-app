@@ -1,4 +1,4 @@
-package evolutionaryAlgorithmComponents;
+package evolutionaryAlgorithmComponents.parentSelectionMechanisms;
 
 import interfaces.ParentSelection;
 

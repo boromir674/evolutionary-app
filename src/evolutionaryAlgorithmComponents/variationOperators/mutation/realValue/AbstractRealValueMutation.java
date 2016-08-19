@@ -1,6 +1,6 @@
 package evolutionaryAlgorithmComponents.variationOperators.mutation.realValue;
 
-import evolutionaryAlgorithmComponents.AbstractMutation;
+import evolutionaryAlgorithmComponents.variationOperators.mutation.AbstractMutation;
 
 public abstract class AbstractRealValueMutation extends AbstractMutation {
 	

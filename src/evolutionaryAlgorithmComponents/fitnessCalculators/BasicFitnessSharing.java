@@ -1,8 +1,8 @@
 package evolutionaryAlgorithmComponents.fitnessCalculators;
 
 import evolutionaryAlgorithmComponents.AbstractFitnessSharingScheme;
-import evolutionaryAlgorithmComponents.AbstractRepresentation;
 import evolutionaryAlgorithmComponents.Individual;
+import evolutionaryAlgorithmComponents.representation.AbstractRepresentation;
 
 public class BasicFitnessSharing extends AbstractFitnessSharingScheme {
 

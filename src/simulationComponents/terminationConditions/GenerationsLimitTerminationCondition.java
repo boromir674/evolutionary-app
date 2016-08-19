@@ -18,7 +18,7 @@ public class GenerationsLimitTerminationCondition extends AbstractTerminationCon
 
 	@Override
 	public boolean satisfied(Experiment anExperiment) {
-		if (anExperiment.getRunner().getPopulation().getGenerationCounter() >= generationsLimit)
+		if (anExperiment.getEvolutionaryAlgorithm().getPopulation().getGenerationCounter() >= generationsLimit)
 			return true;
 		return false;
 	}
